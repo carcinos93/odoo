@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista tree -->
+        <record id="i10n_sv_budget_tree" model="ir.ui.view">
+            <field name="name">i10n.sv.budget.planning</field>
+            <field name="model">bg.planning</field>
+            <field name="arch" type="xml">
+                <tree string="Planificación por proyecto">
+                    <field name="nombreInstitucion"/>
+                    <field name="nombreProyecto"/>
+                    <field name="indicadores"/>
+                    <!--<button name="create_cars" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+           <record model="ir.actions.act_window" id="planning_listar">
+            <field name="name">Planificación por proyecto</field>
+            <field name="res_model">bg.planning</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="schedule_listar">
+            <field name="name">Cronograma</field>
+            <field name="res_model">bg.schedule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="global_project_listar">
+            <field name="name">Información proyecto global</field>
+            <field name="res_model">bg.global_project</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="change_budget_listar">
+            <field name="name">Modificaciones al presupuesto</field>
+            <field name="res_model">bg.change_budget</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Formularios -->
+
+        <record model="ir.ui.view" id="i10n_sv_budget_planning_form">
+            <field name="name">view.i10n.sv.budget.planning.form</field>
+            <field name="model">bg.planning</field>
+            <field name="arch" type="xml">
+                <form string="Planificacion form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Datos Generales del Proyecto">
+                                <group>
+                                    <field name="nombreInstitucion"/>
+                                    <field name="nombreProyecto"/>
+                                    <field name="periodoSolicitado"/>
+                                    <field name="nombreCuenta"/>
+                                    <field name="numeroCuenta"/>
+                                </group>
+
+                            </page>
+                            <page string="Planificación">
+                                <group>
+                                    <field name="logicaIntervencion"/>
+                                    <field name="indicadores"/>
+                                    <field name="fuenteVerificacion"/>
+                                    <field name="hipotesis"/>
+                                    <field name="riesgos"/>
+                                </group>
+                            </page>
+                            <page string="Objetivos">
+                                <field name="objetivos">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="correlativo"/>
+                                        <field name="objetivo"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Resultados">
+                                <field name="resultados">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="correlativo"/>
+                                        <field name="resultado"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Actividades">
+                                <field name="actividades">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="correlativo"/>
+                                        <field name="actividades"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Insumos">
+                                <field name="insumos">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigoInsumo"/>
+                                        <field name="descripcion"/>
+                                        <field name="presupuestoAsignado"/>
+                                        <field name="montoAsignado"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Presupuesto">
+                                <field name="presupuesto">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="total"/>
+                                        <field name="presupuestoTransferido"/>
+                                        <field name="actividad"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="i10n_sv_budget_global_project_form">
+            <field name="name">view.i10n.budget.global_project.form</field>
+            <field name="model">bg.global_project</field>
+            <field name="arch" type="xml">
+                <form string="Proyecto global form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Datos generales">
+                                <group>
+                                    <field name="codigoGasto"/>
+                                    <field name="descripcion"/>
+                                    <field name="fase"/>
+                                    <field name="codigoActividad"/>
+                                    <field name="lineaPresupuestaria"/>
+                                    <field name="presupuesto"/>
+                                    <field name="ajuste"/>
+                                    <field name="nuevoPresupuesto"/>
+                                </group>
+                            </page>
+                            <page string="Ejecución">
+                                <group>
+                                    <field name="ejecutado1"/>
+                                    <field name="ejecutado2"/>
+                                    <field name="ejecutado3"/>
+                                    <field name="ejecutado4"/>
+                                    <field name="totalEjecutado"/>
+                                    <field name="totalDisponible"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="i10n_sv_schedule_form">
+            <field name="name">view.i10n.budget.schedule.form</field>
+            <field name="model">bg.schedule</field>
+            <field name="arch" type="xml">
+                <form string="Cronograma form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Datos generales">
+                                <group>
+                                    <field name="institucionBeneficiara"/>
+                                    <field name="nombreProyecto"/>
+                                    <field name="numeroExpediente"/>
+                                    <field name="periodoEjecucion"/>
+                                    <field name="objetivo"/>
+                                    <field name="codigoResultado"/>
+                                    <field name="descripcionResultado"/>
+                                </group>
+                            </page>
+                            <page string="Actividades">
+                                <field name="actividades">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigoActividad"/>
+                                        <field name="fechaInicio"/>
+                                        <field name="fechaFin"/>
+                                        <field name="anioMes"/>
+                                        <field name="monto"/>
+                                    </tree>
+
+                                </field>
+                                <group string="Totales">
+                                    <field name="montoTotal"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="i10n_sv_budget_change_budget_form">
+            <field name="name">view.i10n.budget.change_budget.form</field>
+            <field name="model">bg.change_budget</field>
+            <field name="arch" type="xml">
+                <form string="Modificaciones al presupuesto form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Información a modificar">
+                                <group>
+                                    <field name="numeroSolicitud"/>
+                                    <field name="fechaSolicitud"/>
+                                    <field name="fuentesFinanciamiento"/>
+                                    <field name="actividad"/>
+                                    <field name="codigInsumo"/>
+                                    <field name="unidadMedida"/>
+                                    <field name="cantidad"/>
+                                    <field name="costoUnitario"/>
+                                    <field name="costoTotal"/>
+                                </group>
+                            </page>
+                            <page string="Presupuesto">
+                                <group>
+                                    <field name="correlativo"/>
+                                    <field name="trimestre1"/>
+                                    <field name="trimestre2"/>
+                                    <field name="trimestre3"/>
+                                    <field name="trimestre4"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- mail -->
+        <!--<record id="email_template" model="mail.template">
+    <field name="name">EMAIL TEMPLATE</field>
+    <field name="model_id" ref="emai_template.model_example.mail"/>
+    <field name="auto_delete" eval="True"/>
+    <field name="email_from">${(object.res_user_id.email}</field>
+    <field name="email_to">${object.client_name.email}</field>
+     <field name="report_template" ref="action_example_pdf"/>
+    <field name="subject">${object.amc}</field>
+    <field name="body_html"><![CDATA[
+ <p>Dear ${(object.client_name.name)},<br/><br/>
+ Good job, you've just created your first e-mail template!<br/></p>
+      Regards,<br/>
+      ${(object.company_id.name)} ]]></field>
+</record>-->
+
+        <!-- Menú item superior -->
+        <menuitem name="M&#xF3;dulo de Presupuesto" id="i10n_sv_budget_menu_root"/>
+
+        <!-- Categorías de menú -->
+        <!--<menuitem name="Modelos" id="budget.budget.menu_1" parent="budget.budget.menu_root"/>-->
+
+        <!-- Acciones del menú -->
+        <menuitem name="Planificación por proyecto" id="i10n_sv_budget_planning_menu" parent="i10n_sv_budget_menu_root"
+                  action="planning_listar"/>
+        <menuitem name="Cronograma" id="i10n_sv_budget_cronograma_menu" parent="i10n_sv_budget_menu_root"
+                  action="schedule_listar"/>
+        <menuitem name="Información proyecto global" id="i10n_sv_budget_global_project_menu" parent="i10n_sv_budget_menu_root"
+                  action="global_project_listar"/>
+        <menuitem name="Modificaciones al presupuesto" id="i10n_sv_budget_change_budget_menu"
+                  parent="i10n_sv_budget_menu_root" action="change_budget_listar"/>
+
+
+    </data>
+</odoo>

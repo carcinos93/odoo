@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <!-- Vista tree -->
+        <record id="view_libros_modulo_tree" model="ir.ui.view">
+            <field name="name">view.libros.modulo.libro.tree</field>
+            <field name="model">libro_modulo.libro</field>
+            <field name="arch" type="xml">
+                <tree string="Libro">
+                    <field name="titulo"/>
+                    <field name="descripcion"/>
+                    <field name="precio"/>
+                    <field name="portada" widget="image" class="oe_avatar"/>
+                    <!--<button name="create_cars" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+        <record model="ir.actions.act_window" id="libro_modulo_libro">
+            <field name="name">Libro</field>
+            <field name="res_model">libro_modulo.libro</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="libro_modulo_factura">
+            <field name="name">Factura</field>
+            <field name="res_model">libro_modulo.factura</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="view_libros_modulo_factura_tree" model="ir.ui.view">
+            <field name="name">view.libros.modulo.factura.tree</field>
+            <field name="model">libro_modulo.factura</field>
+            <field name="arch" type="xml">
+                <tree string="Factura">
+                    <field name="noFactura"/>
+                    <field name="nombreDe"/>
+                    <field name="fecha"/>
+                    <field name="descripcion" class="text-wrap" />
+                    <!--<button name="create_cars" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="libros_modulo_factura_view_form" model="ir.ui.view">
+            <field name="name">libros_modulo_factura_view_form</field>
+            <field name="model">libro_modulo.factura</field>
+            <field name="arch" type="xml">
+                <form string="libros_modulo_factura_form">
+                    <sheet>
+                        <group>
+                            <group>
+                                  <field name="noFactura"/>
+                                 <field name="nombreDe"/>
+                            </group>
+                            <group>
+                                <field name="fecha"/>
+                                <field name="descripcion"/>
+                            </group>
+                        </group>
+                        <group>
+                                <field name="detalles">
+                                      <tree string="'Detalles'" editable="button">
+                                        <field name="producto"/>
+                                        <field name="precio"/>
+                                        <field name="cantidad"/>
+                                        <field name="subtotal" sum="Total factura" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Menú item superior -->
+        <menuitem name="Libros" id="libro_modulo.menu_root"/>
+
+        <!-- Categorías de menú -->
+        <menuitem name="Modelos" id="libro_modulo.menu_1" parent="libro_modulo.menu_root"/>
+
+        <!-- Acciones del menú -->
+        <menuitem name="Libro" id="libro_modulo.menu_libro" parent="libro_modulo.menu_1"
+                  action="libro_modulo_libro"/>
+
+
+          <menuitem name="Factura" id="libro_modulo.menu_libro_factura" parent="libro_modulo.menu_1"
+                  action="libro_modulo_factura"/>
+
+
+    </data>
+</odoo>

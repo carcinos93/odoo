@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- QWeb Reports -->
+<!-- NAME & FILE_NAME should be the same -->
+<odoo>
+        <data>
+                <record id="budget_program_report" model="ir.actions.report">
+                        <field name="name">Proyecto</field>
+                        <field name="model">budget.program</field>
+                        <field name="report_type">qweb-html</field>
+                        <field name="report_name">presupuesto.budget_program_report</field>
+                        <field name="report_file">Proyecto</field>
+                        <field name="binding_type">report</field>
+                </record>
+        </data>
+
+</odoo>

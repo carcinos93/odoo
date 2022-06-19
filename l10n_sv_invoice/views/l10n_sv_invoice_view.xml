@@ -1,0 +1,109 @@
+<odoo>
+    <data>
+
+        <!-- Creación vista arbol -->
+            <record model="ir.ui.view" id="view_invoice_tree">
+                <field name="name">view.sv.invoice.tree</field>
+                <field name="model">sv.invoice</field>
+                <field name="arch" type="xml">
+                    <tree string="Registro de facturas">
+                        <field name="name"/>
+                        <field name="client_id" />
+                        <field name="date" />
+                        <field name="payment_conditions"/>
+                        <field name="state" />
+                    </tree>
+                </field>
+            </record>
+
+        <!-- Creación vista formulario -->
+            <record id="view_invoice_form" model="ir.ui.view">
+            <field name="name">view.sv.invoice.form</field>
+            <field name="model">sv.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Incidencias form">
+                    <header>
+                        <button name="emitir_factura" states="1" type="object" string="Emitir factura"  />
+                        <button name="pagar_factura" states="2" type="object" string="Pagar factura"  />
+                        <button name="anular_factura" states="3" type="object" string="Anular factura"  />
+
+
+                       <field name="state" widget="statusbar" />
+                    </header>
+
+                    <sheet>
+                    <label for="name"  string="Numero de factura" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" string="Numero de ticket" />
+                            </h1>
+
+                    <group colspan="2" col="2" >
+
+                        <group   string="Datos del cliente">
+                                <field name="client_id"/>
+                                <field name="client_nit" readonly="1"/>
+                                <field name="client_address" readonly="1"/>
+                                <field name="client_phone" readonly="1"/>
+                        </group>
+
+                        <group   string="Datos de la factura">
+                            <field name="date" string="Fecha" readonly="1"/>
+                            <field name="cashier" readonly="1" />
+                            <field name="payment_conditions" />
+                            <field name="observations" />
+                            <field name="details_observations" attrs="{'invisible': [('observations', '=', False)]}"/>
+                        </group>
+
+                    </group>
+
+                        <notebook colspan="4">
+                            <page string="Detalle de la factura" >
+                                <field name="invoice_details_ids" >
+                                    <tree string="'Detalles" editable="button">
+                                        <field name="sequence" widget="handle" />
+                                         <field name="name" required="1"/>
+                                        <field name="quantity" required="1"/>
+                                        <field name="amount_unit" required="1"/>
+                                        <field name="taxes"/>
+                                        <field name="exempt_sales"/>
+                                        <field name="affected_sales"/>
+                                        <field name="iva"/>
+                                    </tree>
+                                </field>
+
+                                <group   string="Datos de la factura">
+                                    <field name="total_exempt_sales"  readonly="1"/>
+                                    <field name="total_affected_sales"  readonly="1"/>
+                                    <field name="total_iva"  readonly="1"/>
+                                    <field name="total_pay"  readonly="1"/>
+                                </group>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+            </record>
+
+      <!-- Acción para abrir vistas de los modelos -->
+
+            <record model="ir.actions.act_window" id="listar_sv_invoice">
+                <field name="name">Registro de factura</field>
+                <field name="res_model">sv.invoice</field>
+                <field name="view_mode">tree,form</field>
+               <!-- <field name="domain">[('state', 'in', ['1','2'])]</field>-->
+            </record>
+
+        <!--Menu superior-->
+            <menuitem id="menu_sv_invoice_root" name="Facturas" sequence="10"/>
+            <!--Menu segundo nivel-->
+            <menuitem id="menu_sv_invoice_sv_lat" name="Operaciones" parent="menu_sv_invoice_root" sequence="20"/>
+            <!--Menu tercer nivel / formulario-->
+            <menuitem id="menu_sv_invoice_sv_reg" name="Registrar Facturas" parent="menu_sv_invoice_sv_lat" sequence="0"
+                      action="listar_sv_invoice"/>
+
+
+
+    </data>
+</odoo>

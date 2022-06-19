@@ -1,0 +1,115 @@
+<odoo>
+    <data>
+
+        <!-- presupuesto anual gasto operativo -->
+        <record id="i10n_sv_presupuesto_anual_operativo_tree" model="ir.ui.view">
+            <field name="name">Presupuesto anual gasto operativo</field>
+            <field name="model">budget.presupuesto_operativo</field>
+            <field name="arch" type="xml">
+                <tree string="Presupuesto anual operativo">
+                    <field name="poa"/>
+                    <field name="periodo"/>
+                    <field name="insumo"/>
+                    <field name="proyecto"/>
+                    <field name="detalleProyecto"/>
+                    <field name="montoFuenteFinanciamiento" widget='monetary'/>
+                    <field name="montoAsignado" widget='monetary' sum="total asignado"/>
+                </tree>
+            </field>
+        </record>
+        <record id="i10n_sv_presupuesto_anual_operativo_detalle_form" model="ir.ui.view">
+            <field name="name">Presupuesto anual gasto operativo detalle</field>
+            <field name="model">budget.presupuesto_operativo_detalle</field>
+            <field name="arch" type="xml">
+                <form string="Presupuesto anual operativo  detalle Form">
+                    <sheet>
+                        <div/>
+                        <group string="Gasto directo" cols="2">
+                            <group>
+                                <field name="gastoDirecto1" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="gastoDirecto2" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="gastoDirecto3" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="gastoDirecto4" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+
+                            <group string="Total">
+                                <field name="gastoDirecto" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+                        <group string="Gasto indirecto" cols="2">
+                            <group>
+                                <field name="gastoIndirecto1" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="gastoIndirecto2" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="gastoIndirecto3" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="gastoIndirecto4" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group string="Total">
+                                <field name="gastoIndirecto" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="i10n_sv_presupuesto_anual_operativo_form" model="ir.ui.view">
+            <field name="name">Presupuesto anual gasto operativo</field>
+            <field name="model">budget.presupuesto_operativo</field>
+            <field name="arch" type="xml">
+                <form string="Presupuesto anual operativo Form">
+                    <sheet>
+                        <group>
+                            <field name="poa"/>
+                            <field name="periodo"/>
+                            <field name="insumo" domain="[('tipo', '=', ['2','3'] )]"/>
+                            <field name="proyecto" domain="[('esCopia', '=', False)]"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="detalleProyecto" domain="[('lineId', '=', insumo)]" />
+                            <field name="montoFuenteFinanciamiento" widget='monetary' readonly="1"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="montoAsignado" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="detalle" ref="i10n_sv_presupuesto_anual_operativo_detalle_form">
+                                <tree string="'Detalles'">
+                                    <field name="gastoDirecto" widget='monetary' sum="total gasto directo"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="gastoIndirecto" widget='monetary' sum="total gasto indirecto"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="totalDetalle" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="i10n_sv_presupuesto_anual_operativo_new">
+            <field name="name">Presupuesto anual gasto operativo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">budget.presupuesto_operativo</field>
+            <field name="context">{'group_by':'poa'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+       <!-- <menuitem name="Presupuesto anual operativo" id="presupuesto.presupuesto_anual_operativo"
+                  parent="presupuesto.menu_root"
+                  action="i10n_sv_presupuesto_anual_operativo_new"/>-->
+
+
+    </data>
+</odoo>

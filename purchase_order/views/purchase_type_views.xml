@@ -1,0 +1,103 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_purchase_type_tree">
+            <field name="name">view.bpurchase.type.tree</field>
+            <field name="model">purchase.type</field>
+            <field name="arch" type="xml">
+                <tree string="Catalogo Tipo de Compras">
+                    <field name="code" string="Codigo Catalogo"/>
+                    <field name="name" string="Nombre"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_type_form">
+        <field name='name'>view.purchase.type.form</field>
+        <field name="model">purchase.type</field>
+        <field name="arch" type="xml">
+            <form string="Catalogo Tipo de Compras form">
+                <sheet>
+                    <group colspan="2" col="2" >
+                        <group   string="Datos Catalogo"  >
+                            <field name="code" string="Codigo" required="1" />
+                            <field name="name" string="Nombre" required="1" />
+                            <field name="used_comite"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Documentos" >
+                            <field name="doc_details_ids" >
+                                <tree string="'Documentos" editable="button">
+                                    <field name="corr" />
+                                     <field name="name"/>
+                                    <field name="mandatory"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Rangos" >
+                                <field name="range_ids" >
+                                    <tree string="Rangos" editable="button">
+                                        <field name="code" />
+                                        <field name="amount_one"/>
+                                        <field name="amount_two"/>
+                                        <field name="type" />
+                                    </tree>
+                                </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+
+            <!-- Acción para ingreso de solicitudes -->
+        <record model="ir.actions.act_window" id="type_purchase_action">
+            <field name="name">Catalogo Tipo de Compras</field>
+            <field name="res_model">purchase.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+        <menuitem name="Catalogo Tipo de Compras" id="menu_catalogo_compras" parent="purchase.menu_purchase_config"/>
+
+        <menuitem name="Catalogo Tipo de Compras" id="menu_catalogocompras_view" parent="menu_catalogo_compras"
+                  action="type_purchase_action"/>
+        <!-- Menú item superior -->
+        <!-- <menuitem name="Gestiones" id="menu_incidencias" web_icon="l10n_sv_incidencias,static/description/icon.png"/> -->
+
+        <!-- Categorías de menú -->
+        <!--<menuitem name="Mis gestiones" id="menu_incidencias_gestion" parent="menu_incidencias"/> -->
+
+        <!-- Acciones del menú -->
+        <!-- <menuitem name="Ingresar solicitud" id="menu_incidencias_gestion_solicitud" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action"/>
+
+        <menuitem name="Gestiones en proceso" id="menu_incidencias_gestion_pro" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action_proc"/>
+
+        <menuitem name="Gestiones finalizadas" id="menu_incidencias_gestion_fin" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action_fina"/>
+
+        <menuitem name="Gestiones rechazadas" id="menu_incidencias_gestion_rechazada" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action_recha"/>
+
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

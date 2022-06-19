@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="custom_item_report">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Custom item</h2>
+                    <p>Name<span t-field="o.name"/></p>
+                    <p>Unit price <span t-field="o.unit_price"/></p>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+    </data>
+</odoo>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista tree -->
+    <record id="i10n_sv_planificacion_ficha_indicadores_tree" model="ir.ui.view">
+        <field name="name">i10n.planificacion.ficha_indicador</field>
+        <field name="model">planificacion.ficha_indicador</field>
+        <field name="arch" type="xml">
+            <tree string="Ficha de indicador">
+                <field name="objetivoEstrategico"/>
+                <field name="resultado"/>
+                <field name="producto"/>
+                <field name="correspondencia"/>
+                <field name="definicionDetallada"/>
+            </tree>
+        </field>
+    </record>
+    <record id="i10n_sv_planificacion_actividad_resultado_tree" model="ir.ui.view">
+        <field name="name">i10n.planificacion.actividad_resultado</field>
+        <field name="model">planificacion.actividad_resultado</field>
+        <field name="arch" type="xml">
+            <tree string="Ficha de indicador">
+                <field name="objetivoEstrategico"/>
+                <field name="resultado"/>
+                <field name="meta"/>
+                <field name="resultado"/>
+                <field name="descripcion"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="i10n_sv_planificacion_ficha_indicador_new">
+        <field name="name">Ficha de indicador</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">planificacion.ficha_indicador</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="i10n_sv_planificacion_actividad_resultado_new">
+        <field name="name">Actividades necesarias para lograr el resultado</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">planificacion.actividad_resultado</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--Formularios -->
+    <!-- ficha indicador-->
+
+    <record model="ir.ui.view" id="i10n_sv_planificacion_ficha_indicador_form">
+        <field name="name">Ficha de indicador</field>
+        <field name="model">planificacion.ficha_indicador</field>
+        <field name="arch" type="xml">
+            <form string="Ficha indicador form">
+                <sheet>
+                    <group class="text-nowrap">
+                        <field name="periodo"/>
+                        <field name="eje"/>
+                        <field name="objetivoEstrategico"/>
+                       <!--<field name="meta"/>-->
+                        <field name="resultado"/>
+                        <field name="producto"/>
+                        <field name="indicador"/>
+                        <field name="correspondencia"/>
+                    </group>
+                    <field name="correspondenciaProyectos" string="">
+                        <tree string="'Detalles'" editable="button">
+                            <field name="proyecto"/>
+                            <field name="monto" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                        </tree>
+                    </field>
+
+                    <group string="Descripción" class="text-nowrap">
+                        <field name="definicionDetallada"/>
+                        <field name="unidadMedida"/>
+                        <field name="desegregacion"/>
+                        <field name="formaCalculo"/>
+                    </group>
+                    <field name="mediosVerificacion" string="">
+                        <tree string="'Detalles'" editable="button">
+                            <field name="medioVerificacion"/>
+                            <field name="descripcionInstrumento"/>
+                            <field name="instrumentoRecoleccion"/>
+                        </tree>
+                    </field>
+
+
+                    <group class="text-nowrap" string="Plan de recolección de datos">
+                        <field name="frecuenciaRecolecion"/>
+                        <field name="personaResponsable"/>
+                    </group>
+
+                    <group class="text-nowrap" string="Línea base y meta">
+                        <field name="valorLineaBase"/>
+                        <field name="metaResultado"/>
+                        <!--<group string="Meta de resultado">
+
+                            <group>
+                                <field name="metaResultadoTrim1"/>
+                                <field name="metaResultadoTrim2"/>
+                                <field name="metaResultadoTrim3"/>
+                                <field name="metaResultadoTrim4"/>
+                            </group>
+                        </group>
+                        <group string="Meta de producto">
+                            <field name="metaProductoTrim1"/>
+                            <field name="metaProductoTrim2"/>
+                            <field name="metaProductoTrim3"/>
+                            <field name="metaProductoTrim4"/>
+                        </group>-->
+
+                    </group>
+                    <group class="text-nowrap" string="Fase de análisis">
+                        <field name="vinculacionProducto"/>
+                        <field name="fechaElaboracion"/>
+                        <field name="fechaUltimoCambio"/>
+                    </group>
+                    <group class="text-nowrap" string="Cambios al indicador">
+                        <field name="modificacionesIndicador"/>
+                    </group>
+                    <div class="o_horizontal_separator">Valor de desempeño del indicador</div>
+                    <field name="desempIndicadores" string="">
+                        <tree string="'Detalles'" editable="button">
+                            <!--<field name="medioVerificacion"/>-->
+                            <field name="trimestre"/>
+                            <field name="metaProgramada" class="text-wrap" />
+                            <field name="valorActual"/>
+                            <field name="comentarios" class="text-wrap"/>
+
+                        </tree>
+                    </field>
+                    <div class="o_horizontal_separator">Actividades necesarias para lograr el resultado</div>
+                    <field name="actividadesResultado" string="" ref="i10n_sv_planificacion_actividad_resultado_form">
+                        <tree string="'Detalles'">
+                            <field name="descripcion" class="text-wrap"/>
+                            <field name="indicador" class="text-wrap"/>
+                            <field name="metaProgramada" class="text-wrap"/>
+                            <field name="fechaConsecucion"/>
+                            <field name="ejeAgenda" class="text-wrap"/>
+                        </tree>
+                    </field>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- actividad resultado -->
+    <record id="i10n_sv_planificacion_actividad_resultado_form" model="ir.ui.view">
+        <field name="name">Actividades necesarias para lograr el resultado</field>
+        <field name="model">planificacion.actividad_resultado</field>
+        <field name="arch" type="xml">
+            <form string="Actividad resultado form">
+                <sheet>
+                    <div/>
+                    <!-- <group colspan="2">
+                         <field name="objetivoEstrategico"/>
+                         <field name="meta"/>
+                         <field name="resultado"/>
+
+                     </group>-->
+                    <group class="text-nowrap">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="actividadesResultado"/>
+                        <field name="descripcion"/>
+                        <field name="indicador"/>
+                        <field name="metaProgramada"/>
+                        <field name="fechaConsecucion"/>
+
+                        <field name="pesoContribucion"/>
+                        <field name="tipoProducto"/>
+                        <field name="tipoProductoConocimiento"/>
+                        <field name="numeroProductoConocimiento"/>
+                        <field name="grupoMeta"/>
+
+                        <field name="numeroGrupoMeta"/>
+                        <field name="paisGrupoMeta"/>
+                        <field name="insumos" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="proyecto"/>
+                        <field name="servicio"/>
+
+                        <field name="tipoPsde"/>
+                        <field name="numeroPsde"/>
+                        <field name="paisPsde"/>
+
+                        <field name="objetivoConvenio"/>
+                        <field name="ejeAgenda"/>
+                        <field name="vinculacionEntregaFondos"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--MENU -->
+    <!--<menuitem name="Ficha indicador" id="i10n_sv_planificacion_ficha_indicador_root"
+              parent="i10n_sv_planificacion.menu_root"/>
+    <menuitem name="Ficha indicador" id="i10n_sv_planificacion_ficha_indicador"
+              parent="i10n_sv_planificacion_ficha_indicador_root" action="i10n_sv_planificacion_ficha_indicador_new"/>-->
+    <!--<menuitem name="Actividades necesarias para lograr el resultado" id="i10n_sv_planificacion_actividad_resultado"
+              parent="i10n_sv_planificacion_ficha_indicador_root"
+              action="i10n_sv_planificacion_actividad_resultado_new"/>-->
+
+</odoo>

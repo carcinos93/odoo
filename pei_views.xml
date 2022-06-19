@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <!-- Vista tree -->
+        <record id="i10n_sv_planificacion_periodo_tree" model="ir.ui.view">
+            <field name="name">i10n.planificacion.periodo</field>
+            <field name="model">planificacion.periodo</field>
+            <field name="arch" type="xml">
+                <tree string="Planificación">
+                    <field name="titulo"/>
+                    <field name="codigo"/>
+                    <field name="periodo"/>
+                    <field name="archivoNombre"/>
+                </tree>
+            </field>
+        </record>
+        <!-- producto -->
+        <record id="i10n_sv_planificacion_producto_form" model="ir.ui.view">
+            <field name="name">Productos</field>
+            <field name="model">planificacion.producto</field>
+            <field name="arch" type="xml">
+                <form string="Producto form">
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descripcion"/>
+                            <field name="presupuesto"  widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Indicadores producto">
+                                <field name="indicadoresProducto" type="xml">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigo"/>
+                                        <field name="descripcion"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Metas producto">
+                                <field name="metas" type="xml">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigo"/>
+                                        <field name="descripcion"/>
+                                        <field name="tipoValor"/>
+                                        <field name="valor"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Indicador resultado -->
+        <!--<record id="i10n_sv_planificacion_indicador_resultado_form" model="ir.ui.view">
+            <field name="name">Indicadores resultado</field>
+            <field name="model">planificacion.indicador_resultado</field>
+            <field name="arch" type="xml">
+                <form string="Indicador resultados form">
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descripcion"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Productos">
+                                <field name="productos" type="xml">
+                                    <tree string="'Detalles'" ref="i10n_sv_planificacion_producto_form">
+                                        <field name="codigo"/>
+                                        <field name="descripcion"/>
+                                        <field name="presupuesto"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record> -->
+        <!--
+            Formulario: Resultado
+            Formulario padre: Metas
+          -->
+        <record id="i10n_sv_planificacion_resultado_form" model="ir.ui.view">
+            <field name="name">Resultados</field>
+            <field name="model">planificacion.resultado</field>
+            <field name="arch" type="xml">
+                <form string="Resultados objetivo estrategico form">
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descripcion"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Indicadores resultado">
+                                <field name="indicadorResultados" type="xml">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigo"/>
+                                        <field name="descripcion"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Metas resultado">
+                                <field name="metas" type="xml">
+                                    <tree string="'Detalles'" editable="true">
+                                        <field name="codigo"/>
+                                        <field name="descripcion"/>
+                                        <field name="tipoValor"/>
+                                        <field name="valor"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Productos">
+                                <field name="productos" type="xml" ref="i10n_sv_planificacion_producto_form">
+                                    <tree string="'Detalles'">
+                                        <field name="codigo"/>
+                                        <field name="descripcion"/>
+                                        <field name="presupuesto"  sum="Total presupuesto" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Metas -->
+        <record id="i10n_sv_planificacion_meta_form" model="ir.ui.view">
+            <field name="name">Metas</field>
+            <field name="model">planificacion.meta</field>
+            <field name="arch" type="xml">
+                <form string="Metas form">
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descripcion"/>
+                            <field name="tipoValor"/>
+                            <field name="valor"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- indicadores objetivos -->
+        <!-- <record id="i10n_sv_planificacion_indicador_objetivo_form" model="ir.ui.view">
+           <field name="name">Indicador objetivos</field>
+           <field name="model">planificacion.indicador_objetivo</field>
+           <field name="arch" type="xml">
+               <form string="Indicador objetivos form">
+                   <sheet>
+                       <group>
+                           <field name="codigo"/>
+                           <field name="descripcion"/>
+                       </group>
+                       <notebook colspan="4">
+                           <page string="Metas">
+                               <field name="metas" type="xml" ref="i10n_sv_planificacion_meta_form">
+                                   <tree string="'Detalles'" >
+                                       <field name="codigo"/>
+                                       <field name="descripcion"/>
+                                   </tree>
+                               </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+           </field>
+       </record> -->
+        <!-- objetivos estrategicos -->
+        <record id="i10n_sv_planificacion_objetivo_estrategico_form" model="ir.ui.view">
+            <field name="name">Objetivos estratégicos</field>
+            <field name="model">planificacion.objetivo_estrategico</field>
+            <field name="arch" type="xml">
+                <form string="Objetivo estrategico form">
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descripcion"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Indicadores objetivo">
+                                <record model="ir.ui.view">
+                                    <field name="indicadores_objetivos" type="xml">
+                                        <tree string="'Detalles'" editable="button">
+                                            <field name="codigo"/>
+                                            <field name="descripcion"/>
+                                        </tree>
+                                    </field>
+                                </record>
+                            </page>
+                            <page string="Metas objetivo">
+                                <record model="ir.ui.view">
+                                    <field name="metas" type="xml">
+                                        <tree string="'Detalles'" editable="true">
+                                            <field name="codigo"/>
+                                            <field name="descripcion"/>
+                                            <field name="tipoValor"/>
+                                            <field name="valor"/>
+                                        </tree>
+                                    </field>
+                                </record>
+                            </page>
+                            <page string="Resultados">
+                                <record model="ir.ui.view">
+                                    <field name="resultados" type="xml" ref="i10n_sv_planificacion_resultado_form">
+                                        <tree string="'Detalles'">
+                                            <field name="codigo"/>
+                                            <field name="descripcion"/>
+                                        </tree>
+                                    </field>
+                                </record>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- eje estrategico -->
+        <record id="i10n_sv_planificacion_eje_estrategico_form" model="ir.ui.view">
+            <field name="name">Ejes estratégicos</field>
+            <field name="model">planificacion.eje_estrategico</field>
+            <field name="arch" type="xml">
+
+                <form string="Eje estrategico form">
+                    <sheet>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="descripcion"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Objetivos estratégicos">
+                                <record model="ir.ui.view">
+                                    <field name="objetivos_estrategicos"
+                                           ref="i10n_sv_planificacion_objetivo_estrategico_form" type="xml">
+                                        <tree string="'Detalles'">
+                                            <field name="codigo"/>
+                                            <field name="descripcion"/>
+                                        </tree>
+                                    </field>
+                                </record>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+                <!--<data>
+                   <xpath expr="//footer/button[@class='btn btn-secondary o_form_button_cancel']/span[first()]" position="replace">
+                       <span>Atrás</span>
+                    </xpath>
+
+                </data>-->
+
+            </field>
+        </record>
+        <!-- Periodo -->
+        <record model="ir.ui.view" id="i10n_sv_planificacion_periodo_form">
+            <field name="name">Período de ejecución del PEI</field>
+            <field name="model">planificacion.periodo</field>
+            <field name="arch" type="xml">
+                <form string="Período form">
+                    <sheet>
+                        <group>
+                            <field name="titulo"/>
+                            <field name="codigo"/>
+                            <field name="periodo"/>
+                            <field name="archivo" filename="archivoNombre" widget="binary"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Ejes estratégicos">
+                                <record model="ir.ui.view">
+                                    <field ref="i10n_sv_planificacion_eje_estrategico_form" name="ejes_estrategicos"
+                                           type="xml">
+                                        <tree string="'Detalles'">
+                                            <field name="codigo"/>
+                                            <field name="descripcion"/>
+                                        </tree>
+                                    </field>
+                                </record>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_periodo_new">
+            <field name="name">Período de ejecución del PEI</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planificacion.periodo</field>
+            <!--<field name="view_id" ref="i10n_sv_planificacion_periodo_form"/>-->
+            <field name="view_mode">tree,form</field>
+            <!--<field name="target">new</field>-->
+        </record>
+
+         <!-- Acciones del menú -->
+        <menuitem name="PEI" id="i10n_sv_planificacion_periodo" parent="i10n_sv_planificacion.menu_root"
+                  action="i10n_sv_planificacion_periodo_new"/>
+
+    </data>
+</odoo>

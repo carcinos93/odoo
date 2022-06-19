@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="planificacion_pei_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <table class="table h-100 table-bordered">
+                            <tr>
+                                <td>
+                                    <span t-field="o.periodo"/>
+                                </td>
+                                <td class="p-0">
+                                    <!--  -->
+                                    <table border="0" class="table h-100 m-0 border-0">
+                                        <tr t-foreach="o.ejes_estrategicos" t-as="eje">
+                                            <td>
+                                                <span t-field="eje.codigo"/> - <span t-field="eje.descripcion"/>
+                                            </td>
+                                            <!-- objetivos estrategicos -->
+                                            <td class="p-0">
+                                                <table class="table h-100 m-0 border-0">
+                                                    <tr t-foreach="eje.objetivos_estrategicos" t-as="objetivo">
+                                                        <td>
+                                                            <span t-field="objetivo.codigo"/> - <span t-field="objetivo.descripcion"/>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <!-- indicador objetivo -->
+                                                            <table class="table h-100 m-0 border-0">
+                                                                <tr t-foreach="objetivo.indicadores_objetivos" t-as="indicador_objetivo">
+                                                                    <td>
+                                                                        <span t-field="indicador_objetivo.codigo"/> - <span t-field="indicador_objetivo.descripcion"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                        <td class="p-0">
+                                                            <!-- metas -->
+                                                             <table class="table h-100 m-0 border-0">
+                                                                <tr t-foreach="objetivo.metas" t-as="meta">
+                                                                    <td>
+                                                                        <span t-field="meta.codigo"/> - <span t-field="meta.descripcion"/>
+                                                                    </td>
+                                                                    <td class="p-0">
+                                                                        <!-- Resultados -->
+                                                                        <table class="table h-100 m-0 border-0">
+                                                                            <tr t-foreach="meta.resultados" t-as="resultado">
+                                                                                <td>
+                                                                                    <span t-field="resultado.codigo"/> - <span t-field="resultado.descripcion"/>
+                                                                                </td>
+                                                                                <td class="p-0">
+                                                                                    <!-- indicador resultados -->
+                                                                                    <table class="table h-100 m-0 border-0">
+                                                                                        <tr t-foreach="resultado.indicadorResultados" t-as="indicador_resultado">
+                                                                                            <td>
+                                                                                                  <span t-field="indicador_resultado.codigo"/> - <span t-field="indicador_resultado.descripcion"/>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

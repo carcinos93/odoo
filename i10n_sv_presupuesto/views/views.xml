@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista tree -->
+        <record id="view_plan_compra_tree" model="ir.ui.view">
+            <field name="name">view.sv.presupuesto.tree</field>
+            <field name="model">presupuesto.plan_compra</field>
+            <field name="arch" type="xml">
+                <tree string="Plan de compras">
+                    <field name="fuente_financimiento"/>
+                    <field name="actividad_proyecto"/>
+                    <field name="categoria_gasto"/>
+                    <field name="costo_financiado"/>
+                    <field name="ejecucion"/>
+                    <field name="total_ejecucion"/>
+                    <!--<button name="create_cars" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+        <record model="ir.actions.act_window" id="listar_plan_compras">
+            <field name="name">Plan de compras</field>
+            <field name="res_model">presupuesto.plan_compra</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_proveedor">
+            <field name="name">Proveedor</field>
+            <field name="res_model">presupuesto.proveedor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_requisicion">
+            <field name="name">Requisición de bienes y servicios</field>
+            <field name="res_model">presupuesto.requisicion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_parametros_montos">
+            <field name="name">Parametros de montos</field>
+            <field name="res_model">presupuesto.parametro_monto</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_compra_directa">
+            <field name="name">Compra directa</field>
+            <field name="res_model">presupuesto.compra_directa</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_orden_servicio">
+            <field name="name">Orden de servicio</field>
+            <field name="res_model">presupuesto.orden_servicio</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_licitacion_privada">
+            <field name="name">Licitación privada</field>
+            <field name="res_model">presupuesto.licitacion_privada</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_licitacion_publica">
+            <field name="name">Licitación pública</field>
+            <field name="res_model">presupuesto.licitacion_publica</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_orden_compra">
+            <field name="name">Orden compra</field>
+            <field name="res_model">presupuesto.orden_compra</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_tipos_documentos">
+            <field name="name">Tipos de documentos</field>
+            <field name="res_model">presupuesto.tipo_documento</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_fianzas">
+            <field name="name">Fianzas</field>
+            <field name="res_model">presupuesto.fianza</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_contrato">
+            <field name="name">Contrato</field>
+            <field name="res_model">presupuesto.contrato</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_adenda">
+            <field name="name">Adenda</field>
+            <field name="res_model">presupuesto.adenda</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="listar_busquedaDocumento">
+            <field name="name">Búsqueda de Documento</field>
+            <field name="res_model">presupuesto.busqueda_documento</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+        <!-- FORMULARIOS -->
+        <!-- REQUISICION DE BIENES Y SERVICIOS -->
+        <record model="ir.ui.view" id="i10n_sv_requisicion_form">
+            <field name="name">view.i10n.sv.requisicion.form</field>
+            <field name="model">presupuesto.requisicion</field>
+            <field name="arch" type="xml">
+                <form string="Requisicion form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Datos generales">
+                                <group col="2" colspan="2">
+                                    <group>
+                                        <field name="numero_requisicion"/>
+                                        <field name="nombre_solicitante"/>
+                                        <field name="fecha_solicitud"/>
+                                        <field name="nombre_proyecto"/>
+                                        <field name="insumo"/>
+                                        <field name="actividad"/>
+                                        <field name="fecha_entrega"/>
+                                        <field name="lugar_entrega"/>
+                                        <field name="codigo_actividad"/>
+                                    </group>
+                                    <group>
+                                        <field name="pais_beneficiario"/>
+                                        <field name="cantidad"/>
+                                        <field name="descripcion_completa"/>
+                                        <field name="monto_presupuestado"/>
+                                        <field name="linea_presupuestaria"/>
+                                        <field name="categoria_gasto"/>
+                                        <field name="linea_presupuestaria_poa"/>
+                                        <field name="nombre_autorizado"/>
+                                        <field name="fecha_recibida"/>
+                                        <field name="nombre"/>
+                                        <field name="comentario"/>
+                                    </group>
+                                </group>
+
+                            </page>
+                            <page string="Carga documentos">
+                                <field name="documentos">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigo_tipo_documento"/>
+                                        <field name="carga_achivo"/>
+                                        <field name="palabras_clave"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- LICITACION PRIVADA -->
+        <record model="ir.ui.view" id="i10n_sv_licitacion_privada_form">
+            <field name="name">view.i10n.sv.licitacion_privada.form</field>
+            <field name="model">presupuesto.licitacion_privada</field>
+            <field name="arch" type="xml">
+                <form string="Licitacion privada form">
+                    <sheet>
+                        <notebook>
+                            <page string="Datos generales">
+                                <group col="2" colspan="2">
+                                    <group>
+                                        <field name="numeroRequisicion"/>
+                                        <field name="nombreSolicitante"/>
+                                        <field name="fecha"/>
+                                        <field name="nombreProyecto"/>
+                                        <field name="insumo"/>
+                                        <field name="actividad"/>
+                                        <field name="fechaEntrega"/>
+                                        <field name="lugarEntrega"/>
+                                        <field name="codigoActividad"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="paisBeneficiario"/>
+                                        <field name="cantidad"/>
+                                        <field name="descripcion"/>
+                                        <field name="montoPresupuestado"/>
+                                        <field name="lineaPresupuestaria"/>
+                                        <field name="categoriaGasto"/>
+                                        <field name="lineaPresupuestariaPOA"/>
+                                        <field name="nombreSolicitanteLista"/>
+                                        <field name="nombreAutorizado"/>
+                                        <field name="fechaRecibida"/>
+                                        <field name="nombre"/>
+                                        <field name="comentario"/>
+
+                                    </group>
+                                </group>
+
+                            </page>
+                            <page string="Carga documentos">
+                                <field name="documentos">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigoTipoDocumento"/>
+                                        <field name="archivo"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- LICITACION PUBLICA -->
+        <record model="ir.ui.view" id="i10n_sv_licitacion_publica_form">
+            <field name="name">view.i10n.sv.licitacion_publica.form</field>
+            <field name="model">presupuesto.licitacion_publica</field>
+            <field name="arch" type="xml">
+                <form string="Licitacion publica form">
+                    <sheet>
+                        <notebook>
+                            <page string="Datos generales">
+                                <group col="2" colspan="2">
+                                    <group>
+                                        <field name="numeroRequisicion"/>
+                                        <field name="nombreSolicitante"/>
+                                        <field name="fechaSolicitud"/>
+                                        <field name="nombreProyecto"/>
+                                        <field name="insumo"/>
+                                        <field name="actividad"/>
+                                        <field name="fechaEntrega"/>
+                                        <field name="lugarEntrega"/>
+                                        <field name="codigoActividad"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="paisBeneficiario"/>
+                                        <field name="cantidad"/>
+                                        <field name="descripcion"/>
+                                        <field name="montoPresupuestado"/>
+                                        <field name="lineaPresupuestaria"/>
+                                        <field name="categoriaGasto"/>
+                                        <field name="lineaPresupuestariaPOA"/>
+                                        <field name="nombreSolicitanteLista"/>
+                                        <field name="nombreAutorizado"/>
+                                        <field name="fechaRecibida"/>
+                                        <field name="nombre"/>
+                                        <field name="comentario"/>
+
+                                    </group>
+                                </group>
+
+                            </page>
+                            <page string="Carga documentos bases">
+                                <field name="documentosBases">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigoTipoDocumento"/>
+                                        <field name="archivo"/>
+                                        <field name="palabrasClave"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Carga documentos participantes">
+                                <field name="documentosParticipantes">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigoTipoDocumento"/>
+                                        <field name="archivo"/>
+                                        <field name="palabrasClave"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Carga documentos adjudicaciones">
+                                <field name="documentosAdjudicaciones">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="codigoTipoDocumento"/>
+                                        <field name="archivo"/>
+                                        <field name="palabrasClave"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- ORDEN COMPRA -->
+        <record model="ir.ui.view" id="i10n_sv_parametros_monto_form">
+            <field name="name">view.i10n.sv.parametros_montos.form</field>
+            <field name="model">presupuesto.parametro_monto</field>
+            <field name="arch" type="xml">
+                <form string="Parametros de montos form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Bienes y Suministros">
+                                <group>
+                                    <field name="libreGestionBM"/>
+                                    <field name="licitacionPrivadaBM"/>
+                                    <field name="licitacionPublicaBM"/>
+                                    <field name="otrosProcedimientoBM"/>
+                                </group>
+                            </page>
+                            <page string="Servicios">
+                                <group>
+                                    <field name="libreGestionServ"/>
+                                    <field name="licitacionPrivadaServ"/>
+                                    <field name="licitacionPublicaServ"/>
+                                    <field name="otrosProcedimientoServ"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ORDEN DE SEVICIO -->
+        <record model="ir.ui.view" id="i10n_sv_orden_servicio_form">
+            <field name="name">view.i10n.sv.orden_servicio.form</field>
+            <field name="model">presupuesto.orden_servicio</field>
+            <field name="arch" type="xml">
+                <form string="Orden servicio form">
+                    <sheet>
+                        <notebook>
+                            <page string="Generales">
+                                <group>
+                                    <field name="numeroOrden" />
+                                    <field name="anio" />
+                                    <field name="proveedor" />
+                                    <field name="fechaElaboracion" />
+                                    <field name="terminosEntrega" />
+                                    <field name="fuenteFinanciamiento" />
+                                    <field name="clase" />
+                                    <field name="nombre" />
+                                    <field name="objetivoGeneral" />
+                                    <field name="plazo" />
+                                </group>
+                            </page>
+                            <page string="Obligaciones">
+                                <group>
+                                    <field name="actividades" />
+                                    <field name="productos" />
+                                    <field name="coordinacion" />
+                                    <field name="terminacion" />
+                                    <field name="modificacion" />
+                                    <field name="documentosIntegrantes" />
+                                    <field name="noPagos" />
+                                    <field name="formaPago" />
+                                    <field name="precio" />
+                                    <field name="costo" />
+                                </group>
+                            </page>
+                            <page string="Firmas">
+                                <group>
+                                    <field name="estado" />
+                                    <field name="elaboradoPor" />
+                                    <field name="autorizadoPor" />
+                                    <field name="aceptadoPor" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <!-- PARAMETROS MONTOS -->
+        <record model="ir.ui.view" id="i10n_sv_parametros_monto_form">
+            <field name="name">view.i10n.sv.parametros_montos.form</field>
+            <field name="model">presupuesto.parametro_monto</field>
+            <field name="arch" type="xml">
+                <form string="Parametros de montos form">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Bienes y Suministros">
+                                <group>
+                                    <field name="libreGestionBM"/>
+                                    <field name="licitacionPrivadaBM"/>
+                                    <field name="licitacionPublicaBM"/>
+                                    <field name="otrosProcedimientoBM"/>
+                                </group>
+                            </page>
+                            <page string="Servicios">
+                                <group>
+                                    <field name="libreGestionServ"/>
+                                    <field name="licitacionPrivadaServ"/>
+                                    <field name="licitacionPublicaServ"/>
+                                    <field name="otrosProcedimientoServ"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ORDEN DE COMPRA -->
+        <record model="ir.ui.view" id="i10n_sv_orden_compra_form">
+            <field name="name">view.i10n.sv.orden_compra.form</field>
+            <field name="model">presupuesto.orden_compra</field>
+            <field name="arch" type="xml">
+                <form string="Orden compra form">
+                    <sheet>
+                        <group>
+                            <field name="numero_orden"/>
+                            <field name="anio"/>
+                            <field name="proveedor"/>
+                            <field name="fecha_elaboracion"/>
+                            <field name="terminos_entrega"/>
+                            <field name="observaciones"/>
+                            <field name="recibidoPor"/>
+                            <field name="elaboradoPor"/>
+                            <field name="enviaGAF"/>
+                        </group>
+                        <group>
+                            <field name="detalle">
+                                <tree string="'Detalles'" editable="button">
+                                    <field name="no_correlativo"/>
+                                    <field name="descripcion"/>
+                                    <field name="cantidad"/>
+                                    <field name="precioUnitario"/>
+                                    <field name="precioTotal"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Menú item superior -->
+
+
+
+        <menuitem name="Presupuesto" id="menu_sv_presupuesto_root"/>
+
+        <menuitem name="Ordenes" id="menu_sv_presupuesto_ordenes" parent="menu_sv_presupuesto_root" />
+
+
+        <menuitem name="Orden de compra" id="menu_sv_presupuesto_orden_compra" parent="menu_sv_presupuesto_ordenes"
+                  action="listar_orden_compra"/>
+
+        <menuitem name="Orden de servicio" id="menu_sv_presupuesto_orden_servicio" parent="menu_sv_presupuesto_ordenes"
+                  action="listar_orden_servicio"/>
+
+        <!-- LICITACIONES -->
+        <menuitem name="Licitaciones" id="menu_sv_presupuesto_licitaciones" parent="menu_sv_presupuesto_root" />
+
+        <menuitem name="Licitación privada" id="menu_sv_presupuesto_licitacion_privada" parent="menu_sv_presupuesto_licitaciones"
+                  action="listar_licitacion_privada"/>
+
+        <menuitem name="Licitación pública" id="menu_sv_presupuesto_licitacion_publica" parent="menu_sv_presupuesto_licitaciones"
+                  action="listar_licitacion_publica"/>
+        <!-- Categorías de menú -->
+        <!--<menuitem name="Modelos" id="sv.planificacion.menu_1" parent="sv.planificacion.menu_root"/>-->
+
+        <!-- Acciones del menú -->
+        <menuitem name="Plan de compras" id="menu_sv_presupuesto_plan_compras" parent="menu_sv_presupuesto_root"
+                  action="listar_plan_compras"/>
+
+
+        <menuitem name="Proveedor" id="menu_sv_presupuesto_proveedor" parent="menu_sv_presupuesto_root"
+                  action="listar_proveedor"/>
+
+        <menuitem name="Requisici&#xF3;n de bienes y servicios" id="menu_sv_presupuesto_requisicion"
+                  parent="menu_sv_presupuesto_root"
+                  action="listar_requisicion"/>
+
+        <menuitem name="Compra directa" id="menu_sv_presupuesto_compra_directa" parent="menu_sv_presupuesto_root"
+                  action="listar_compra_directa"/>
+
+        <menuitem name="Parametros de montos" id="menu_sv_presupuesto_parametros_montos"
+                  parent="menu_sv_presupuesto_root"
+                  action="listar_parametros_montos"/>
+
+        <menuitem name="Tipos de documentos" id="menu_sv_presupuesto_tipos_documentos" parent="menu_sv_presupuesto_root"
+                  action="listar_tipos_documentos"/>
+
+        <menuitem name="Fianzas" id="menu_sv_presupuesto_fianza" parent="menu_sv_presupuesto_root"
+                  action="listar_fianzas"/>
+
+        <menuitem name="Contrato" id="menu_sv_presupuesto_contrato" parent="menu_sv_presupuesto_root"
+                  action="listar_contrato"/>
+
+        <menuitem name="Adenda" id="menu_sv_presupuesto_adenda" parent="menu_sv_presupuesto_root"
+                  action="listar_adenda"/>
+
+        <menuitem name="Búsqueda de Documento" id="menu_sv_presupuesto_busquedaDocumento" parent="menu_sv_presupuesto_root"
+                  action="listar_busquedaDocumento"/>
+
+    </data>
+</odoo>

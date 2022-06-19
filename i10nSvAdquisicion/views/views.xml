@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <!-- Vista tree -->
+        <record id="i10n_prueba_adquisicion_tree" model="ir.ui.view">
+            <field name="name">i10n.prueba.adquisicion</field>
+            <field name="model">prueba.adquisicion</field>
+            <field name="arch" type="xml">
+                <tree string="Adquisicion">
+                    <field name="numero_requisicion"/>
+                    <field name="nombre_proyecto"/>
+                    <field name="comentarios"/>
+                    <!--<button name="create_cars" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+        <record id="10n_prueba_adquisicion_secuence" model="ir.sequence">
+            <field name="name">10n_prueba_adquisicion_secuence</field>
+            <field name="code">adquisicion_servicios_cantidad</field>
+            <!--<field name="prefix"/>
+            <field name="padding"/>-->
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- Acción para abrir vistas de los modelos -->
+        <record model="ir.actions.act_window" id="i10nSvAdquisicion_new">
+            <field name="name">i10n.prueba.adquisicion</field>
+            <field name="res_model">prueba.adquisicion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <record model="ir.ui.view" id="i10nSvAdquisicion_form">
+            <field name="name">view.i10n.prueba.adquisicion.form</field>
+            <field name="model">prueba.adquisicion</field>
+            <field name="arch" type="xml">
+                <form string="Adquisicion form">
+                    <sheet>
+                        <group col="2" colspan="2">
+                           <group>
+                               <div/>
+                                <field name="numero_requisicion" />
+                                <field name="empleado" />
+
+                                <field name="nombre_proyecto" />
+                                <field name="insumo" />
+                           </group>
+                           <group>
+                             <div/>
+                                    <field name="actividad" />
+                                    <field name="fecha_entrega" />
+                                    <field name="lugar_entrega" />
+                                    <field name="codigo_actividad" />
+                                    <field name="pais_beneficiario" />
+                           </group>
+
+
+
+
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Servicios">
+                                <field name="servicios">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="cantidad"/>
+                                        <field name="descripcion"/>
+                                        <field name="monto_presupuestado"/>
+                                        <field name="linea_presupuestaria"/>
+                                        <field name="categoria_gasto"/>
+                                        <field name="linea_presupuestaria_poa"/>
+                                    </tree>
+                                </field>
+                            </page>
+                             <page string="Anexos">
+                                <field name="anexos">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="anexo" filename="anexo_nombre" widget="binary"/>
+                                        <field name="anexo_nombre" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group string="Firma">
+                            <field name="nombre_solicitante" readonly="1"/>
+                            <field string="Fecha y hora" name="fecha_solicitud"  readonly="1" />
+                        </group>
+
+                        <group string="Comentarios u observaciones">
+                                <field name="comentarios" string="" />
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- mail -->
+        <!--<record id="email_template" model="mail.template">
+    <field name="name">EMAIL TEMPLATE</field>
+    <field name="model_id" ref="emai_template.model_example.mail"/>
+    <field name="auto_delete" eval="True"/>
+    <field name="email_from">${(object.res_user_id.email}</field>
+    <field name="email_to">${object.client_name.email}</field>
+     <field name="report_template" ref="action_example_pdf"/>
+    <field name="subject">${object.amc}</field>
+    <field name="body_html"><![CDATA[
+ <p>Dear ${(object.client_name.name)},<br/><br/>
+ Good job, you've just created your first e-mail template!<br/></p>
+      Regards,<br/>
+      ${(object.company_id.name)} ]]></field>
+</record>-->
+
+        <!-- Menú item superior -->
+        <menuitem name="Adquisicion" id="i10nSvAdquisicion_menu_root"/>
+
+        <!-- Categorías de menú -->
+        <!--<menuitem name="Modelos" id="prueba.adquisicion.menu_1" parent="prueba.adquisicion.menu_root"/>-->
+
+        <!-- Acciones del menú -->
+        <menuitem name="Nuevo" id="sv_adquisicion_new" parent="i10nSvAdquisicion_menu_root"
+                  action="i10nSvAdquisicion_new"/>
+
+    </data>
+</odoo>

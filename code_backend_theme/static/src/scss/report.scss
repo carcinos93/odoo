@@ -1,0 +1,24 @@
+ .border-outer-none {
+  border-collapse: collapse;
+  border: none;
+}
+
+.border-outer-none td {
+  border: 1px solid black;
+}
+
+.border-outer-none tr:first-child td {
+  border-top: none;
+}
+
+.border-outer-none tr:last-child td {
+  border-bottom: none;
+}
+
+.border-outer-none tr td:first-child {
+  border-left: none;
+}
+
+.border-outer-none tr td:last-child {
+  border-right: none;
+}

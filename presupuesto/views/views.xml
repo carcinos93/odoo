@@ -1,0 +1,495 @@
+<odoo>
+    <data>
+        <!-- Vista Form Linea-->
+        <record id="view_presupuesto_line_form" model="ir.ui.view">
+            <field name="name">view.presupuesto.linea.form</field>
+            <field name="model">budget.line</field>
+            <field name="arch" type="xml">
+                <form class="presupuesto" string="Línea">
+                    <sheet>
+                        <label for="codeId" string="Numero de Línea" class="oe_edit_only"/>
+                        <h1>
+                            <field name="codeId" string="Número de Línea"/>
+                        </h1>
+                        <group colspan="4">
+                            <group col="2">
+                                <field name="name" required="1"/>
+                                <field name="status"/>
+                            </group>
+                            <group col="2">
+                                <field name="codeId_parent"/>
+                                <field name="is_mov"/>
+                                <field name="tipo"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista tree Linea-->
+        <record id="view_presupuesto_line_tree" model="ir.ui.view">
+            <field name="name">view.presupuesto.linea.tree</field>
+            <field name="model">budget.line</field>
+            <field name="arch" type="xml">
+                <tree string="Línea">
+                    <field name="codeId"/>
+                    <field name="name" required="1"/>
+                    <field name="codeId_parent"/>
+                    <field name="is_mov"/>
+                    <field name="tipo"/>
+                    <!--<button name="method" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista insumos por proyecto-->
+        <record id="view_presupuesto_program_detail" model="ir.ui.view">
+            <field name="name">view.presupuesto.program_detail.tree</field>
+            <field name="model">budget.program_detail</field>
+            <field name="arch" type="xml">
+                <tree string="Línea">
+                    <field name="lineId" class="text-wrap"/>
+                    <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="level1"/>
+                    <field name="description1" class="text-wrap"/>
+                    <field name="level2" required="1"/>
+                    <field name="description2" class="text-wrap" required="1"/>
+                    <field name="level3" required="1"/>
+                    <field name="description3" class="text-wrap" required="1"/>
+                    <field name="reservado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="available" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!-- vista formulario monto del proyecto por año -->
+
+
+        <record id="budget_program_detail_view_tree" model="ir.ui.view">
+            <field name="name">budget.program_detail.type.tree</field>
+            <field name="model">budget.program_detail</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Presupuesto detalle">
+                    <field name="lineName" class="text-wrap"/>
+                    <field name="level1" class="text-wrap"/>
+                    <field name="amount"/>
+                    <field name="available"/>
+                    <field name="total_amount"/>
+                    <field name="description1" class="text-wrap"/>
+                    <field name="level2" class="text-wrap"/>
+                    <field name="description2" class="text-wrap"/>
+                    <field name="level3" class="text-wrap"/>
+                    <field name="description3" class="text-wrap"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="budget_program_detail_view_search" model="ir.ui.view">
+            <field name="name">budget.program_detail.type.search</field>
+            <field name="model">budget.program_detail</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field string="General" name="lineId" filter_domain="['|','|','|','|','|','|','|','|','|','|',
+                    ('lineName', 'ilike', self),
+                    ('level1', 'ilike', self),
+                    ('description1', 'ilike', self),
+                    ('level2', 'ilike', self),
+                    ('description2', 'ilike', self),
+                    ('level3', 'ilike', self),
+                    ('description3', 'ilike', self),
+                    ('level4', 'ilike', self),
+                    ('description4', 'ilike', self),
+                    ('level5', 'ilike', self),
+                    ('description5', 'ilike', self)]"/>
+                    <field string="Proyecto" name="details_id"
+                           filter_domain="['|', ('details_id.programId', 'ilike', self),('details_id.name', 'ilike', self)]"/>
+                </search>
+
+                <!--   -->
+            </field>
+        </record>
+
+        <record id="budget_program_detail_view" model="ir.actions.act_window">
+            <field name="name">Presupuesto de Proyectos por Cooperante</field>
+            <field name="res_model">budget.program_detail</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="budget_program_detail_view_search"/>
+
+            <!--<field name="context">{"search_default_active":1}</field>-->
+        </record>
+
+        <record id="budget_program_detail_view_form" model="ir.ui.view">
+            <field name="name">Presupuesto de Proyectos por Cooperante</field>
+            <field name="model">budget.program_detail</field>
+            <field name="arch" type="xml">
+                <form class="presupuesto" string="budget_program_detail_form">
+                    <sheet>
+                        <div/>
+                        <group col="2" colspan="2">
+                            <!-- se filtran por insumo de actividad domain="[('tipo', 'in', ['1'] )]"-->
+                            <field name="lineId"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="numberLines" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="level1"/>
+                            <field name="description1"/>
+                        </group>
+                        <group attrs="{'invisible':[('numberLines','&lt;',2)]}">
+                            <field name="level2"/>
+                            <field name="description2"/>
+                        </group>
+
+                        <group attrs="{'invisible':[('numberLines','&lt;',3)]}">
+                            <field name="level3"/>
+                            <field name="description3"/>
+                        </group>
+                        <group attrs="{'invisible':[('numberLines','&lt;',4)]}">
+                            <field name="level4"/>
+                            <field name="description4"/>
+                        </group>
+                        <group attrs="{'invisible':[('numberLines','&lt;',5)]}">
+                            <field name="level5"/>
+                            <field name="description5"/>
+                        </group>
+
+                        <group col="2" colspan="2">
+                            <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="ajustado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="ejecucion" readonly="1" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="reservado" readonly="1" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="comprometido" readonly="1" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <!--<field name="adjust_up" readonly="1" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="adjust_down" readonly="1" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>-->
+                            <field name="available" readonly="1" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="available" invisible="1"/>
+                        </group>
+                        <label class="o_form_label" for="proyectos_anio">Monto del proyecto por año</label>
+                        <field name="proyectos_anio">
+                            <tree string="Detalle" editable="button">
+                                <field name="year"/>
+                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="inicial" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ajustado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ejecucion" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="reservado" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                                <field name="comprometido" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <!--<field name="adjust_up" widget="monetary" readonly="1"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="adjust_down" widget="monetary" readonly="1"
+                                       options="{'currency_field': 'currency_id'}"/>-->
+                                <field name="available" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+
+                        <group string="">
+                            <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Vista Form Fuente-->
+        <record id="view_presupuesto_fuente_form" model="ir.ui.view">
+            <field name="name">view.presupuesto.fuente.form</field>
+            <field name="model">budget.source</field>
+            <field name="arch" type="xml">
+                <form class="presupuesto" string="Programas">
+                    <sheet>
+                        <notebook colspan="4">
+                            <page string="Generales">
+                                <label for="sourceId" string="Código del Cooperante" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="sourceId" string="Código del Cooperante"/>
+                                </h1>
+                                <group colspan="4">
+                                    <group col="2">
+                                        <field name="name" required="1"/>
+                                        <field name="identification"/>
+                                        <field name="country" required="1" string="País"/>
+                                        <field name="address" required="1" string="Dirección"/>
+                                        <field name="logo" widget="image" class="img-fluid"/>
+                                    </group>
+                                    <group col="2">
+                                        <field name="contact"/>
+                                        <field name="contact_movile"/>
+                                        <field name="contact_email"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Proyectos">
+                                <field ref="view_invoice_form" create="false" name="programs" type="xml">
+                                    <tree string="'Detalles'">
+                                        <field name="programId"/>
+                                        <field name="name"/>
+                                        <field name="dateFrom"/>
+                                        <field name="dateTo"/>
+                                        <!--<field name="amount" widget='monetary' sum="Total presupuesto"/>-->
+                                        <field name="total_amount" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}" sum="Total proyecto"/>
+                                        <field name="total_reservado" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}" sum="Total reservado"/>
+                                        <field name="total_available" widget='monetary'
+                                               options="{'currency_field': 'currency_id'}" sum="Total disponible"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista tree Fuente-->
+        <record id="view_presupuesto_fuente_tree" model="ir.ui.view">
+            <field name="name">view.presupuesto.fuente.tree</field>
+            <field name="model">budget.source</field>
+            <field name="arch" type="xml">
+                <tree string="Línea">
+                    <field name="sourceId"/>
+                    <field name="name" required="1"/>
+                    <field name="country"/>
+                    <field name="contact"/>
+                    <!--<button name="method" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Creación vista arbol -->
+        <record model="ir.ui.view" id="view_invoice_tree">
+            <field name="name">view.sv.invoice.tree</field>
+            <field name="model">budget.program</field>
+            <field name="arch" type="xml">
+                <tree string="Registro de Proyecto">
+                    <field name="programId"/>
+                    <field name="name"/>
+                    <field name="shortName"/>
+                    <field name="dateFrom"/>
+                    <field name="dateTo"/>
+                    <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="state"/>
+                    <button confirm="¿Desea continuar?" name="modificar" attrs="{'invisible': [('state', '!=', '3')]}"
+                            string="Modificar presupuesto" class="oe_highlight" type="object"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Creación vista formulario -->
+        <record id="view_invoice_form" model="ir.ui.view">
+            <field name="name">view.sv.invoice.form</field>
+            <field name="model">budget.program</field>
+            <field name="arch" type="xml">
+                <form class="presupuesto" string="Presupuesto del Programa por Cooperante">
+                    <header>
+                        <button confirm="¿Desea continuar?" class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', '2')]}" string="Aprobación" name="fin_programa"
+                                type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <label for="name" string="Programa"/>
+                            <h1>
+                                <field name="programId" readonly="1" string="Código del Proyecto"/>
+                            </h1>
+                        </group>
+                        <group colspan="2" col="2">
+                            <group string="Vigencia del Proyecto">
+                                <field name="dateFrom"/>
+                                <field name="dateTo"/>
+                                <field name="numberLines"/>
+                                <field name="coordinador"/>
+                                <field name="gestor"/>
+                            </group>
+                            <group string="Datos del Proyecto">
+                                <field name="sourceId"/>
+                                <field name="name" string="Programa"/>
+                                <field name="shortName"/>
+                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="bank" invisible="1"/>
+                                <field name="bankAccount" invisible="1"/>
+                                <field name="saldoBanco" widget="monetary" options="{'currency_field': 'currency_id'}"
+                                       invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Generalidades">
+                                <group class="text-nowrap">
+                                       <field name="logicaIntervencion"/>
+                                       <field name="indicadoresObjetivamente"/>
+                                       <field name="fuenteVerificacion"/>
+                                       <field name="hipotesis"/>
+                                       <field name="riesgos"/>
+                                </group>
+
+                            </page>
+                            <page string="Documentos">
+                                <field name="documentos">
+                                    <tree string="'Detalles" editable="button">
+                                        <field name="archivo" filename="archivoNombre" widget="binary"/>
+                                        <field name="archivoNombre" invisible="1"/>
+                                        <field name="titulo"/>
+                                        <field name="create_date" string="Fecha creación"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Detalle del Programa">
+                                <field ref="budget_program_detail_view_form" name="program_details_ids">
+                                    <tree string="Detalles">
+                                        <field name="lineId" class="text-wrap"/>
+                                        <field name="amount" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="level1"/>
+                                        <field name="description1" class="text-wrap"/>
+                                        <field name="level2" required="1"/>
+                                        <field name="description2" class="text-wrap" required="1"/>
+                                        <field name="reservado" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="available" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group string="Total" class="text-nowrap">
+                                    <field name="total_operativo" readonly="1" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_actividad" readonly="1" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_amount" readonly="1" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </page>
+                            <page string="Versiones presupuesto">
+                                <field name="files">
+                                    <tree string="'Detalles" editable="button">
+                                        <field name="archivo" filename="archivoNombre" widget="binary"/>
+                                        <field name="archivoNombre" invisible="1"/>
+                                        <field name="titulo"/>
+                                        <field name="create_date" string="Fecha creación"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page string="Cuentas de banco">
+                                <field name="cuentasBaco">
+                                    <tree string="'Detalles" editable="button">
+                                        <field name="bank"/>
+                                        <field name="bankAccount"/>
+                                        <field name="saldoBanco" widget="monetary"
+                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+
+        <record model="ir.actions.act_window" id="listar_sv_invoice">
+            <field name="name">Registro de Programas</field>
+            <field name="res_model">budget.program</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'group_by':'state', 'sort_by': 'state'}</field>
+            <field name="domain">[('esCopia', '=', False)]</field>
+        </record>
+
+        <record id="budget_line_view_search" model="ir.ui.view">
+            <field name="name">budget.line.type.search</field>
+            <field name="model">budget.line</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="codeId" string="General" filter_domain="['|', '|',
+                    ('codeId', 'ilike',  self),
+                    ('name','ilike',self),
+                    ('codeId_parent', 'ilike',self)]"/>
+                    <field name="tipo"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="budget_source_view_search" model="ir.ui.view">
+            <field name="name">budget.source.type.search</field>
+            <field name="model">budget.source</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="General" filter_domain="['|', '|',
+                    ('name', 'ilike',  self),
+                    ('contact','ilike',self),
+                    ('identification', 'ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+        <record model="ir.actions.act_window" id="presupuesto_linea">
+            <field name="name">Línea</field>
+            <field name="res_model">budget.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Acción para abrir vistas de los modelos -->
+        <record model="ir.actions.act_window" id="presupuesto_fuente">
+            <field name="name">Cooperante</field>
+            <field name="res_model">budget.source</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="listar_program_detail">
+            <field name="name">Presupuesto de Proyecto</field>
+            <field name="res_model">budget.program_detail</field>
+            <field name="view_mode">tree,form</field>
+
+            <field name="domain">[('details_id.esCopia', '=', False)]</field>
+            <field name="context">{ "group_by" : "details_id", 'create': False}</field>
+        </record>
+
+
+        <!-- Menú item superior -->
+        <menuitem name="Presupuesto" id="presupuesto.menu_root"/>
+
+        <!-- Categorías de menú -->
+        <menuitem name="Catálogos" id="presupuesto.menu_1" parent="presupuesto.menu_root"/>
+
+        <!-- Categorías de menú -->
+        <menuitem name="Prespuesto" id="presupuesto.menu_2" parent="presupuesto.menu_root"/>
+
+        <!-- Acciones del menú -->
+        <menuitem name="Insumo" id="presupuesto.menu_linea" parent="presupuesto.menu_1"
+                  action="presupuesto_linea"/>
+        <!-- Acciones del menú -->
+        <menuitem name="Cooperante" id="presupuesto.menu_fuente" parent="presupuesto.menu_1"
+                  action="presupuesto_fuente"/>
+        <!-- Acciones del menú -->
+        <menuitem name="Ingreso de proyectos " id="presupuesto.menu_programa" parent="presupuesto.menu_2"
+                  action="listar_sv_invoice"/>
+
+        <menuitem name="Búsqueda de presupuesto de proyecto" id="presupuesto.menu_programa_detalle_programa"
+                  parent="presupuesto.menu_2"
+                  action="listar_program_detail"/>
+
+
+    </data>
+</odoo>

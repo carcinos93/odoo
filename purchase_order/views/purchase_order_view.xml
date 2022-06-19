@@ -1,0 +1,370 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_purchase_sequence_tree">
+            <field name="name">view.purchase.sequence.tree</field>
+            <field name="model">purchase.sequences</field>
+            <field name="arch" type="xml">
+                <tree string="Correlativos">
+                    <field name="program_id"  />
+                    <field name="correlative_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_sequence_form">
+        <field name='name'>view.purchase.sequence.form</field>
+        <field name="model">purchase.sequences</field>
+        <field name="arch" type="xml">
+            <form string="Requisicionform">
+                <sheet>
+                    <group>
+                        <field name="program_id" />
+                        <field name="correlative_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_order_requisition2_tree">
+            <field name="name">view.purchase.order.requisition.tree</field>
+            <field name="model">purchase.order.requisitions</field>
+            <field name="arch" type="xml">
+                <tree string="Rquisicion">
+                    <field name="name" />
+                    <field name="create_date" string="Fecha Creación"/>
+                    <field name="name_corto_program" />
+                    <field name="solicitante" />
+                    <field name="activity_id" />
+                    <field name="date_order" />
+                    <field name="country_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_requisition2_form">
+        <field name='name'>view.purchase.order.requisition.form</field>
+        <field name="model">purchase.order.requisitions</field>
+        <field name="arch" type="xml">
+            <form string="Requisicionform">
+                <header>
+                    <button name="IniciarProceso" groups="purchase_order.purchase_requisicion_group_iniciar_proceso,purchase_order.purchase_requisicion_group_administrador" class="oe_highlight"  type="object" attrs="{'invisible':[('proceso_iniciado','=', True)]}" string="Iniciar Proceso" data-hotkey="g" confirm="Esta acción iniciara el proceso para la requisición. ¿Desea continuar?"/>
+                    <button name="AutorizarRequisicion" groups="purchase_order.purchase_requisicion_group_autorizar,purchase_order.purchase_requisicion_group_administrador" class="oe_highlight"  type="object" attrs="{'invisible':[('proceso_autorizado','=', True)]}" string="Autorizar Proceso" data-hotkey="g" confirm="Esta acción Autoriza el proceso para la requisición. ¿Desea continuar?"/>
+                    <button name="autorizacion_partner" groups="purchase_order.purchase_requisicion_group_administrador" class="oe_highlight"  type="object" states="1" string="Aceptación Compras" data-hotkey="g" confirm="Esta acción Acepta la compra detallada. ¿Desea continuar?"/>
+                    <button name="pasoFormalizacion" groups="purchase_order.purchase_requisicion_group_administrador" class="oe_highlight" type="object" states="2" string="Paso a Formalización" data-hotkey="g" confirm="Esta acción formaliza la compra. ¿Desea continuar?"/>
+                    <button name="ordenes_compras" groups="purchase_order.purchase_requisicion_group_administrador" class="oe_highlight" type="object" states="3" string="Cierre del Proceso" data-hotkey="g" confirm="Esta acción cierra el proceso de adquisición, se queda espera de las entregas y pagos. ¿Desea continuar?"/>
+                    <button name="RetornarEtapa" groups="purchase_order.purchase_requisicion_group_administrador" class="oe_highlight" type="object" states="2,3,4,5" string="Regresar etapa" data-hotkey="g" confirm="Esta acción regresa el proceso a la etapa anterior. ¿Desea continuar?"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label" >Numero de transacción</span>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="2" col="2" >
+                       <group  >
+                            <field name="type" required="1" attrs="{'readonly': [('state','in',['2','3','4','5'])]}"/>
+                            <field name="solicitante" required="1" attrs="{'readonly': [('state','in',['2','3','4','5'])]}"/>
+                            <field name="program_id" required="1" attrs="{'readonly': [('state','in',['2','3','4','5'])]}"/>
+                           <field name="name_corto_program" invisible="1"/>
+<!--                            <field name="activity_id" domain="[('fuenteFinanciamiento','=',program_id)]"/>-->
+                           <field name="activity" invisible="1"/>
+                            <field name="place_delivery" invisible="1"/>
+                           <field name="proceso_iniciado" invisible="1"/>
+                           <field name="proceso_autorizado" invisible="1"/>
+                           <field name="evento" />
+                           <field name="comment" />
+                        </group>
+                        <group>
+                            <field name="country_id" required="1" attrs="{'readonly': [('state','in',['2','3','4','5'])]}"/>
+                             <field name="date_order" required="1"/>
+                            <field name="date_requisicion" readonly="1"/>
+                            <field name="used_comite" invisible="1"/>
+                            <field name="doc_formalizar" attrs="{'required': [('state','=','3')]}"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Lineas Requisicion">
+                            <field name="purchase_requi_line_ids">
+                                <tree string="'Detalles'">
+                                    <field name="actividad_id"/>
+                                    <field name="employee_id"/>
+                                    <!-- se filtra insumo por tipo ACTIVIDAD o AMBOS -->
+                                    <field name="insumo_id" />
+                                    <field name="monto_asignado"/>
+                                    <field name="disponible"/>
+                                    <field name="monto"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="employee_id"/>
+                                            <field name="actividad_id" domain="[('responsable','=',employee_id)]"/>
+                                            <field name="insumo_id" domain="[('actividad_resultado_ids','=',actividad_id)]"/>
+
+                                            <field name="program_id"/>
+                                            <field name="presupuesto_id" domain="[('details_id','=',program_id)]"/>
+                                        </group>
+                                        <group>
+                                            <field name="monto_asignado"/>
+                                            <field name="disponible"/>
+                                            <field name="monto"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Autorizaciones">
+                            <group>
+                                <group>
+                                    <field name="authorizer_ids" readonly="1" nolabel="1">
+                                        <tree>
+                                            <field name="name" />
+                                            <field name="user_id" />
+                                            <field name="date_acc" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Lineas Detalle Orden">
+                            <field name="lineas_order_ids" >
+                                <tree string="Lineas Orden" editable="button">
+                                    <field name="cantidad" />
+                                    <field name="product_id" />
+                                    <field name="name" />
+                                    <field name="price_unitary" />
+                                    <field name="monto" sum="monto"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Documentos">
+                            <field name="purchase_docs_ids" >
+                                <tree string="Documentos">
+                                    <field name="name" />
+                                    <field name="description" />
+                                    <field name="filename_adjunto" invisible="1"/>
+                                    <field name="file_adjunto" colspan="2" widget="binary"  filename="filename_adjunto" />
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="name" />
+                                                <field name="description" />
+                                                <div class="o_attachment_preview" >
+                                                    <field name="filename_adjunto" invisible="1"/>
+                                                    <field name="file_adjunto" colspan="2" widget="binary"  filename="filename_adjunto" />
+                                                </div>
+                                            </group>
+                                        </group>
+                                    </sheet>
+
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Lineas Oferta" states="2">
+                            <separator string="Adjudicaciones" />
+                            <field name="lineas_adjudicacion"  >
+                                <tree string="Adjudicacion" editable="button">
+                                    <field name="name"  context="{'res_partner_search_mode': 'supplier', 'show_vat': True}" />
+                                    <field name="date_envio" />
+                                    <field name="observation" />
+                                    <field name="lineas_adjudicacion" domain="[('requisition_id', '=', requisition_id)]" widget="many2many_tags" />
+                                    <field name="adjudication" />
+                                    <field name="date_adjudication" />
+                                    <field name="requisition_id" invisible="1" />
+                                </tree>
+                            </field>
+                            <separator string="Ofertas" />
+                            <field name="lineas_oferta_ids" >
+                                <tree string="Ofertas" editable="button">
+                                    <field name="name" />
+                                    <field name="archivo" widget="binary"  filename="files" class="o_attachment_preview" />
+                                    <field name="description" />
+                                    <field name="date_reception" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ordenes de Compra" states="3">
+                            <field name="orden_compra_ids" readonly="1">
+                                <tree string="Ordenes de Compra" editable="button" >
+                                    <field name="name" />
+                                    <field name="partner_id" />
+                                    <field name="date_order" />
+                                    <field name="state" />
+                                    <field name="amount_total" sum="amount_total"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ordenes de Servicios" >
+                            <field name="orden_servicio_ids">
+                                <tree>
+                                    <field name="clase" />
+                                    <field name="name" />
+                                    <field name="proveedor" />
+                                    <field name="objetivo_general" />
+                                    <field name="desde" />
+                                    <field name="hasta" />
+                                    <field name="cordinacion" />
+                                    <field name="terminacion" />
+                                </tree>
+                                <form string="Orden de Servicio">
+                                    <sheet><group>
+                                        <group>
+                                            <field name="clase" />
+                                            <field name="name" />
+                                            <field name="proveedor" />
+                                            <field name="objetivo_general" />
+                                        </group>
+                                        <group>
+                                            <field name="desde" />
+                                            <field name="hasta" />
+                                            <field name="cordinacion" />
+                                            <field name="terminacion" />
+                                        </group>
+                                    </group>
+                                        <notebook>
+                                            <page string="Lineas de Actividad" >
+                                                <field name="product_id" />
+                                                <field name="lineas_ids" >
+                                                    <tree>
+                                                        <field name="name" />
+                                                    </tree>
+                                                </field>
+                                            </page>
+                                            <page string="Forma de Pago">
+                                                <field name="precios_formas_ids" >
+                                                    <tree>
+                                                        <field name="numero" />
+                                                        <field name="name" />
+                                                        <field name="precio" />
+                                                    </tree>
+                                                </field>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+
+                            </field>
+                        </page>
+
+                        <page string="Comité Evaluador" attrs="{'invisible': [('used_comite','=',False)]}">
+                            <separator string="Nombramiento Comité" colspan="2"/>
+                            <div class="o_attachment_preview" >
+                                <field name="filename_comite" invisible="1"/>
+                                <field name="file_comite" colspan="2" widget="binary"  filename="filename_comite" />
+                            </div>
+                            <separator string="Formulario de Comité" colspan="2"/>
+                            <div class="o_attachment_preview" >
+                                <field name="filename_comite_form" invisible="1"/>
+                                <field name="file_comite_form" colspan="2" widget="binary"  filename="filename_comite_form" />
+                            </div>
+                            <field name="comite_ids" widget="many2many" >
+                            </field>
+                        </page>
+                        <page string="Evaluaciones" attrs="{'invisible': [('used_comite','=',False)]}">
+                            <field name="evaluacion_ids">
+                                <tree string="Documentos"  editable="button">
+                                    <field name="name" />
+                                    <field name="criterio_id" />
+                                    <field name="indicador"/>
+                                    <field name="valor1" />
+                                    <field name="valor2"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+
+
+
+                </sheet>
+                <div class="o_attachment_preview" />
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+        </record>
+
+        <!-- Acción para abrir vistas de los modelos -->
+
+            <!-- Acción para ingreso de solicitudes -->
+        <record model="ir.actions.act_window" id="purchase2_requisition_action">
+            <field name="name">Requisicion</field>
+            <field name="res_model">purchase.order.requisitions</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="purchase_sequence_action">
+            <field name="name">Correlativos</field>
+            <field name="res_model">purchase.sequences</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+
+
+        <menuitem name="Requisiciones" id="menu_purchase_requisition2" parent="purchase.menu_procurement_management"
+            action="purchase2_requisition_action"/>
+
+        <menuitem name="Correlativos" id="menu_sequencePurchase_view" parent="purchase.menu_purchase_config"
+                  action="purchase_sequence_action"/>
+
+        <!--Reportes -->
+
+        <menuitem name="Reporte Proveedores" id="menu_purchase_reporte_proveedor" parent="purchase.purchase_report_main"
+            action="purchase_sequence_action"/>
+
+        <menuitem name="Reporte Fuente Financiamiento" id="menu_sequencePurchase_viesdsdw" parent="purchase.purchase_report_main"
+                  action="purchase_sequence_action"/>
+
+        <menuitem name="Reporte Por Insumos" id="menu_purchase_reporte_proveedordsds" parent="purchase.purchase_report_main"
+            action="purchase_sequence_action"/>
+
+        <menuitem name="Reporte Por Actividad" id="menu_sdsddsdsequencePurchase_viesdsdw" parent="purchase.purchase_report_main"
+                  action="purchase_sequence_action"/>
+        <!-- Menú item superior -->
+        <!-- <menuitem name="Gestiones" id="menu_incidencias" web_icon="l10n_sv_incidencias,static/description/icon.png"/> -->
+
+        <!-- Categorías de menú -->
+        <!--<menuitem name="Mis gestiones" id="menu_incidencias_gestion" parent="menu_incidencias"/> -->
+
+        <!-- Acciones del menú -->
+        <!-- <menuitem name="Ingresar solicitud" id="menu_incidencias_gestion_solicitud" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action"/>
+
+        <menuitem name="Gestiones en proceso" id="menu_incidencias_gestion_pro" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action_proc"/>
+
+        <menuitem name="Gestiones finalizadas" id="menu_incidencias_gestion_fin" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action_fina"/>
+
+        <menuitem name="Gestiones rechazadas" id="menu_incidencias_gestion_rechazada" parent="menu_incidencias_gestion"
+                  action="listar_incidencias_action_recha"/>
+
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- QWeb Reports -->
+<!-- NAME & FILE_NAME should be the same -->
+<odoo>
+        <data>
+                <record id="planificacion_pei_report" model="ir.actions.report">
+                        <field name="name">PEI</field>
+                        <field name="model">planificacion.periodo</field>
+                        <field name="report_type">qweb-html</field>
+                        <field name="report_name">i10n_sv_planificacion.planificacion_pei_report</field>
+                        <field name="report_file">planificacion.planificacion_pei_report</field>
+                        <!--<field name="binding_model_id" ref="odoo_view_advanced_custom_item" />-->
+                        <field name="binding_type">report</field>
+                </record>
+        </data>
+
+</odoo>

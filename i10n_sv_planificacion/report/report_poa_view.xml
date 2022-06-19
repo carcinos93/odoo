@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="planificacion_poa_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="poa">
+                    <t t-call="web.external_layout">
+                        <table class="table h-100 table-bordered">
+                            <tr>
+                                <th>PEI</th>
+                                <th>Nombre</th>
+                                <th>Periodo</th>
+                                <th>Desde</th>
+                                <th>Hasta</th>
+                                <!--<th>Vinculación entre el objetivo estratégico de Cenpromype y el efecto</th>
+                                <th>Efecto impacto</th>
+                                <th>Ejes estratégicos</th>-->
+                            </tr>
+                            <tr t-foreach="poa.ejesEstrategicos" t-as="ejeEstrategico">
+                                <td colspan="5" class="text-wrap">
+                                     EJES ESTRATÉGICOS: <span t-field="ejeEstrategico.eje"/>
+                                </td>
+
+                                <td class="p-0">
+                                    <!-- OBJETIVOS  -->
+                                    <table border="0" class="table h-100 border-outer-none">
+                                        <tr>
+                                            <th>Objetivo estratégico</th>
+                                        </tr>
+                                        <tr t-foreach="ejeEstrategico.objetivos" t-as="objetivoEstrategico">
+                                            <td class="text-wrap">
+                                                <span t-field="objetivoEstrategico.objetivo"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-wrap">
+                                    <span t-field="poa.pei"/>
+                                </td>
+                                <td>
+                                    <span t-field="poa.nombreCorto"/>
+                                </td>
+                                <td>
+                                    <span t-field="poa.periodo"/>
+                                </td>
+                                <td>
+                                    <span t-field="poa.fechaDesde"/>
+                                </td>
+                                <td>
+                                    <span t-field="poa.fechaHasta"/>
+                                </td>
+                                <td class="p-0">
+                                    <!-- EFECTO IMPACTO  -->
+                                    <table border="0" class="table h-100 border-outer-none">
+                                        <tr>
+                                            <th>Efecto o impacto al que contribuye</th>
+                                        </tr>
+                                        <tr t-foreach="poa.efectoImpactos" t-as="efectoImpacto">
+                                            <td class="text-wrap">
+                                                <span t-field="efectoImpacto.efectoImpacto"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

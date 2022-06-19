@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="budget_program_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <h4>
+                            Programa <span t-field="o.programId"/>
+                        </h4>
+                        <div class="row">
+                            <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="font-weight-bold">Fecha desde</span> <span t-field="o.dateFrom"/>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="font-weight-bold">Fecha hasta</span>  <span t-field="o.dateTo"/>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                         <span class="font-weight-bold" >Cooperante</span>  <span t-field="o.sourceId"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="font-weight-bold"> Programa </span> <span t-field="o.name"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="font-weight-bold"> Nombre corto </span> <span t-field="o.shortName"/>
+                                    </div>
+                                     <div class="col-12">
+                                         <span class="font-weight-bold"> Presupuesto </span>   <span t-field="o.amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </div>
+                                    <div class="col-12">
+                                          <span class="font-weight-bold">Banco</span>  <span t-field="o.bank"/>
+                                    </div>
+                                    <div class="col-12">
+                                           <span class="font-weight-bold">Cuenta bancaria</span>  <span t-field="o.bankAccount"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <t t-set="suma_reservado" t-value="0"/>
+                        <t t-set="suma_available" t-value="0"/>
+                        <t t-set="suma_total_amount" t-value="0"/>
+                        <table class="table h-100 table-bordered">
+                            <tr>
+                                <th>Insumo</th>
+                                <th>Monto</th>
+                                <th>Nivel 1</th>
+                                <th>Descripción 1</th>
+                                <th>Nivel 2</th>
+                                <th>Descripción 2</th>
+                                <th>Reservado</th>
+                                <th>Disponible</th>
+                                <th>Total programa</th>
+                            </tr>
+                            <tr t-foreach="o.program_details_ids" t-as="detalle">
+                                <td><span t-field="detalle.lineId"/></td>
+                                <td><span t-field="detalle.amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}' /></td>
+                                <td><span t-field="detalle.level1"/></td>
+                                <td><span t-field="detalle.description1"/></td>
+                                <td><span t-field="detalle.level2"/></td>
+                                <td><span t-field="detalle.description2"/></td>
+                                <td><span t-field="detalle.reservado" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                <td><span t-field="detalle.available" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                <td><span t-field="detalle.total_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                 <t t-set="suma_reservado" t-value="suma_reservado + detalle.reservado"/>
+                                 <t t-set="suma_available" t-value="suma_available + detalle.available"/>
+                                 <t t-set="suma_total_amount" t-value="suma_total_amount + detalle.total_amount"/>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="text-right">Total</td>
+                                <td> <t t-esc="suma_reservado" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>  </td>
+                                <td> <t t-esc="suma_available" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>  </td>
+                                <td> <t t-esc="suma_total_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>  </td>
+                            </tr>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

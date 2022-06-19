@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <!-- Vista tree -->
+        <record id="i10n_sv_planificacion_tree" model="ir.ui.view">
+            <field name="name">Activo fijo</field>
+            <field name="model">ac.activo_fijo</field>
+            <field name="arch" type="xml">
+                <tree string="Activo fijo">
+                    <field name="numero_factura"/>
+                    <field name="fecha_compra"/>
+                    <field name="descripcion"/>
+                    <!--<button name="create_cars" string="Acción" class="oe_highlight" type="object"/>-->
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Acción para abrir vistas de los modelos -->
+        <record model="ir.actions.act_window" id="sv_activo_fijo_nuevo">
+            <field name="name">Activo fijo</field>
+            <field name="res_model">ac.activo_fijo</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Formularios -->
+
+         <record model="ir.ui.view" id="sv_activo_fijo_form">
+            <field name="name">sv_activo_fijo_formulario</field>
+            <field name="model">ac.activo_fijo</field>
+            <field name="arch" type="xml">
+                <form string="Activo fijo form">
+                    <sheet>
+                        <group>
+                              <field name="numero_factura" />
+                              <field name="fecha_compra" />
+                              <field name="responsable" />
+                              <field name="descripcion" />
+
+                        </group>
+                        <!--<notebook colspan="4">
+                            <page string="Detalle">
+                                  <field name="detalle">
+                                    <tree string="'Detalles'" editable="button">
+                                        <field name="anio" />
+                                        <field name="mes" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>-->
+
+                    </sheet>
+                </form>
+            </field>
+         </record>
+
+
+
+
+
+        <!-- Menú item superior -->
+        <menuitem name="Modulo de Activo fijo" id="sv_activo_fijo.menu_root"/>
+
+        <!-- Categorías de menú -->
+        <!--<menuitem name="Modelos" id="sv.planificacion.menu_1" parent="sv.planificacion.menu_root"/>-->
+
+        <!-- Acciones del menú -->
+        <menuitem name="Activo fijo" id="sv_activo_fijo.menu_1" parent="sv_activo_fijo.menu_root"
+                  action="sv_activo_fijo_nuevo" />
+
+
+
+    </data>
+</odoo>
