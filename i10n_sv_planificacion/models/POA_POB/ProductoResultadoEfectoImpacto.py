@@ -29,7 +29,9 @@ class ProductoResultadoEfectoImpacto(models.Model):
     medioVerificacion = fields.Text(string="Medio de verificación del producto", required=False)
     indicadores = fields.One2many(comodel_name='planificacion.indicador_producto_resultado',inverse_name='productoResultado_ids',string='Indicadores',required=False, copy=True)
     actividades = fields.One2many(comodel_name='planificacion.actividad_producto_resultado',inverse_name='productoResultado_ids',string='Actividades',required=False, copy=True)
+    # todo Meta no se incluira, debe borrar?
     metas = fields.One2many(comodel_name='planificacion.meta_producto_resultado',inverse_name='productoResultado_ids',string='Actividades',required=False, copy=True)
+    avances = fields.One2many(comodel_name='planificacion.avance_indicador_producto',inverse_name='productoResultado_ids',string='Avances de indicador producto',required=False, copy=True)
 
     # Modelo padre
     resultadoEfectoImpacto_ids = fields.Many2one(comodel_name='planificacion.resultado_efecto_impacto', string='Resultado efecto impacto', required=True, ondelete='cascade')

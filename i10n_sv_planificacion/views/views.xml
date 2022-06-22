@@ -365,6 +365,36 @@
                 </form>
             </field>
         </record>
+
+        <!-- RIESGOS PRODUCTO RESULTADO -->
+        <record model="ir.ui.view" id="i10n_sv_planificacion_riesgos_producto_resultado_form">
+            <field name="name">Indicadores de producto</field>
+            <field name="model">planificacion.avance_indicador_producto</field>
+            <field name="arch" type="xml">
+                <form string="Indicadores producto resultado form">
+                    <sheet>
+                        <div class="row">
+                             <div class="col-2"> Indicador producto   </div>
+                             <div class="col-2"> Unidad de medida   </div>
+                           <div class="col-2"> Trimestre I  </div>
+                           <div class="col-2"> Trimestre II  </div>
+                           <div class="col-2"> Trimestre III  </div>
+                           <div class="col-2"> Trimestre IV  </div>
+                        </div>
+                       <div class="row">
+                           <div class="col-2"> <field name="indicadorProductoResultado" class="text-wrap" />  </div>
+                           <div class="col-2"> <field name="unidad" />   </div>
+                           <div class="col-2"> <field name="trimestre1" />   </div>
+                           <div class="col-2"> <field name="trimestre2" />   </div>
+                           <div class="col-2"> <field name="trimestre3" />  </div>
+                           <div class="col-2">  <field name="trimestre4" /> </div>
+                       </div>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <!-- PRODUCTOS RESULTADO EFECTO IMPACTO -->
         <record model="ir.ui.view" id="i10n_sv_planificacion_productos_resultado_efecto_impacto_form">
             <field name="name">Productos necesarios para obtener el resultado</field>
@@ -405,20 +435,31 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Metas de producto">
+                             <page string="Avance de indicador producto">
+                                <field name="avances" type="xml" ref="i10n_sv_planificacion_riesgos_producto_resultado_form">
+                                    <tree string="'Detalles'">
+                                        <field name="indicadorProductoResultado"/>
+                                        <field name="trimestre1" />
+                                        <field name="trimestre2" />
+                                        <field name="trimestre3" />
+                                        <field name="trimestre4" />
+                                        <field name="descripcionObstaculo" class="text-wrap" />
+                                    </tree>
+                                </field>
+                            </page>
+                           <!-- <page string="Avance de indicador producto">
                                 <field name="metas" type="xml"
                                        context="{ 'items': metas, 'parent_codigo': codigoProducto }">
                                     <tree string="'Detalles'" editable="button">
                                         <field name="codigoMeta" readonly="1"/>
                                         <field name="codigoMeta" invisible="1"/>
                                         <field name="descripcionMeta" class="text-wrap"/>
-                                        <!--<field name="meta" domain="[('producto_ids', '=', parent.producto)]"/>-->
                                         <field name="tipoValor"/>
                                         <field name="valor"/>
 
                                     </tree>
                                 </field>
-                            </page>
+                            </page>-->
                             <page string="Actividades necesarias para obtener el producto descrito">
                                 <field name="actividades" type="xml"
                                        ref="i10n_sv_planificacion_actividad_producto_resultado_form"

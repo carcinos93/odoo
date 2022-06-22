@@ -30,3 +30,4 @@ class IndicadorProductoResultado(models.Model):
     trimestre3 = fields.Float(string='Trimestre III')
     trimestre4 = fields.Float(string='Trimestre IV')
     productoResultado_ids = fields.Many2one(comodel_name='planificacion.producto_resultado_efecto_impacto', string='Producto resultado', required=True, ondelete='cascade')
+

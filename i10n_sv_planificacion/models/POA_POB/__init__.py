@@ -20,5 +20,6 @@ from . import MetaResultadoEfectoImpacto
 from . import MetaProductoResultado
 from . import VinculacionDetalle
 from . import PoaArchivos
+from . import AvanceIndicadorProducto
 
 
