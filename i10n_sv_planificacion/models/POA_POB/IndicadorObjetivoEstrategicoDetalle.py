@@ -9,7 +9,7 @@ class IndicadorObjetivoEstrategicoDetalle(models.Model):
     indicadorDescripcion = fields.Text(related="indicadorObjetivo.descripcion", string="Indicador objetivo descripción")
     indicadorNombre = fields.Char(related="indicadorObjetivo.nombre", string="Indicador nombre")
 
-    meta = fields.Float(string='Meta', required=False)
+    meta = fields.Float(related="indicadorObjetivo.meta", string='Meta', required=False)
     metaAnual = fields.Float(string='Meta anual', required=False)
     # fechaMedicion = fields.Date(string='Fecha prevista medición', required=False)
     fechaPrevista = fields.Selection( string='Fecha prevista de consecución',selection=[('1', 'I Trimestre'),('2', 'II Trimestre'),('3', 'III Trimestre'),('4', 'IV Trimestre')], required=False)

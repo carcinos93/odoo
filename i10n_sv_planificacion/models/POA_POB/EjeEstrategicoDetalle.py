@@ -14,3 +14,11 @@ class EjeEstrategicoDetalle(models.Model):
     periodo = fields.Char(string='Periodo', size=4, default=_periodo_default)
     # Modelo padre
     poa_ids = fields.Many2one(comodel_name='planificacion.poa_pob', string='POA',required=True, ondelete='cascade')
+
+    @api.model
+    def create(self, vals):
+        res = super(EjeEstrategicoDetalle, self).create(vals)
+        if 'eje' in vals:
+            message = "Creación de eje estratégico %s %s" % (res.eje.codigo, res.eje.descripcion )
+            res.poa_ids.message_post(body=message)
+        return res

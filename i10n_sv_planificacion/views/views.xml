@@ -311,7 +311,14 @@
                                         <!-- el orden es importante primero debe ser readonly y luego invisible -->
                                         <field name="codigo" readonly="1"/>
                                         <field name="codigo" invisible="1"/>
-                                        <field name="descripcion"/>
+                                        <field name="nombre" class="text-wrap"/>
+                                        <field name="descripcion" class="text-wrap" />
+                                        <field name="tipoValor"  />
+                                        <field name="trimestre1"  />
+                                        <field name="trimestre2"  />
+                                        <field name="trimestre3"  />
+                                        <field name="trimestre4"  />
+                                        <field name="fechaPrevista"  />
                                     </tree>
                                 </field>
                             </page>
@@ -499,7 +506,7 @@
                                         <field name="responsable"/>
                                         <field name="grupoMeta" class="text-wrap"/>
                                         <field name="resultadoDescripcion" class="text-wrap"/>
-                                        <field name="vinculacion" class="text-wrap"/>
+                                        <!--<field name="vinculacion" class="text-wrap"/>-->
                                     </tree>
                                 </field>
                             </page>
@@ -661,7 +668,7 @@
                             <field name="state" widget="statusbar"/>
                         </header>
                         <group>
-                            <field name="pei"/>
+                            <field name="pei" domain="[('vigente', '=', True)]"/>
                             <!--<field name="objetivoEstrategico"/>-->
                             <field name="tipo"/>
                             <field name="periodo"/>
@@ -689,8 +696,8 @@
                                     </field>
                                 </record>
                             </page>-->
-
-                            <page string="Ficha indicadores">
+                            <!-- TODO borrar ficha de indicadores -->
+                            <!--<page string="Ficha indicadores">
                                 <field name="fichaIndicadores" type="xml"
                                        ref="i10n_sv_planificacion_ficha_indicador_form">
                                     <tree string="'Detalles'">
@@ -701,7 +708,7 @@
                                         <field name="definicionDetallada" class="text-wrap"/>
                                     </tree>
                                 </field>
-                            </page>
+                            </page>-->
                             <page string="Versiones POA">
                                 <field name="archivos" type="xml">
                                     <tree string="'Detalles'" editable="button">
@@ -905,10 +912,7 @@
                   parent="i10n_sv_planificacion_poa_pob_menu" action="i10n_sv_planificacion_poa_pob_new"/>
         <menuitem sequence="90" name="Monitoreo" id="i10n_sv_planificacion_poa_pob_monitoreo"
                   parent="i10n_sv_planificacion_poa_pob_menu" action="i10n_sv_planificacion_poa_pob_new"/>
-        <menuitem sequence="100" name="Presupuesto anual gasto operativo"
-                  id="i10n_sv_planificacion_presupuesto_anual_operativo"
-                  parent="i10n_sv_planificacion_poa_pob_menu"
-                  action="i10n_sv_planificacion_presupuesto_anual_operativo_new"/>
+        <!--<menuitem sequence="100" name="Presupuesto anual gasto operativo" id="i10n_sv_planificacion_presupuesto_anual_operativo"  parent="i10n_sv_planificacion_poa_pob_menu"  action="i10n_sv_planificacion_presupuesto_anual_operativo_new"/>-->
         <!--
 
         <menuitem name="Ajustes" id="i10n_sv_planificacion_ajustes" parent="i10n_sv_planificacion.menu_root"/>

@@ -14,7 +14,7 @@ class IndicadorObjetivo(models.Model):
 
     codigo = fields.Char(string='Código de indicador de objetivo ', readonly=False, default=_codigo_generador) # default=_default_codigo
     nombre = fields.Char(string='Nombre del indicador', required=False)
-    descripcion = fields.Text(string="Descripción de indicador de objetivo",required=False)
+    descripcion = fields.Text(string="Definición detallada", required=False)
     unidadMedida = fields.Selection(string='Unidad de medida', selection=[('1', 'Porcentaje'), ('2', 'Cantidad')], required=False)
     meta = fields.Float(string='Meta', required=False)
     # Modelo padre

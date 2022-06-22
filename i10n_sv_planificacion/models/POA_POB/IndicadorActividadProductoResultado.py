@@ -15,7 +15,7 @@ class IndicadorActividadProductoResultado(models.Model):
 
     codigo = fields.Char(string='Código del indicador', default=_codigo_generador )
     nombre = fields.Char(string="Nombre del indicador", required=False)
-    descripcion = fields.Text(string="Descripción del indicador", required=False)
+    descripcion = fields.Text(string="Definición detallada", required=False)
     tipoValor = fields.Selection(string='Unidad de medida', selection=[('1', 'Porcentaje'), ('2', 'Cantidad')], required=False)
     trimestre1 = fields.Float(string='Trimestre I')
     trimestre2 = fields.Float(string='Trimestre II')

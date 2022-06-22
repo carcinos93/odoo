@@ -108,8 +108,6 @@
                     <field string="Proyecto" name="details_id"
                            filter_domain="['|', ('details_id.programId', 'ilike', self),('details_id.name', 'ilike', self)]"/>
                 </search>
-
-                <!--   -->
             </field>
         </record>
 
@@ -131,7 +129,6 @@
                         <div/>
                         <group col="2" colspan="2">
                             <!-- se filtran por insumo de actividad domain="[('tipo', 'in', ['1'] )]"-->
-                            <field name="lineId"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="numberLines" invisible="1"/>
                         </group>
@@ -158,6 +155,7 @@
                         </group>
 
                         <group col="2" colspan="2">
+                            <field name="lineId"/>
                             <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="ajustado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="ejecucion" readonly="1" widget="monetary"
@@ -350,7 +348,7 @@
                                 </field>
                             </page>
                             <page string="Detalle del Programa">
-                                <field ref="budget_program_detail_view_form" name="program_details_ids">
+                                <field ref="budget_program_detail_view_form" name="program_details_ids" context="{ 'items': program_details_ids }">
                                     <tree string="Detalles">
                                         <field name="lineId" class="text-wrap"/>
                                         <field name="amount" widget="monetary"

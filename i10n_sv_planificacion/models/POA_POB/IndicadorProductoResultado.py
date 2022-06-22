@@ -19,7 +19,7 @@ class IndicadorProductoResultado(models.Model):
     nombreIndicadorProducto = fields.Text(related="indicadorProducto.descripcion")
 
     codigoIndicador = fields.Char(string='Código indicador', required=False, default=_codigo_generador)
-    descripcionIndicador = fields.Text(string="Descripción indicador", required=False)
+    descripcionIndicador = fields.Text(string="Definición detallada", required=False)
     nombreIndicador = fields.Char(string="Nombre indicador", required=False)
     meta = fields.Float(string='Meta', required=False)
     tipoValor = fields.Selection(string='Unidad de medida', selection=[('1', 'Porcentaje'), ('2', 'Cantidad')], required=False)

@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-         <!--<record id="10n_sv_planificacion_periodo_rule" model="ir.rule">
-            <field ref="i10n_sv_planificacion_periodo_creacion" name="model_id"/>
-            <field name="name">Permisos para PEI</field>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="False"/>
-            <field name="perm_create" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
-            <field name="domain_force">[('state', '=', '3')]</field>
-            <field eval="[(4,ref('base.group_user'))]" name="groups"/>
-        </record>-->
+
+
+        <!-- Busquedas -->
+
+        <record id="planificacion_periodo_view_search" model="ir.ui.view">
+            <field name="name">planificacion.periodo.type.search</field>
+            <field name="model">planificacion.periodo</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+					<!-- Dependiendo del numero de campos que desea hacer la busqueda se debe añadir el simobolo '|'
+					que representa un OR en base de datos,
+					Esto se traduce de la siguiente manera [CAMPO1] LIKE ? OR CAMPOS[2] LIKE ? OR [CAMPO]
+					en este ejemplo hay tres campos asi que se añade dos '|'.
+
+					Si se añade otro campo entonces se tendria que añadir otro '|'
+					-->
+                    <field string="General" name="titulo" filter_domain="['|','|',
+                    ('titulo', 'ilike', self),
+                    ('codigo', 'ilike', self),
+                    ('periodo', 'ilike', self)]"
+					/>
+
+                </search>
+            </field>
+ </record>
 
         <!-- Vista tree -->
         <record id="i10n_sv_planificacion_periodo_tree" model="ir.ui.view">
@@ -24,7 +40,7 @@
                     <field name="vigente"/>
                     <field name="state"/>
                     <button name="reporte" string="Reporte" class="oe_highlight" type="object"/>
-                    <button confirm="¿Desea continuar?" attrs="{'invisible': [('vigente', '!=', True)]}"  name="modificar" string="Modificar PEI" class="oe_highlight" type="object"/>
+                    <button confirm="¿Desea continuar?" attrs="{'invisible': ['|',('vigente', '!=', True), ('state', '=', '2')]}"  name="modificar" string="Modificar PEI" class="oe_highlight" type="object"/>
                 </tree>
             </field>
         </record>
@@ -351,6 +367,8 @@
                 </form>
             </field>
         </record>
+
+
         <record model="ir.actions.act_window" id="i10n_sv_planificacion_periodo_creacion">
             <field name="name">Creación del PEI</field>
             <field name="type">ir.actions.act_window</field>
@@ -363,12 +381,11 @@
             <field name="name">Modificación del PEI</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">planificacion.periodo</field>
-            <field name="context">{}</field>
+            <field name="context">{ 'create': False }</field> <!-- En la pantalla de modificacion, no se crea pei -->
             <field name="domain">['&amp;',('state','=', '2'),('vigente', '=', True)]</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-         <record model="ir.actions.act_window" id="i10n_sv_planificacion_periodo_aprobacion">
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_periodo_aprobacion">
             <field name="name">Aprobación del PEI</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">planificacion.periodo</field>
@@ -378,7 +395,8 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- Vista tree -->
+
+
 
 
         <!-- Acciones del menú -->
