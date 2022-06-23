@@ -240,10 +240,14 @@
                         <group>
                             <field name="periodo" invisible="1"/>
                             <field name="fuenteFinanciamiento" domain="[('esCopia', '=', False)]" class="text-wrap"/>
-                            <field name="detalleFuenteFinanciamiento" domain="[('details_id.id', '=', fuenteFinanciamiento ),('lineId.tipo', 'in', ('1', '3'))]" class="text-wrap"/>
+                            <field name="detalleFuenteFinanciamiento"
+                                   domain="[('details_id.id', '=', fuenteFinanciamiento ),('lineId.tipo', 'in', ('1', '3'))]"
+                                   class="text-wrap"/>
                             <field name="insumo" domain="[('tipo', 'in', ['1','3'] )]"/>
-                            <field name="proyecto_anio" domain="[('program_details_id', '=', detalleFuenteFinanciamiento )]"/>
-                            <field name="montoTotalFuenteFinanciamiento" widget="monetary" options="{'currency_field': 'currency_id'}"/>   <!-- presupuesto -->
+                            <field name="proyecto_anio"
+                                   domain="[('program_details_id', '=', detalleFuenteFinanciamiento )]"/>
+                            <field name="montoTotalFuenteFinanciamiento" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>   <!-- presupuesto -->
                             <field name="monto1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="monto2" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="monto3" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -312,13 +316,13 @@
                                         <field name="codigo" readonly="1"/>
                                         <field name="codigo" invisible="1"/>
                                         <field name="nombre" class="text-wrap"/>
-                                        <field name="descripcion" class="text-wrap" />
-                                        <field name="tipoValor"  />
-                                        <field name="trimestre1"  />
-                                        <field name="trimestre2"  />
-                                        <field name="trimestre3"  />
-                                        <field name="trimestre4"  />
-                                        <field name="fechaPrevista"  />
+                                        <field name="descripcion" class="text-wrap"/>
+                                        <field name="tipoValor"/>
+                                        <field name="trimestre1"/>
+                                        <field name="trimestre2"/>
+                                        <field name="trimestre3"/>
+                                        <field name="trimestre4"/>
+                                        <field name="fechaPrevista"/>
                                     </tree>
                                 </field>
                             </page>
@@ -373,22 +377,118 @@
             <field name="arch" type="xml">
                 <form string="Indicadores producto resultado form">
                     <sheet>
-                        <div class="row">
-                             <div class="col-2"> Indicador producto   </div>
-                             <div class="col-2"> Unidad de medida   </div>
-                           <div class="col-2"> Trimestre I  </div>
-                           <div class="col-2"> Trimestre II  </div>
-                           <div class="col-2"> Trimestre III  </div>
-                           <div class="col-2"> Trimestre IV  </div>
-                        </div>
-                       <div class="row">
-                           <div class="col-2"> <field name="indicadorProductoResultado" class="text-wrap" />  </div>
-                           <div class="col-2"> <field name="unidad" />   </div>
-                           <div class="col-2"> <field name="trimestre1" />   </div>
-                           <div class="col-2"> <field name="trimestre2" />   </div>
-                           <div class="col-2"> <field name="trimestre3" />  </div>
-                           <div class="col-2">  <field name="trimestre4" /> </div>
-                       </div>
+                        <table class="table table-bordered" border="1">
+                            <tr>
+                                <th colspan="6">
+                                    Programado
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Indicador producto</th>
+                                <th>Unidad de medida</th>
+                                <th>Trimestre I</th>
+                                <th>Trimestre II</th>
+                                <th>Trimestre III</th>
+                                <th>Trimestre IV</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <field name="indicadorResultado" readonly="1" class="text-wrap"/>
+                                </td>
+                                <td> <field name="tipoValor"/> </td>
+                                <td> <field name="indicadorTrimestre1"/> </td>
+                                <td> <field name="indicadorTrimestre2"/> </td>
+                                <td> <field name="indicadorTrimestre3"/> </td>
+                                <td> <field name="indicadorTrimestre4"/> </td>
+
+                            </tr>
+                            <tr>
+                                <th colspan="6">
+                                    Ejecutado
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Avance de indicador de producto
+                                </td>
+                                <td> <field name="trimestre1"/> </td>
+                                <td> <field name="trimestre2"/> </td>
+                                <td> <field name="trimestre3"/> </td>
+                                <td> <field name="trimestre4"/> </td>
+                            </tr>
+                        </table>
+
+                        <group>
+                            <field name="avance"/>
+
+                            <field name="obstaculos" mode="kanban"  context="{ 'default_name':''}">
+                               <tree editable="top" string="Detalles">
+                                        <field name="descripcionObstaculo" class="text-wrap"/>
+                                        <field name="gestiones" class="text-wrap"/>
+                                        <field name="acciones" class="text-wrap"/>
+
+                                </tree>
+                                <kanban>
+                                      <field name="descripcionObstaculo"/>
+                                        <field name="gestiones" />
+                                        <field name="acciones" />
+
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click" t-attf-style="width:100%">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            Descripción de los obstáculos
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <span>
+                                                                <t t-esc="record.descripcionObstaculo.value" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                <div class="row mt-3">
+                                                        <div class="col-6">
+                                                           Gestión(es) que fueron realizadas para superar el obstáculo
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <span>
+                                                                <t t-esc="record.gestiones.value" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                  <div class="row mt-3">
+                                                        <div class="col-6">
+                                                          Acción(es) necesaria(s) y apoyos requeridos a futuro para solventar el obstáculo, en caso aun NO haya sido solventado (Indique el área a quien se solicita el apoyo especifico)
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <span>
+                                                                <t t-esc="record.acciones.value" />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            </t>
+                                        </templates>
+                                </kanban>
+                                <form string="Detalles">
+                                    <sheet>
+                                        <group>
+                                            <div/>
+                                        <field name="descripcionObstaculo"/>
+                                        <field name="gestiones" style="width:50%" />
+                                        <field name="acciones" style="width:50%"/>
+                                    </group>
+                                    </sheet>
+                                </form>
+                            </field>
+
+                            <field name="riesgos">
+                                <tree string="'Detalles'" editable="button">
+                                        <field name="riesgo" class="text-wrap"/>
+                                </tree>
+                            </field>
+                        </group>
+
 
                     </sheet>
                 </form>
@@ -420,9 +520,10 @@
                         </group>
                         <notebook colspan="4">
                             <page string="Indicadores de producto">
-                                <field name="indicadores" type="xml" ref="i10n_sv_planificacion_indicador_producto_resultado_form"
+                                <field name="indicadores" type="xml"
+                                       ref="i10n_sv_planificacion_indicador_producto_resultado_form"
                                        context="{ 'items': indicadores, 'parent_codigo': codigoProducto  }">
-                                    <tree string="'Detalles'" >
+                                    <tree string="'Detalles'">
                                         <field name="codigoIndicador"/>
                                         <field name="nombreIndicador" class="text-wrap"/>
                                         <field name="descripcionIndicador" class="text-wrap"/>
@@ -435,31 +536,32 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page string="Avance de indicador producto">
-                                <field name="avances" type="xml" ref="i10n_sv_planificacion_riesgos_producto_resultado_form">
+                            <page string="Avance de indicador producto">
+                                <field name="avances" type="xml"
+                                       ref="i10n_sv_planificacion_riesgos_producto_resultado_form">
                                     <tree string="'Detalles'">
-                                        <field name="indicadorProductoResultado"/>
-                                        <field name="trimestre1" />
-                                        <field name="trimestre2" />
-                                        <field name="trimestre3" />
-                                        <field name="trimestre4" />
-                                        <field name="descripcionObstaculo" class="text-wrap" />
-                                    </tree>
-                                </field>
-                            </page>
-                           <!-- <page string="Avance de indicador producto">
-                                <field name="metas" type="xml"
-                                       context="{ 'items': metas, 'parent_codigo': codigoProducto }">
-                                    <tree string="'Detalles'" editable="button">
-                                        <field name="codigoMeta" readonly="1"/>
-                                        <field name="codigoMeta" invisible="1"/>
-                                        <field name="descripcionMeta" class="text-wrap"/>
-                                        <field name="tipoValor"/>
-                                        <field name="valor"/>
+                                        <field name="indicadorResultado"/>
+                                        <field name="trimestre1"/>
+                                        <field name="trimestre2"/>
+                                        <field name="trimestre3"/>
+                                        <field name="trimestre4"/>
 
                                     </tree>
                                 </field>
-                            </page>-->
+                            </page>
+                            <!-- <page string="Avance de indicador producto">
+                                 <field name="metas" type="xml"
+                                        context="{ 'items': metas, 'parent_codigo': codigoProducto }">
+                                     <tree string="'Detalles'" editable="button">
+                                         <field name="codigoMeta" readonly="1"/>
+                                         <field name="codigoMeta" invisible="1"/>
+                                         <field name="descripcionMeta" class="text-wrap"/>
+                                         <field name="tipoValor"/>
+                                         <field name="valor"/>
+
+                                     </tree>
+                                 </field>
+                             </page>-->
                             <page string="Actividades necesarias para obtener el producto descrito">
                                 <field name="actividades" type="xml"
                                        ref="i10n_sv_planificacion_actividad_producto_resultado_form"

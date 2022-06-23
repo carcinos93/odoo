@@ -31,3 +31,22 @@ class IndicadorProductoResultado(models.Model):
     trimestre4 = fields.Float(string='Trimestre IV')
     productoResultado_ids = fields.Many2one(comodel_name='planificacion.producto_resultado_efecto_impacto', string='Producto resultado', required=True, ondelete='cascade')
 
+    def name_get(self):
+        result = []
+        for data in self:
+            name = '%s %s' % (data.codigoIndicador, data.nombreIndicador)
+            result.append((data.id, name,))
+        return result
+
+    @api.model
+    def create(self, vals):
+        res = super(IndicadorProductoResultado, self).create(vals)
+        # Al crear indicador de producto se crea la linea del avance
+        data = {
+            'productoResultado_ids': vals['productoResultado_ids'],
+            'indicadorResultado': res.id
+        }
+        self.env['planificacion.avance_indicador_producto'].create(data)
+
+        return res
+
