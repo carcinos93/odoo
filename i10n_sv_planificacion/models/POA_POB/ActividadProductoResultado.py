@@ -42,6 +42,7 @@ class ActividadProductoResultado(models.Model):
     detalle = fields.One2many(comodel_name='planificacion.actividad_producto_resultado_detalle',inverse_name='actividad_resultado_ids',string=' Detalle', copy=True)
     indicadores = fields.One2many(comodel_name='planificacion.indicador_actividad_producto_resultado',inverse_name='actividad_resultado_ids',string='Indicadores', copy=True)
     metas = fields.One2many(comodel_name='planificacion.meta_actividad_producto_resultado', inverse_name='actividad_resultado_ids',string='Metas', copy=True)
+    avances = fields.One2many(comodel_name='planificacion.avance_indicador_actividad', inverse_name='actividad_resultado_ids',string='Metas', copy=True)
     # modelo Padre
     productoResultado_ids = fields.Many2one(comodel_name='planificacion.producto_resultado_efecto_impacto', string='Producto resultado', required=True, ondelete='cascade')
 

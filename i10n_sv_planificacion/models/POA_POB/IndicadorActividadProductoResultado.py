@@ -25,3 +25,25 @@ class IndicadorActividadProductoResultado(models.Model):
 
     # Modelo padre
     actividad_resultado_ids = fields.Many2one(comodel_name='planificacion.actividad_producto_resultado', string='Actividad producto resultado', required=True, ondelete='cascade')
+
+    def name_get(self):
+        result = []
+        for data in self:
+            name = '%s %s' % (data.codigo, data.nombre)
+            result.append((data.id, name,))
+        return result
+
+    @api.model
+    def create(self, vals):
+        res = super(IndicadorActividadProductoResultado, self).create(vals)
+        # Al crear indicador actividad se crea la linea del avance
+        data = {
+            'actividad_resultado_ids': vals['actividad_resultado_ids'],
+            'indicadorActividad': res.id
+        }
+        self.env['planificacion.avance_indicador_actividad'].create(data)
+
+        return res
+
+
+

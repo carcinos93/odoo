@@ -326,11 +326,85 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Metas actividad">
+                             <page string="Avance de indicador actividad">
+                                <field name="avances" type="xml">
+                                    <tree string="'Detalles'">
+                                        <field name="indicadorActividad"/>
+                                        <field name="indicadorTrimestre1"/>
+                                        <field name="indicadorTrimestre2"/>
+                                        <field name="indicadorTrimestre3"/>
+                                        <field name="indicadorTrimestre4"/>
+                                        <field name="tipoValor"/>
+                                    </tree>
+                                    <form string="Avance indicador actividad">
+                                        <sheet>
+                                            <table class="table table-bordered" border="1">
+                                                <tr>
+                                                    <th colspan="6">
+                                                        Programado
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Indicador actividad</th>
+                                                    <th>Unidad de medida</th>
+                                                    <th>Trimestre I</th>
+                                                    <th>Trimestre II</th>
+                                                    <th>Trimestre III</th>
+                                                    <th>Trimestre IV</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <field name="indicadorActividad" readonly="1"
+                                                               class="text-wrap"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="tipoValor"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="indicadorTrimestre1"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="indicadorTrimestre2"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="indicadorTrimestre3"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="indicadorTrimestre4"/>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="6">
+                                                        Ejecutado
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        Avance de indicador de actividad
+                                                    </td>
+                                                    <td>
+                                                        <field name="trimestre1"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="trimestre2"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="trimestre3"/>
+                                                    </td>
+                                                    <td>
+                                                        <field name="trimestre4"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <!--<page string="Metas actividad">
                                 <field name="metas" type="xml"
                                        context="{ 'items': metas, 'parent_codigo': codigoActividad  }">
                                     <tree string="'Detalles'" editable="button">
-                                        <!-- el orden es importante primero debe ser readonly y luego invisible -->
                                         <field name="codigo" readonly="1"/>
                                         <field name="codigo" invisible="1"/>
                                         <field name="descripcion"/>
@@ -338,7 +412,7 @@
                                         <field name="valor"/>
                                     </tree>
                                 </field>
-                            </page>
+                            </page>-->
                         </notebook>
                     </sheet>
                 </form>

@@ -21,5 +21,6 @@ from . import MetaProductoResultado
 from . import VinculacionDetalle
 from . import PoaArchivos
 from . import AvanceIndicadorProducto
+from . import AvanceIndicadorActividad
 
 
