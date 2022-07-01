@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_configuracion_nuevo">
+            <field name="name">Configuraciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planificacion.configuracion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="i10n_sv_planificacion_poa_pob_monitoreo_tree" model="ir.ui.view">
+            <field name="name">i10n.planificacion.poa_pob</field>
+            <field name="model">planificacion.poa_pob</field>
+            <field name="arch" type="xml">
+                <tree string="Plan Operativo  Anual">
+                    <field name="nombreCorto"/>
+                    <field name="fechaDesde"/>
+                    <field name="fechaHasta"/>
+                    <field name="periodo"/>
+                    <field name="vigente"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="i10n_sv_planificacion_avance_indicador_producto_tree" model="ir.ui.view">
+            <field name="name">Avance de indicador producto</field>
+            <field name="model">planificacion.avance_indicador_producto</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="avance" class="text-wrap"/>
+                    <field name="indicadorResultado" class="text-wrap"/>
+                    <field name="productoResultado_ids" class="text-wrap"/>
+                    <field name="resultadoEfectoImpacto_ids" class="text-wrap"/>
+                    <field name="objetivoEstrategicoDetalle_ids" class="text-wrap"/>
+                    <field name="eje_ids" class="text-wrap"/>
+                    <field name="poa_ids" class="text-wrap"/>
+                </tree>
+            </field>
+        </record>
+        <record id="i10n_sv_planificacion_avance_indicador_producto_seach" model="ir.ui.view">
+           <field name="name">i10_sv_planificacion.avance_indicador_producto.view.search</field>
+           <field name="model">planificacion.avance_indicador_producto</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field string="POA" name="poa_ids" filter_domain="[('poa_ids.nombreCorto', 'ilike', self)]"  />
+            </search>
+           </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_poa_pob_evaluacion_action">
+            <field name="name">Evaluación del poa</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planificacion.poa_pob</field>
+            <field name="view_id" ref="i10n_sv_planificacion_poa_pob_monitoreo_tree"/>
+            <field name="context">{ 'permitir_editar': True }</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['&amp;', ('vigente', '=', True), ('evaluacion', '=', True)]</field>
+        </record>
+
+
+         <record model="ir.actions.act_window" id="i10n_sv_planificacion_avance_indicador_producto_action">
+            <field name="name">Avance de indicador producto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planificacion.avance_indicador_producto</field>
+            <field name="view_id" ref="i10n_sv_planificacion_avance_indicador_producto_tree"/>
+            <field name="context">{ 'permitir_editar': True }</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['&amp;', ('poa_ids.vigente', '=', True), ('poa_ids.evaluacion', '=', True)]</field>
+        </record>
+
+
+
+        <menuitem sequence="100" name="Monitoreo" id="i10n_sv_planificacion_monitoreo_menu" parent="i10n_sv_planificacion.menu_root"/>
+        <menuitem sequence="10" name="Avance" id="i10n_sv_planificacion_evaluacion_menu" parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_configuracion_nuevo"/>
+        <menuitem sequence="20" name="Evaluación" id="i10n_sv_planificacion_configuracion_menu" parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_avance_indicador_producto_action"/>
+        <menuitem sequence="30" name="Configuración" id="i10n_sv_planificacion_avance_menu" parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_configuracion_nuevo"/>
+    </data>
+</odoo>

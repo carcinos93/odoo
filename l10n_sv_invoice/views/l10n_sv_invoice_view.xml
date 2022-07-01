@@ -96,13 +96,69 @@
             </record>
 
         <!--Menu superior-->
-            <menuitem id="menu_sv_invoice_root" name="Facturas" sequence="10"/>
-            <!--Menu segundo nivel-->
-            <menuitem id="menu_sv_invoice_sv_lat" name="Operaciones" parent="menu_sv_invoice_root" sequence="20"/>
-            <!--Menu tercer nivel / formulario-->
-            <menuitem id="menu_sv_invoice_sv_reg" name="Registrar Facturas" parent="menu_sv_invoice_sv_lat" sequence="0"
-                      action="listar_sv_invoice"/>
 
+            <!--Menu segundo nivel-->
+           <!-- <menuitem id="menu_sv_invoice_sv_lat" name="Operaciones" parent="menu_sv_invoice_root" sequence="20"/>-->
+            <!--Menu tercer nivel / formulario-->
+           <!-- <menuitem id="menu_sv_invoice_sv_reg" name="Registrar Facturas" parent="menu_sv_invoice_sv_lat" sequence="0"
+                      action="listar_sv_invoice"/>-->
+
+
+            <record id="i10_sv_invoice_empleado_view_tree" model="ir.ui.view">
+                <field name="name">Empleado</field>
+                <field name="model">i10n_sv_invoice.empleado</field>
+                <field name="arch" type="xml">
+                    <tree string="i10_sv_invoice_empleado_tree">
+                        <field name="nombre"/>
+                        <field name="apellido"/>
+                        <field name="fechaNacimiento"/>
+                        <field name="nacionalidad"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record id="i10_sv_invoice_view_form" model="ir.ui.view">
+                <field name="name">i10_sv_invoice_view_form</field>
+                <field name="model">i10n_sv_invoice.empleado</field>
+                <field name="arch" type="xml">
+                    <form string="i10_sv_invoice_form">
+                        <sheet>
+                            <group>
+                                <group string="Datos generales">
+                                     <field name="nombre"/>
+                                    <field name="apellido"/>
+                                    <field name="fechaNacimiento"/>
+                                </group>
+                                <group string="Procedencia">
+                                      <field name="nacionalidad"/>
+                                </group>
+                            </group>
+                             <group>
+                                    <field name="habilidades">
+                                        <tree editable="buttom">
+                                             <field name="habilidad"/>
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <field name="habilidad"/>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                             </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="i10_sv_invoice_empleado_action" model="ir.actions.act_window">
+                <field name="name">Empleado</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">i10n_sv_invoice.empleado</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+             <menuitem id="menu_sv_invoice_root" name="Facturas"/>
+             <menuitem id="i10n_sv_invoice_empleado_menu" name="Empleado" parent="menu_sv_invoice_root" action="i10_sv_invoice_empleado_action" />
 
 
     </data>

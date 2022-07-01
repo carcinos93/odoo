@@ -22,3 +22,10 @@ class EjeEstrategicoDetalle(models.Model):
             message = "Creación de eje estratégico %s %s" % (res.eje.codigo, res.eje.descripcion )
             res.poa_ids.message_post(body=message)
         return res
+
+    def name_get(self):
+        result = []
+        for data in self:
+            name = '%s %s' % ( data.eje.codigo, data.eje.descripcion, )
+            result.append((data.id, name,))
+        return result

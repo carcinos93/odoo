@@ -12,7 +12,7 @@ class PoaPob(models.Model):
 
     pei = fields.Many2one(comodel_name='planificacion.periodo', string='PEI', required=True)
     nombreCorto = fields.Char(string='Nombre', required=False)
-    periodo = fields.Char(string='Periodo', size=4)
+    periodo = fields.Char(string='Periodo', size=4) # TODO ordenar de mayor a menor
     fechaDesde = fields.Date(string='Desde')
     fechaHasta = fields.Date(string='Hasta')
     state = fields.Selection([('1', 'Formulación'),
@@ -31,8 +31,9 @@ class PoaPob(models.Model):
     archivos = fields.One2many(comodel_name='planificacion.poa_pob_archivos',inverse_name='poa_ids',string=' Archivos',required=False, copy=True)
 
     fichaIndicadores = fields.One2many(comodel_name='planificacion.ficha_indicador',inverse_name='pobpob_ids',string=' Ficha indicador',required=False, copy=True)
-
     vigente = fields.Boolean(string='Vigente', required=False, default=True)
+    ejecucion = fields.Boolean(string='En ejecución', required=False, default=True)
+    evaluacion = fields.Boolean(string='En evaluación', required=False, default=False)
     esNuevo = fields.Boolean(string='Es nuevo', required=False, default=True)
 
     def aprobar(self):
@@ -50,7 +51,6 @@ class PoaPob(models.Model):
                   'target': 'blank',
                   'url' : url
                }
-
 
     def reporte_insumos(self):
         base_url = request.httprequest.environ['HTTP_REFERER']

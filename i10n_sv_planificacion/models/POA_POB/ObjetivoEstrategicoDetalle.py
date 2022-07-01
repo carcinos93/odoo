@@ -18,7 +18,13 @@ class ObjetivoEstrategicoDetalle(models.Model):
     indicadoresEfectoImpacto = fields.One2many(comodel_name='planificacion.indicador_efecto_impacto',inverse_name='objetivoEstrategico_ids',string=' Indicador que mide el efecto/impacto ', required=False, copy=True)
     vinculaciones = fields.One2many(comodel_name='planificacion.vinculacion_detalle', inverse_name='objetivoEstrategico_ids', string=' Vinculación', required=False, copy=True)
     grupoMetas = fields.One2many(comodel_name='planificacion.grupo_meta', inverse_name='objetivoEstrategico_ids', string='Grupo meta', required=False, copy=True)
-
+    peso = fields.Float(string='Peso', required=False, default=0.00)
     # Modelo padre
     eje_ids = fields.Many2one(comodel_name='planificacion.eje_estrategico_detalle', string='Eje estratégico', ondelete='cascade')
 
+    def name_get(self):
+        result = []
+        for data in self:
+            name = '%s %s' % ( data.objetivo.codigo, data.objetivo.descripcion, )
+            result.append((data.id, name,))
+        return result

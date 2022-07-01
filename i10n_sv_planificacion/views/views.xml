@@ -281,6 +281,7 @@
                             <field name="codigoActividad" invisible="1"/>
                             <field name="nombreActividad"/>
                             <field name="responsable"/>
+                            <field name="peso"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="periodo" invisible="1"/>
                             <!--<field name="total_monto" readonly="1" />-->
@@ -485,15 +486,19 @@
                                 <td colspan="2">
                                     Avance de indicador de producto
                                 </td>
-                                <td> <field name="trimestre1"/> </td>
-                                <td> <field name="trimestre2"/> </td>
-                                <td> <field name="trimestre3"/> </td>
-                                <td> <field name="trimestre4"/> </td>
+                                <td> <field name="trimestre1" attrs="{ 'readonly': [('habilitarTrimestre1', '=', False)] }"/></td>
+                                <td> <field name="trimestre2" attrs="{ 'readonly': [('habilitarTrimestre2', '=', False)] }"/> </td>
+                                <td> <field name="trimestre3" attrs="{ 'readonly': [('habilitarTrimestre3', '=', False)] }"/> </td>
+                                <td> <field name="trimestre4" attrs="{ 'readonly': [('habilitarTrimestre4', '=', False)] }"/> </td>
                             </tr>
                         </table>
 
                         <group>
                             <field name="avance"/>
+                            <field name="habilitarTrimestre1" invisible="1"/>
+                            <field name="habilitarTrimestre2" invisible="1"/>
+                            <field name="habilitarTrimestre3" invisible="1"/>
+                            <field name="habilitarTrimestre4" invisible="1"/>
 
                             <field name="obstaculos" mode="kanban"  context="{ 'default_name':''}">
                                <tree editable="top" string="Detalles">
@@ -591,6 +596,7 @@
                             <field name="grupoMeta"/>
                             <!--<field name="vinculacion"/>-->
                             <field name="medioVerificacion"/>
+                            <field name="peso" widget="percentage"/>
                         </group>
                         <notebook colspan="4">
                             <page string="Indicadores de producto">
@@ -674,6 +680,7 @@
                             <!-- domain="[('pobpob_ids', '=', parent.parent.poa_ids )]" -->
                             <field name="efectoImpacto"/>
                             <field name="vinculacion"/>
+                            <field name="peso" widget="percentage"/>
                         </group>
 
                         <notebook colspan="4">
@@ -769,6 +776,7 @@
                         <group>
                             <field name="objetivo" domain="[('ejes_estrategicos_ids','=', parent.eje )]"/>
                             <field name="periodo" invisible="1"/>
+                            <field name="peso" widget="percentage"/>
                             <!--<field name="objetivoDescripcion" class="text-wrap" />-->
                         </group>
                         <notebook colspan="4">
@@ -1032,7 +1040,7 @@
             <field name="name">Creación del POA</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">planificacion.poa_pob</field>
-            <field name="context">{}</field>
+            <field name="context">{ 'tree_view_ref': 'i10n_sv_planificacion_poa_pob_tree' }</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">['&amp;', ('state', '=', '1'),('vigente', '=', True)]</field>
         </record>
@@ -1056,6 +1064,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <!--- avance con filtro de ejecucion -->
 
         <record model="ir.actions.act_window" id="i10n_sv_planificacion_tipo_insumo_new">
             <field name="name">Tipo de insumo</field>

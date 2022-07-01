@@ -32,7 +32,14 @@ class ProductoResultadoEfectoImpacto(models.Model):
     # todo Meta no se incluira, debe borrar?
     metas = fields.One2many(comodel_name='planificacion.meta_producto_resultado',inverse_name='productoResultado_ids',string='Actividades',required=False, copy=True)
     avances = fields.One2many(comodel_name='planificacion.avance_indicador_producto',inverse_name='productoResultado_ids',string='Avances de indicador producto',required=False, copy=True)
-
+    peso = fields.Float(string='Peso', required=False, default=0.00)
     # Modelo padre
     resultadoEfectoImpacto_ids = fields.Many2one(comodel_name='planificacion.resultado_efecto_impacto', string='Resultado efecto impacto', required=True, ondelete='cascade')
     resultadoDescripcion = fields.Text(string='Resultado',related='resultadoEfectoImpacto_ids.resultadoDescripcion', readonly=True)
+
+    def name_get(self):
+        result = []
+        for data in self:
+            name = '%s %s' % ( data.codigoProducto, data.descripcionProducto, )
+            result.append((data.id, name,))
+        return result

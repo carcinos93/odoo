@@ -14,6 +14,7 @@
         'views/views.xml',
         'views/fichaIndicadores.xml',
         'views/pei_views.xml',
+        'views/monitoreo.xml',
         'report/report_poa.xml',
         'report/report_poa_view.xml'
     ],

@@ -43,10 +43,11 @@ class ActividadProductoResultado(models.Model):
     indicadores = fields.One2many(comodel_name='planificacion.indicador_actividad_producto_resultado',inverse_name='actividad_resultado_ids',string='Indicadores', copy=True)
     metas = fields.One2many(comodel_name='planificacion.meta_actividad_producto_resultado', inverse_name='actividad_resultado_ids',string='Metas', copy=True)
     avances = fields.One2many(comodel_name='planificacion.avance_indicador_actividad', inverse_name='actividad_resultado_ids',string='Metas', copy=True)
+    peso = fields.Float(string='Peso', required=False, default=0.00)
     # modelo Padre
     productoResultado_ids = fields.Many2one(comodel_name='planificacion.producto_resultado_efecto_impacto', string='Producto resultado', required=True, ondelete='cascade')
 
-    #dummy
+    # dummy
     fuenteFinanciamiento = fields.Integer(string='Fuente Financiamiento', required=False)
     # _rec_name = 'nombre del campo que desea que se muestre' # listas
 
