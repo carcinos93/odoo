@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record model="ir.actions.act_window" id="i10n_sv_planificacion_configuracion_nuevo">
             <field name="name">Configuraciones</field>
             <field name="type">ir.actions.act_window</field>
@@ -23,7 +24,7 @@
             </field>
         </record>
 
-         <record id="i10n_sv_planificacion_avance_indicador_producto_tree" model="ir.ui.view">
+        <record id="i10n_sv_planificacion_avance_indicador_producto_tree" model="ir.ui.view">
             <field name="name">Avance de indicador producto</field>
             <field name="model">planificacion.avance_indicador_producto</field>
             <field name="arch" type="xml">
@@ -38,15 +39,367 @@
                 </tree>
             </field>
         </record>
+         <record id="i10n_sv_planificacion_avance_indicador_resultado_tree" model="ir.ui.view">
+            <field name="name">Avance de indicador resultado</field>
+            <field name="model">planificacion.avance_indicador_resultado</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="indicadorResultado" class="text-wrap"/>
+                    <field name="resultadoEfectoImpacto_ids" class="text-wrap"/>
+                    <field name="objetivoEstrategicoDetalle_ids" class="text-wrap"/>
+                    <field name="eje_ids" class="text-wrap"/>
+                    <field name="poa_ids" class="text-wrap"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="i10n_sv_planificacion_avance_indicador_actividad_tree" model="ir.ui.view">
+            <field name="name">Avance de indicador actividad</field>
+            <field name="model">planificacion.avance_indicador_actividad</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="indicadorActividad" class="text-wrap"/>
+                    <field name="actividad_resultado_ids" class="text-wrap"/>
+                    <field name="productoResultado_ids" class="text-wrap"/>
+                    <field name="resultadoEfectoImpacto_ids" class="text-wrap"/>
+                    <field name="objetivoEstrategicoDetalle_ids" class="text-wrap"/>
+                    <field name="eje_ids" class="text-wrap"/>
+                    <field name="poa_ids" class="text-wrap"/>
+                </tree>
+            </field>
+        </record>
+
+
         <record id="i10n_sv_planificacion_avance_indicador_producto_seach" model="ir.ui.view">
-           <field name="name">i10_sv_planificacion.avance_indicador_producto.view.search</field>
-           <field name="model">planificacion.avance_indicador_producto</field>
+            <field name="name">i10_sv_planificacion.avance_indicador_producto.view.search</field>
+            <field name="model">planificacion.avance_indicador_producto</field>
             <field name="arch" type="xml">
                 <search>
-                  <field string="POA" name="poa_ids" filter_domain="[('poa_ids.nombreCorto', 'ilike', self)]"  />
-            </search>
-           </field>
+                    <field string="POA" name="poa_ids" filter_domain="[('poa_ids.nombreCorto', 'ilike', self)]"/>
+                </search>
+            </field>
         </record>
+
+        <record id="i10n_sv_planificacion_avance_indicador_actividad_seach" model="ir.ui.view">
+            <field name="name">i10_sv_planificacion.avance_indicador_actividad.view.search</field>
+            <field name="model">planificacion.avance_indicador_actividad</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field string="POA" name="poa_ids" filter_domain="[('poa_ids.nombreCorto', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
+
+
+        <!-- FORMULARIOS -->
+        <!-- AVANCE DE PRODUCTO RESULTADO -->
+        <record model="ir.ui.view" id="i10n_sv_planificacion_avance_indicador_producto_form">
+            <field name="name">Avance de indicador producto</field>
+            <field name="model">planificacion.avance_indicador_producto</field>
+            <field name="arch" type="xml">
+                <form string="Indicadores producto resultado form">
+                    <sheet>
+                        <table class="table table-bordered" border="1">
+                            <tr>
+                                <th colspan="6">
+                                    Programado
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Indicador producto</th>
+                                <th>Unidad de medida</th>
+                                <th>Trimestre I</th>
+                                <th>Trimestre II</th>
+                                <th>Trimestre III</th>
+                                <th>Trimestre IV</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <field name="indicadorResultado" readonly="1" class="text-wrap"/>
+                                </td>
+                                <td>
+                                    <field name="tipoValor"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre1"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre2"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre3"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre4"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th colspan="6">
+                                    Ejecutado
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Avance de indicador de producto
+                                </td>
+                                <td>
+                                    <field name="trimestre1"
+                                           attrs="{ 'readonly': [('habilitarTrimestre1', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    <field name="trimestre2"
+                                           attrs="{ 'readonly': [('habilitarTrimestre2', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    <field name="trimestre3"
+                                           attrs="{ 'readonly': [('habilitarTrimestre3', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    <field name="trimestre4"
+                                           attrs="{ 'readonly': [('habilitarTrimestre4', '=', False)] }"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <group>
+                            <field name="avance"/>
+                            <field name="habilitarTrimestre1" invisible="1"/>
+                            <field name="habilitarTrimestre2" invisible="1"/>
+                            <field name="habilitarTrimestre3" invisible="1"/>
+                            <field name="habilitarTrimestre4" invisible="1"/>
+
+                            <field name="obstaculos" mode="kanban" context="{ 'default_name':''}">
+                                <tree editable="top" string="Detalles">
+                                    <field name="descripcionObstaculo" class="text-wrap"/>
+                                    <field name="gestiones" class="text-wrap"/>
+                                    <field name="acciones" class="text-wrap"/>
+
+                                </tree>
+                                <kanban>
+                                    <field name="descripcionObstaculo"/>
+                                    <field name="gestiones"/>
+                                    <field name="acciones"/>
+
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click"
+                                                 t-attf-style="width:100%">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        Descripción de los obstáculos
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <span>
+                                                            <t t-esc="record.descripcionObstaculo.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-6">
+                                                        Gestión(es) que fueron realizadas para superar el obstáculo
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <span>
+                                                            <t t-esc="record.gestiones.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-6">
+                                                        Acción(es) necesaria(s) y apoyos requeridos a futuro para
+                                                        solventar el obstáculo, en caso aun NO haya sido solventado
+                                                        (Indique el área a quien se solicita el apoyo especifico)
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <span>
+                                                            <t t-esc="record.acciones.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form string="Detalles">
+                                    <sheet>
+                                        <group>
+                                            <div/>
+                                            <field name="descripcionObstaculo"/>
+                                            <field name="gestiones" style="width:50%"/>
+                                            <field name="acciones" style="width:50%"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+
+                            <field name="riesgos">
+                                <tree string="'Detalles'" editable="button">
+                                    <field name="riesgo" class="text-wrap"/>
+                                </tree>
+                            </field>
+                        </group>
+
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- AVANCE INDICADOR ACTIVIDAD -->
+        <record model="ir.ui.view" id="i10n_sv_planificacion_avance_indicador_actividad_form">
+            <field name="name">Avance de indicador actividad</field>
+            <field name="model">planificacion.avance_indicador_actividad</field>
+            <field name="arch" type="xml">
+                <form string="Avance indicador actividad">
+                    <sheet>
+                        <field name="habilitarTrimestre1" invisible="1"/>
+                        <field name="habilitarTrimestre2" invisible="1"/>
+                        <field name="habilitarTrimestre3" invisible="1"/>
+                        <field name="habilitarTrimestre4" invisible="1"/>
+                        <table class="table table-bordered" border="1">
+                            <tr>
+                                <th colspan="6">
+                                    Programado
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Indicador actividad</th>
+                                <th>Unidad de medida</th>
+                                <th>Trimestre I</th>
+                                <th>Trimestre II</th>
+                                <th>Trimestre III</th>
+                                <th>Trimestre IV</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <field name="indicadorActividad" readonly="1"
+                                           class="text-wrap"/>
+                                </td>
+                                <td>
+                                    <field name="tipoValor"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre1"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre2"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre3"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre4"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th colspan="6">
+                                    Ejecutado
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Avance de indicador de actividad
+                                </td>
+                                <td>
+                                    <field name="trimestre1" attrs="{ 'readonly': [('habilitarTrimestre1', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    	<field name="trimestre2" attrs="{ 'readonly': [('habilitarTrimestre2', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    	<field name="trimestre3" attrs="{ 'readonly': [('habilitarTrimestre3', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    	<field name="trimestre4" attrs="{ 'readonly': [('habilitarTrimestre4', '=', False)] }"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- AVANCE INDICADOR RESULTADO -->
+        <record model="ir.ui.view" id="i10n_sv_planificacion_avance_indicador_resultado_form">
+            <field name="name">Avance de indicador resultado</field>
+            <field name="model">planificacion.avance_indicador_resultado</field>
+            <field name="arch" type="xml">
+                <form string="Avance indicador resultado">
+                    <sheet>
+                        <field name="habilitarTrimestre1" invisible="1"/>
+                        <field name="habilitarTrimestre2" invisible="1"/>
+                        <field name="habilitarTrimestre3" invisible="1"/>
+                        <field name="habilitarTrimestre4" invisible="1"/>
+                        <table class="table table-bordered" border="1">
+                            <tr>
+                                <th colspan="6">
+                                    Programado
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Indicador resultado</th>
+                                <th>Unidad de medida</th>
+                                <th>Trimestre I</th>
+                                <th>Trimestre II</th>
+                                <th>Trimestre III</th>
+                                <th>Trimestre IV</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <field name="indicadorResultado" readonly="1"
+                                           class="text-wrap"/>
+                                </td>
+                                <td>
+                                    <field name="tipoValor"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre1"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre2"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre3"/>
+                                </td>
+                                <td>
+                                    <field name="indicadorTrimestre4"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th colspan="6">
+                                    Ejecutado
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Avance de indicador de actividad
+                                </td>
+                                <td>
+                                    <field name="trimestre1" attrs="{ 'readonly': [('habilitarTrimestre1', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    	<field name="trimestre2" attrs="{ 'readonly': [('habilitarTrimestre2', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    	<field name="trimestre3" attrs="{ 'readonly': [('habilitarTrimestre3', '=', False)] }"/>
+                                </td>
+                                <td>
+                                    	<field name="trimestre4" attrs="{ 'readonly': [('habilitarTrimestre4', '=', False)] }"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACCIONES -->
+
 
         <record model="ir.actions.act_window" id="i10n_sv_planificacion_poa_pob_evaluacion_action">
             <field name="name">Evaluación del poa</field>
@@ -59,7 +412,18 @@
         </record>
 
 
-         <record model="ir.actions.act_window" id="i10n_sv_planificacion_avance_indicador_producto_action">
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_avance_indicador_resultado_action">
+            <field name="name">Avance de indicador resultado</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planificacion.avance_indicador_resultado</field>
+            <field name="view_id" ref="i10n_sv_planificacion_avance_indicador_resultado_tree"/>
+            <field name="context">{ 'permitir_editar': True }</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['&amp;', ('poa_ids.vigente', '=', True), ('poa_ids.evaluacion', '=', True)]</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_avance_indicador_producto_action">
             <field name="name">Avance de indicador producto</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">planificacion.avance_indicador_producto</field>
@@ -69,11 +433,39 @@
             <field name="domain">['&amp;', ('poa_ids.vigente', '=', True), ('poa_ids.evaluacion', '=', True)]</field>
         </record>
 
+        <record model="ir.actions.act_window" id="i10n_sv_planificacion_avance_indicador_actividad_action">
+            <field name="name">Avance de indicador actividad</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planificacion.avance_indicador_actividad</field>
+            <field name="view_id" ref="i10n_sv_planificacion_avance_indicador_actividad_tree"/>
+            <field name="context">{ 'permitir_editar': True }</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['&amp;', ('poa_ids.vigente', '=', True), ('poa_ids.evaluacion', '=', True)]</field>
+        </record>
 
 
-        <menuitem sequence="100" name="Monitoreo" id="i10n_sv_planificacion_monitoreo_menu" parent="i10n_sv_planificacion.menu_root"/>
-        <menuitem sequence="10" name="Avance" id="i10n_sv_planificacion_evaluacion_menu" parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_configuracion_nuevo"/>
-        <menuitem sequence="20" name="Evaluación" id="i10n_sv_planificacion_configuracion_menu" parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_avance_indicador_producto_action"/>
-        <menuitem sequence="30" name="Configuración" id="i10n_sv_planificacion_avance_menu" parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_configuracion_nuevo"/>
+
+        <menuitem sequence="100" name="Monitoreo" id="i10n_sv_planificacion_monitoreo_menu"
+                  parent="i10n_sv_planificacion.menu_root"/>
+        <menuitem sequence="10" name="Avance" id="i10n_sv_planificacion_evaluacion_menu"
+                  parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_configuracion_nuevo"/>
+
+        <menuitem sequence="10" name="Evaluación" id="i10n_sv_planificacion_avance_menu"
+                  parent="i10n_sv_planificacion_monitoreo_menu"/>
+
+        <menuitem sequence="10" name="Evaluación de indicador resultado" id="i10n_sv_planificacion_evaluacion_resultado_menu"
+                  parent="i10n_sv_planificacion_avance_menu"
+                  action="i10n_sv_planificacion_avance_indicador_resultado_action"/>
+
+        <menuitem sequence="20" name="Evaluación de indicador producto" id="i10n_sv_planificacion_evaluacion_producto_menu"
+                  parent="i10n_sv_planificacion_avance_menu"
+                  action="i10n_sv_planificacion_avance_indicador_producto_action"/>
+
+        <menuitem sequence="30" name="Evaluación de indicador actividad" id="i10n_sv_planificacion_evaluacion_actividad_menu"
+                  parent="i10n_sv_planificacion_avance_menu"
+                  action="i10n_sv_planificacion_avance_indicador_actividad_action"/>
+
+        <menuitem sequence="30" name="Configuración" id="i10n_sv_planificacion_avance_configuracion_menu"
+                  parent="i10n_sv_planificacion_monitoreo_menu" action="i10n_sv_planificacion_configuracion_nuevo"/>
     </data>
 </odoo>

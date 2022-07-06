@@ -22,5 +22,7 @@ from . import VinculacionDetalle
 from . import PoaArchivos
 from . import AvanceIndicadorProducto
 from . import AvanceIndicadorActividad
+from . import AvanceIndicadorResultado
+
 
 

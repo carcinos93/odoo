@@ -22,3 +22,23 @@ class IndicadorResultadoEfectoImpacto(models.Model):
     #fechaPrevista = fields.Date(string='Fecha prevista consecución', required=False)
     #Modelo padre
     resultadoEfectoImpacto_ids = fields.Many2one(comodel_name='planificacion.resultado_efecto_impacto', string='Resultado efecto impacto', required=True,ondelete='cascade')
+
+    def name_get(self):
+        result = []
+        for data in self:
+            name = '%s %s' % (data.indicador.codigo, data.indicador.descripcion if data.indicador.nombre is None else data.indicador.nombre)
+            result.append((data.id, name,))
+        return result
+
+    @api.model
+    def create(self, vals):
+        res = super(IndicadorResultadoEfectoImpacto, self).create(vals)
+        # Al crear indicador de producto se crea la linea del avance
+        data = {
+            'resultadoEfectoImpacto_ids': vals['resultadoEfectoImpacto_ids'],
+            'indicadorResultado': res.id
+        }
+        self.env['planificacion.avance_indicador_resultado'].create(data)
+
+        return res
+

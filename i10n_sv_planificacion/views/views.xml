@@ -327,79 +327,17 @@
                                     </tree>
                                 </field>
                             </page>
+                            <!--- El formulario de avance de indicador de actividad esta difinido en monitoreo.xml -->
                              <page string="Avance de indicador actividad">
                                 <field name="avances" type="xml">
                                     <tree string="'Detalles'">
-                                        <field name="indicadorActividad"/>
-                                        <field name="indicadorTrimestre1"/>
-                                        <field name="indicadorTrimestre2"/>
-                                        <field name="indicadorTrimestre3"/>
-                                        <field name="indicadorTrimestre4"/>
+                                        <field name="indicadorActividad" class="text-wrap" />
+                                        <field name="trimestre1"/>
+                                        <field name="trimestre2"/>
+                                        <field name="trimestre3"/>
+                                        <field name="trimestre4"/>
                                         <field name="tipoValor"/>
                                     </tree>
-                                    <form string="Avance indicador actividad">
-                                        <sheet>
-                                            <table class="table table-bordered" border="1">
-                                                <tr>
-                                                    <th colspan="6">
-                                                        Programado
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Indicador actividad</th>
-                                                    <th>Unidad de medida</th>
-                                                    <th>Trimestre I</th>
-                                                    <th>Trimestre II</th>
-                                                    <th>Trimestre III</th>
-                                                    <th>Trimestre IV</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <field name="indicadorActividad" readonly="1"
-                                                               class="text-wrap"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="tipoValor"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="indicadorTrimestre1"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="indicadorTrimestre2"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="indicadorTrimestre3"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="indicadorTrimestre4"/>
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="6">
-                                                        Ejecutado
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        Avance de indicador de actividad
-                                                    </td>
-                                                    <td>
-                                                        <field name="trimestre1"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="trimestre2"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="trimestre3"/>
-                                                    </td>
-                                                    <td>
-                                                        <field name="trimestre4"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </sheet>
-                                    </form>
                                 </field>
                             </page>
                             <!--<page string="Metas actividad">
@@ -445,134 +383,7 @@
             </field>
         </record>
 
-        <!-- RIESGOS PRODUCTO RESULTADO -->
-        <record model="ir.ui.view" id="i10n_sv_planificacion_riesgos_producto_resultado_form">
-            <field name="name">Indicadores de producto</field>
-            <field name="model">planificacion.avance_indicador_producto</field>
-            <field name="arch" type="xml">
-                <form string="Indicadores producto resultado form">
-                    <sheet>
-                        <table class="table table-bordered" border="1">
-                            <tr>
-                                <th colspan="6">
-                                    Programado
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>Indicador producto</th>
-                                <th>Unidad de medida</th>
-                                <th>Trimestre I</th>
-                                <th>Trimestre II</th>
-                                <th>Trimestre III</th>
-                                <th>Trimestre IV</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <field name="indicadorResultado" readonly="1" class="text-wrap"/>
-                                </td>
-                                <td> <field name="tipoValor"/> </td>
-                                <td> <field name="indicadorTrimestre1"/> </td>
-                                <td> <field name="indicadorTrimestre2"/> </td>
-                                <td> <field name="indicadorTrimestre3"/> </td>
-                                <td> <field name="indicadorTrimestre4"/> </td>
 
-                            </tr>
-                            <tr>
-                                <th colspan="6">
-                                    Ejecutado
-                                </th>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    Avance de indicador de producto
-                                </td>
-                                <td> <field name="trimestre1" attrs="{ 'readonly': [('habilitarTrimestre1', '=', False)] }"/></td>
-                                <td> <field name="trimestre2" attrs="{ 'readonly': [('habilitarTrimestre2', '=', False)] }"/> </td>
-                                <td> <field name="trimestre3" attrs="{ 'readonly': [('habilitarTrimestre3', '=', False)] }"/> </td>
-                                <td> <field name="trimestre4" attrs="{ 'readonly': [('habilitarTrimestre4', '=', False)] }"/> </td>
-                            </tr>
-                        </table>
-
-                        <group>
-                            <field name="avance"/>
-                            <field name="habilitarTrimestre1" invisible="1"/>
-                            <field name="habilitarTrimestre2" invisible="1"/>
-                            <field name="habilitarTrimestre3" invisible="1"/>
-                            <field name="habilitarTrimestre4" invisible="1"/>
-
-                            <field name="obstaculos" mode="kanban"  context="{ 'default_name':''}">
-                               <tree editable="top" string="Detalles">
-                                        <field name="descripcionObstaculo" class="text-wrap"/>
-                                        <field name="gestiones" class="text-wrap"/>
-                                        <field name="acciones" class="text-wrap"/>
-
-                                </tree>
-                                <kanban>
-                                      <field name="descripcionObstaculo"/>
-                                        <field name="gestiones" />
-                                        <field name="acciones" />
-
-                                        <templates>
-                                            <t t-name="kanban-box">
-                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click" t-attf-style="width:100%">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            Descripción de los obstáculos
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <span>
-                                                                <t t-esc="record.descripcionObstaculo.value" />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                <div class="row mt-3">
-                                                        <div class="col-6">
-                                                           Gestión(es) que fueron realizadas para superar el obstáculo
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <span>
-                                                                <t t-esc="record.gestiones.value" />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                  <div class="row mt-3">
-                                                        <div class="col-6">
-                                                          Acción(es) necesaria(s) y apoyos requeridos a futuro para solventar el obstáculo, en caso aun NO haya sido solventado (Indique el área a quien se solicita el apoyo especifico)
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <span>
-                                                                <t t-esc="record.acciones.value" />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                            </t>
-                                        </templates>
-                                </kanban>
-                                <form string="Detalles">
-                                    <sheet>
-                                        <group>
-                                            <div/>
-                                        <field name="descripcionObstaculo"/>
-                                        <field name="gestiones" style="width:50%" />
-                                        <field name="acciones" style="width:50%"/>
-                                    </group>
-                                    </sheet>
-                                </form>
-                            </field>
-
-                            <field name="riesgos">
-                                <tree string="'Detalles'" editable="button">
-                                        <field name="riesgo" class="text-wrap"/>
-                                </tree>
-                            </field>
-                        </group>
-
-
-                    </sheet>
-                </form>
-            </field>
-        </record>
 
         <!-- PRODUCTOS RESULTADO EFECTO IMPACTO -->
         <record model="ir.ui.view" id="i10n_sv_planificacion_productos_resultado_efecto_impacto_form">
@@ -620,7 +431,7 @@
                                 <field name="avances" type="xml"
                                        ref="i10n_sv_planificacion_riesgos_producto_resultado_form">
                                     <tree string="'Detalles'">
-                                        <field name="indicadorResultado"/>
+                                        <field name="indicadorResultado" class="text-wrap" />
                                         <field name="trimestre1"/>
                                         <field name="trimestre2"/>
                                         <field name="trimestre3"/>
@@ -719,6 +530,19 @@
                                      </tree>
                                  </field>
                              </page>-->
+                             <page string="Avance de indicador resultado">
+                                <field name="avances" type="xml">
+                                    <tree string="'Detalles'">
+                                        <field name="indicadorResultado" class="text-wrap"/>
+                                        <field name="trimestre1"/>
+                                        <field name="trimestre2"/>
+                                        <field name="trimestre3"/>
+                                        <field name="trimestre4"/>
+                                        <field name="tipoValor"/>
+                                    </tree>
+                                </field>
+                            </page>
+
                             <page string="Productos resultado">
                                 <field ref="i10n_sv_planificacion_productos_resultado_efecto_impacto_form"
                                        name="productos" type="xml"

@@ -21,15 +21,8 @@ class AvanceIndicadorProducto(models.Model):
             return getattr(c, trimestre)
         return False
 
-    @api.model
-    def _compute_default_configuracion(self):
-        configuracion = self.env['planificacion.configuracion'].search([])
-        for c in configuracion:
-            return c.id
-        return False
-
     indicadorResultado = fields.Many2one(comodel_name='planificacion.indicador_producto_resultado',
-                                         string='Indicador producto')
+                                         string='Indicador producto',  ondelete='cascade')
     tipoValor = fields.Selection(related='indicadorResultado.tipoValor', string='Unidad de medida')
     indicadorTrimestre1 = fields.Float(related='indicadorResultado.trimestre1', string='Trimestre I')
     indicadorTrimestre2 = fields.Float(related='indicadorResultado.trimestre2', string='Trimestre II')

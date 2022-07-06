@@ -16,6 +16,7 @@ class ResultadoEfectoImpacto(models.Model):
     efectoImpacto = fields.Text(string='Efecto impacto', required=False)
     # efectoImpacto = fields.Many2one(comodel_name='planificacion.efecto_impacto', string='Efecto impacto', required=True)
     vinculacion = fields.Text(string='Vinculación entre el resultado y el efecto al que contribuye', required=False)
+    avances = fields.One2many(comodel_name='planificacion.avance_indicador_resultado', inverse_name='resultadoEfectoImpacto_ids', string='Avance de indicador resultado', required=False, copy=True)
     indicadores = fields.One2many(comodel_name='planificacion.indicador_resultado_efecto_impacto', inverse_name='resultadoEfectoImpacto_ids', string='Indicador efecto impacto', required=False, copy=True)
     productos = fields.One2many(comodel_name='planificacion.producto_resultado_efecto_impacto', inverse_name='resultadoEfectoImpacto_ids', string=' Producto efecto impacto', required=False, copy=True)
     metas = fields.One2many(comodel_name='planificacion.meta_resultado_efecto_impacto', inverse_name='resultadoEfectoImpacto_ids', string=' Metas resultado', required=False, copy=True)

@@ -1,9 +1,9 @@
 from odoo import fields, models, api
 
 
-class AvanceIndicadorActividad(models.Model):
-    _name = 'planificacion.avance_indicador_actividad'
-    _description = 'Avance de indicador actividad'
+class AvanceIndicadorProducto(models.Model):
+    _name = 'planificacion.avance_indicador_resultado'
+    _description = 'Avance de indicador resultado'
 
     def _compute_habilitarTrimestre(self):
         # Esta variable se declara en vista monitore.xml en Evaluación del poa
@@ -21,18 +21,17 @@ class AvanceIndicadorActividad(models.Model):
             return getattr(c, trimestre)
         return False
 
-    indicadorActividad = fields.Many2one(comodel_name='planificacion.indicador_actividad_producto_resultado', string='Indicador actividad',  ondelete='cascade')
-    tipoValor = fields.Selection(related='indicadorActividad.tipoValor', string='Unidad de medida')
-    indicadorTrimestre1 = fields.Float(related='indicadorActividad.trimestre1', string='Trimestre I')
-    indicadorTrimestre2 = fields.Float(related='indicadorActividad.trimestre2', string='Trimestre II')
-    indicadorTrimestre3 = fields.Float(related='indicadorActividad.trimestre3', string='Trimestre III')
-    indicadorTrimestre4 = fields.Float(related='indicadorActividad.trimestre4', string='Trimestre IV')
-
+    indicadorResultado = fields.Many2one(comodel_name='planificacion.indicador_resultado_efecto_impacto', string='Indicador resultado', ondelete='cascade')
+    tipoValor = fields.Selection(related='indicadorResultado.unidadMedida', string='Unidad de medida')
+    indicadorTrimestre1 = fields.Float(related='indicadorResultado.metaTrimestre1', string='Trimestre I')
+    indicadorTrimestre2 = fields.Float(related='indicadorResultado.metaTrimestre1', string='Trimestre II')
+    indicadorTrimestre3 = fields.Float(related='indicadorResultado.metaTrimestre1', string='Trimestre III')
+    indicadorTrimestre4 = fields.Float(related='indicadorResultado.metaTrimestre1', string='Trimestre IV')
+    puesto = fields.Many2one( comodel_name='hr.job',string='Puesto',required=False)
     trimestre1 = fields.Float(string='Trimestre I')
     trimestre2 = fields.Float(string='Trimestre II')
     trimestre3 = fields.Float(string='Trimestre III')
     trimestre4 = fields.Float(string='Trimestre IV')
-
     # Configuracion
 
     habilitarTrimestre1 = fields.Boolean(string='', compute=_compute_habilitarTrimestre)
@@ -41,14 +40,8 @@ class AvanceIndicadorActividad(models.Model):
     habilitarTrimestre4 = fields.Boolean(string='', compute=_compute_habilitarTrimestre)
 
     # Modelo padre
-    actividad_resultado_ids = fields.Many2one(comodel_name='planificacion.actividad_producto_resultado',
-                                            string='Producto resultado', required=True, ondelete='cascade')
-
-    # Consulta al modelo padre de actividad resultado
-    productoResultado_ids = fields.Many2one(related='actividad_resultado_ids.productoResultado_ids', string='Producto')
-    resultadoEfectoImpacto_ids = fields.Many2one(related='productoResultado_ids.resultadoEfectoImpacto_ids', string='Resultado')
-    objetivoEstrategicoDetalle_ids = fields.Many2one( related='resultadoEfectoImpacto_ids.objetivoEstrategicoDetalle_ids', string='Objetivo estrátegico')
+    resultadoEfectoImpacto_ids = fields.Many2one(comodel_name='planificacion.resultado_efecto_impacto', string=' Resultado específico', required=True, ondelete='cascade')
+    # Consulta al modelo padre de producto resultado
+    objetivoEstrategicoDetalle_ids = fields.Many2one(related='resultadoEfectoImpacto_ids.objetivoEstrategicoDetalle_ids', string='Objetivo estrátegico')
     eje_ids = fields.Many2one(related='objetivoEstrategicoDetalle_ids.eje_ids', string='Eje')
     poa_ids = fields.Many2one(related='eje_ids.poa_ids', string='POA')
-
-
