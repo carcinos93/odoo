@@ -5,10 +5,7 @@ class PoaPob(models.Model):
     _name = 'planificacion.poa_pob'
     _rec_name = "nombreCorto"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
-    #@api.onchange('eje')
-    #def onchange_eje(self):
-    #    for rec in self:
-    #        return { 'domain' : { 'objetivoEstrategico': [ ('ejes_estrategicos_ids.id', '=', rec.eje.id ) ]}}
+
 
     pei = fields.Many2one(comodel_name='planificacion.periodo', string='PEI', required=True)
     nombreCorto = fields.Char(string='Nombre', required=False)
@@ -36,6 +33,11 @@ class PoaPob(models.Model):
     evaluacion = fields.Boolean(string='En evaluación', required=False, default=False)
     esNuevo = fields.Boolean(string='Es nuevo', required=False, default=True)
 
+    def siguiente_etapa(self):
+        for env in self:
+            env.write({'state': '2'})
+        return True
+
     def aprobar(self):
         super(PoaPob, self).write( { "state" : "3" })
         self.state = "3"
@@ -57,12 +59,6 @@ class PoaPob(models.Model):
         base_url = base_url.replace(":8069/web", "")
         url = "%s:8080/birt/frameset?__report=planificacion_poa_fuente.rptdesign&id_poa=%s" % ( base_url, str(self.id) )
         return { 'name': 'Reporte','res_model': 'ir.actions.act_url','type' : 'ir.actions.act_url','target': 'blank','url' : url }
-
-    @api.model
-    def create(self, vals):
-        vals['state'] = "2"  # Al crearse para a revisión y/o ajustes
-        rec = super(PoaPob, self).create(vals)
-        return rec
 
     def modificar(self):
         # super(Periodo, self).write({ "vigente": False })
@@ -91,5 +87,3 @@ class PoaPob(models.Model):
                     'target': 'new'
                 }
             }
-        #return super(Periodo, self).copy(default={ "vigente": True })
-        #return super(Periodo, self).write({ "vigente": False })

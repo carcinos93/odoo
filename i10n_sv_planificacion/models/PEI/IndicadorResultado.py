@@ -1,15 +1,17 @@
 from odoo import fields, models, api
-
+import re
 
 class IndicadorResultado(models.Model):
     _name = 'planificacion.indicador_resultado'
     # _inherit = 'base.auditoria'
 
     def _codigo_generador(self):
+        prefijo = "R.I"
         items = self._context.get('items')
         parent_codigo = self._context.get('parent_codigo')
+        parent_codigo = re.sub("^([A-Za-z\\.]*)", "", parent_codigo)  # Se elimina el prefijo
         filtrados = list(filter( lambda x: x[0] != 2, items))
-        codigo = parent_codigo + "." + str(len(filtrados) + 1)
+        codigo = (prefijo + "." if prefijo else "") + parent_codigo + "." + str(len(filtrados) + 1)
         return codigo
 
     codigo = fields.Char(string='Código de Indicador de resultado', readonly=False, default=_codigo_generador) # default=_default_codigo

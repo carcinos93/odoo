@@ -10,27 +10,17 @@ class Program(models.Model):
     # _rec_name = 'name'
     # _inherit = ['portal.mixin']
     # Función que nos devuelve al usuario que está logueado
-    @api.model
     def _default_user(self):
         return self._uid
 
-    # Función que nos devuelve el dia actual
-    @api.model
-    def _default_date(self):
-        return datetime.today()
-
     # Funciones que cambian el estado del gasto
-    def emitir_programa(self):
-        for env in self:
-            env.write({'state': '1'})
-        return True
 
-    def auth_programa(self):
+    def siguiente_etapa(self):
         for env in self:
             env.write({'state': '2'})
         return True
 
-    def fin_programa(self):
+    def aprobacion(self):
         for env in self:
             env.write({'state': '3'})
         return True
@@ -70,7 +60,6 @@ class Program(models.Model):
             record.update(
                 {'total_operativo': total_operativo, 'total_actividad': total_actividad, 'total_amount': total_amount})
 
-    @api.model
     def _compute_default_currencyid(self):
         company = self.env['res.company'].search([])
         for c in company:
@@ -125,7 +114,6 @@ class Program(models.Model):
     cuentasBaco = fields.One2many('budget.cuenta_banco', 'program_ids', string='Cuentas de banco', copy=True)
     filtro = fields.Char(string='Filtro', required=False, store=False, default="")
 
-
     def name_get(self):
         result = []
         for data in self:
@@ -151,7 +139,7 @@ class Program(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['state'] = '2'
+        # vals['state'] = '2'
         rec = super(Program, self).create(vals)
         if 'programId' not in vals:
             strId = '000' + str(rec.id)

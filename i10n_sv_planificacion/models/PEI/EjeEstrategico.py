@@ -21,12 +21,13 @@ class EjeEstrategico(models.Model):
             record.totalPresupuesto = total
 
     def _codigo_generador(self):
+        prefijo = "E"
         parent = self._context.get('items')
         total = len(parent) + 1
-        return str(total)
+        return (prefijo + "." if prefijo else "") + str(total)
 
     codigo = fields.Char(string='Código de eje estratégico', readonly=False, default=_codigo_generador) #  default=_default_codigo
-    descripcion = fields.Text(string="Descripción del eje estratégico", required=False)
+    descripcion = fields.Text(string="Nombre del eje estratégico", required=False)
     # Modelo padre
     periodo_ids = fields.Many2one(comodel_name='planificacion.periodo', string='Período')
     codigoPeriodo = fields.Char(related="periodo_ids.codigo")

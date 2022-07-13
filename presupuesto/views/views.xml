@@ -157,7 +157,7 @@
                         <group col="2" colspan="2">
                             <field name="lineId"/>
                             <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            <field name="ajustado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="ajustado" attrs="{'readonly': [('id', '=', False )]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="ejecucion" readonly="1" widget="monetary"
                                    options="{'currency_field': 'currency_id'}"/>
                             <field name="reservado" readonly="1" widget="monetary"
@@ -173,12 +173,13 @@
                             <field name="available" invisible="1"/>
                         </group>
                         <label class="o_form_label" for="proyectos_anio">Monto del proyecto por año</label>
-                        <field name="proyectos_anio">
+                        <field name="proyectos_anio" context="{ 'presupuesto_id': id }">
                             <tree string="Detalle" editable="button">
                                 <field name="year"/>
                                 <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="inicial" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="ajustado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ajustado"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <!-- attrs="{'readonly': [('parent.id', '=', False )]}" -->
                                 <field name="ejecucion" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="reservado" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
                                 <field name="comprometido" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -294,9 +295,8 @@
             <field name="arch" type="xml">
                 <form class="presupuesto" string="Presupuesto del Programa por Cooperante">
                     <header>
-                        <button confirm="¿Desea continuar?" class="oe_highlight"
-                                attrs="{'invisible': [('state', '!=', '2')]}" string="Aprobación" name="fin_programa"
-                                type="object"/>
+                        <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '2')]}" string="Aprobación" name="aprobacion"  type="object"/>
+                        <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '1' )]}" string="Siguiente etapa" name="siguiente_etapa"  type="object"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -347,7 +347,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Detalle del Programa">
+                            <page string="Presupuesto del Programa">
                                 <field ref="budget_program_detail_view_form" name="program_details_ids" context="{ 'items': program_details_ids }">
                                     <tree string="Detalles">
                                         <field name="lineId" class="text-wrap"/>

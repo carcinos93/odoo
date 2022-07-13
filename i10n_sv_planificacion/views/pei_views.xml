@@ -320,6 +320,7 @@
                         <!--<button class="oe_highlight"  states="1" string="Formulación"/>
                         <button class="oe_highlight" states="2" string="Revisión y/o ajustes" />-->
                         <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '2')]}" string="Aprobación" name="aprobar" type="object" />
+                        <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '1' )]}" string="Siguiente etapa" name="siguiente_etapa"  type="object"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>

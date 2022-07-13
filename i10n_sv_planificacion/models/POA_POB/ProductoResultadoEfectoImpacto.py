@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+import re
 
 
 class ProductoResultadoEfectoImpacto(models.Model):
@@ -6,12 +7,14 @@ class ProductoResultadoEfectoImpacto(models.Model):
     #_inherit = 'base.auditoria'
 
     def _codigo_generador(self):
+        prefijo = "P"
         if self._context.get('items') is None or self._context.get('parent_codigo') is None:
             return "0"
         items = self._context.get('items')  # Todos los registros de este modelo por Resultado (modelo padre)
-        parent_codigo = self.env['planificacion.resultado'].browse(self._context.get('parent_codigo'))
+        parent = self.env['planificacion.resultado'].browse(self._context.get('parent_codigo'))
+        parent_codigo = re.sub("^([A-Za-z\\.]*)", "", parent.codigo)  # Se elimina el prefijo
         filtrados = list(filter( lambda x: x[0] != 2, items))
-        codigo = parent_codigo.codigo + "." + str(len(filtrados) + 1)
+        codigo = (prefijo + "." if prefijo else "") + parent_codigo + "." + str(len(filtrados) + 1)
         return codigo
 
     def _periodo_default(self):
@@ -20,7 +23,7 @@ class ProductoResultadoEfectoImpacto(models.Model):
 
     producto = fields.Many2one(comodel_name='planificacion.producto', string='Producto', required=False)
     codigoProducto = fields.Char(string='Código producto', required=False, default=_codigo_generador)
-    descripcionProducto = fields.Text(string="Descripción producto", required=False)
+    descripcionProducto = fields.Text(string="Nombre de producto", required=False)
     #productoDescripcion = fields.Text(string='Producto',related='producto.descripcion', readonly=True)
     responsable = fields.Many2one('hr.employee', 'Responsable por producto')
     grupoMeta = fields.Char(string='Grupo meta', required=False)

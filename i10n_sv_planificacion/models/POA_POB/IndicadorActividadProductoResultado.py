@@ -1,16 +1,19 @@
 from odoo import fields, models, api, exceptions
+import re
 
 
 class IndicadorActividadProductoResultado(models.Model):
     _name = 'planificacion.indicador_actividad_producto_resultado'
 
     def _codigo_generador(self):
+        prefijo = "A.I"
         if self._context.get('items') is None or self._context.get('parent_codigo') is None:
             return "0"
         items = self._context.get('items')
         parent_codigo = self._context.get('parent_codigo')
+        parent_codigo = re.sub("^([A-Za-z\\.]*)", "", parent_codigo)  # Se elimina el prefijo
         filtrados = list(filter( lambda x: x[0] != 2, items))
-        codigo = parent_codigo + "." + str(len(filtrados) + 1)
+        codigo =(prefijo + "." if prefijo else "") + parent_codigo + "." + str(len(filtrados) + 1)
         return codigo
 
     codigo = fields.Char(string='Código del indicador', default=_codigo_generador )
@@ -29,7 +32,7 @@ class IndicadorActividadProductoResultado(models.Model):
     def name_get(self):
         result = []
         for data in self:
-            name = '%s %s' % (data.codigo, data.nombre)
+            name = '%s %s' % (data.codigo, data.nombre if data.nombre else data.descripcion)
             result.append((data.id, name,))
         return result
 

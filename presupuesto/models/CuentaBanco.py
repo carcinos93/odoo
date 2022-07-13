@@ -2,6 +2,7 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime
 
+
 class CuentaBanco(models.Model):
     _name = 'budget.cuenta_banco'
     _description = 'Cuentas de banco de proyectos'

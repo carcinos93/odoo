@@ -36,7 +36,6 @@ class Periodo(models.Model):
     vigente = fields.Boolean(string='Vigente', required=False, default=True)
     esNuevo = fields.Boolean(string='Es nuevo', required=False, default=True)
 
-
     def reporte(self):
         url = "http://72.167.53.164:8080/birt/frameset?__report=planificacion_pei.rptdesign&id_periodo=%s" % str(self.id)
         return { 'name': 'Reporte',
@@ -50,9 +49,14 @@ class Periodo(models.Model):
         super(Periodo, self).write( { "state" : "3" })
         self.state = "3"
 
+    def siguiente_etapa(self):
+        for env in self:
+            env.write({'state': '2'})
+        return True
+
     @api.model
     def create(self, vals):
-        vals['state'] = "2" # Al crearse para a revisión y/o ajustes
+        # vals['state'] = "2" # Al crearse para a revisión y/o ajustes
         rec = super(Periodo, self).create(vals)
         if 'codigo' not in vals:
             strId = '0' + str(rec.id)

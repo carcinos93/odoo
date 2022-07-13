@@ -52,7 +52,7 @@ class ProyectoAnio(models.Model):
             return msj
 
     def validarMonto(self):
-        montoDisponible = self.program_details_id.amount
+        montoDisponible = self.program_details_id.available
         gastoTotal = self.amount
         if gastoTotal > 0.00:
             if gastoTotal > montoDisponible:

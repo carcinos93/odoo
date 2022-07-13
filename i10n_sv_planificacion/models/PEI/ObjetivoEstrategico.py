@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+import re
 
 
 class ObjetivoEstrategico(models.Model):
@@ -6,15 +7,17 @@ class ObjetivoEstrategico(models.Model):
     # _inherit = 'base.auditoria' # No funciona?
 
     def _codigo_generador(self):
+        prefijo = "O"
         items = self._context.get('items')
         parent_codigo = self._context.get('parent_codigo')
+        parent_codigo = re.sub("^([A-Za-z\\.]*)", "", parent_codigo)  # Se elimina el prefijo
         # se filtran los registros que tengan estado borrado
         filtrados = list(filter( lambda x: x[0] != 2, items))
-        codigo = parent_codigo + "." + str(len(filtrados) + 1)
+        codigo = (prefijo + "." if prefijo else "") + parent_codigo + "." + str(len(filtrados) + 1)
         return codigo
 
     codigo = fields.Char(string='Código de objetivo', readonly=False, default=_codigo_generador) # default=_default_codigo
-    descripcion = fields.Text(string="Descripción de objetivo",required=False)
+    descripcion = fields.Text(string="Nombre de objetivo",required=False)
     indicadores_objetivos = fields.One2many(comodel_name='planificacion.indicador_objetivo',copy=True, inverse_name='objetivo_estrategicos_ids', string='Indicador de objetivos')
     resultados = fields.One2many(comodel_name='planificacion.resultado',copy=True, inverse_name='objetivoEstrategico_ids', string='Resultados')
     metas = fields.One2many(comodel_name='planificacion.meta',copy=True, inverse_name='objetivo_estrategico_ids', string='Metas')

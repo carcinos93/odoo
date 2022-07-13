@@ -711,9 +711,8 @@
                         <header>
                             <button name="reporte_insumos" string="Reporte por fuente de financiamiento"
                                     class="oe_highlight" type="object"/>
-                            <button confirm="¿Desea continuar?" class="oe_highlight"
-                                    attrs="{'invisible': [('state', '!=', '2')]}"
-                                    string="Aprobación" name="aprobar" type="object"/>
+                            <button confirm="¿Desea continuar?" groups="planificacion_cenpromype.director" class="oe_highlight" attrs="{'invisible': [('state', '!=', '2')]}"  string="Aprobación" name="aprobar" type="object"/>
+                            <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '1' )]}" string="Siguiente etapa" name="siguiente_etapa"  type="object"/>
                             <field name="state" widget="statusbar"/>
                         </header>
                         <group>

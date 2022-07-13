@@ -6,7 +6,6 @@ class Source(models.Model):
     _name = 'budget.source'
     _description = 'Fuente Financiamiento'
 
-
     sourceId = fields.Char(string='Código', size=6, readonly=True)
     name = fields.Char(string='Nombre Cooperante', size=120)
     contact = fields.Char(string='Representante Legal', size=80)

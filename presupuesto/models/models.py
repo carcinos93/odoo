@@ -12,6 +12,10 @@ class Line(models.Model):
     status = fields.Boolean(string='Habilitado')
     tipo = fields.Selection(string='Tipo insumo', selection=[('1', 'actividad'), ('2', 'gastos operativos'), ('3', 'ambos') ] )
 
+    _sql_constraints = [
+        ('budget_line_codeId_unique', 'unique("codeId")', 'El Código debe de ser único'),
+    ]
+
     def name_get(self):
         result = []
         for data in self:
@@ -19,9 +23,7 @@ class Line(models.Model):
             result.append((data.id, name,))
         return result
 
-    _sql_constraints = [
-        ('number_plate_unique', 'UNIQUE(codeId)', 'La línea debe de ser única'),
-    ]
+
 
 
 

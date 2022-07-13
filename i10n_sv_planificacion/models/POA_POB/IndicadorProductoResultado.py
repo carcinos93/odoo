@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+import re
 
 
 class IndicadorProductoResultado(models.Model):
@@ -6,12 +7,14 @@ class IndicadorProductoResultado(models.Model):
     # _inherit = 'base.auditoria'
 
     def _codigo_generador(self):
+        prefijo = "P.I"
         if self._context.get('items') is None or self._context.get('parent_codigo') is None:
             return "0"
         items = self._context.get('items')
         parent_codigo = self._context.get('parent_codigo')
+        parent_codigo = re.sub("^([A-Za-z\\.]*)", "", parent_codigo)  # Se elimina el prefijo
         filtrados = list(filter( lambda x: x[0] != 2, items))
-        codigo = parent_codigo + "." + str(len(filtrados) + 1)
+        codigo = (prefijo + "." if prefijo else "") + parent_codigo + "." + str(len(filtrados) + 1)
         return codigo
 
     # TODO quitar los campos de indicador producto
@@ -34,7 +37,7 @@ class IndicadorProductoResultado(models.Model):
     def name_get(self):
         result = []
         for data in self:
-            name = '%s %s' % (data.codigoIndicador, data.nombreIndicador)
+            name = '%s %s' % (data.codigoIndicador, data.nombreIndicador if data.nombreIndicador else data.descripcionIndicador )
             result.append((data.id, name,))
         return result
 

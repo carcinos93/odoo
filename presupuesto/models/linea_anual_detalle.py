@@ -31,7 +31,7 @@ class ProgramaDetalle(models.Model):
         for c in company:
             return c.currency_id
 
-    lineId = fields.Many2one('budget.line', string='Insumo')
+    lineId = fields.Many2one('budget.line', string='Insumo', required=True)
     lineName = fields.Char(related='lineId.name', string='Insumo')
     level1 = fields.Char(string='Nivel 1')
     description1 = fields.Char(string='Descripción 1')
@@ -60,7 +60,7 @@ class ProgramaDetalle(models.Model):
     adjust_up = fields.Float(string='Aumento')
     adjust_down = fields.Float(string='Disminucion')
     available = fields.Float(string='Disponible')
-    total_amount = fields.Float(string='Total programa', store=True, compute=_compute_program_anio)
+    total_amount = fields.Float(string='Total de insumo', store=True, compute=_compute_program_anio)
     # Modelo padre
     details_id = fields.Many2one('budget.program', string='Programa', ondelete='cascade')
     numberLines = fields.Integer(related='details_id.numberLines', string="")

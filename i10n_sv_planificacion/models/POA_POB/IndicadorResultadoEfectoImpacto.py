@@ -26,7 +26,7 @@ class IndicadorResultadoEfectoImpacto(models.Model):
     def name_get(self):
         result = []
         for data in self:
-            name = '%s %s' % (data.indicador.codigo, data.indicador.descripcion if data.indicador.nombre is None else data.indicador.nombre)
+            name = '%s %s' % (data.indicador.codigo, data.indicador.descripcion if data.indicador.descripcion else data.indicador.nombre)
             result.append((data.id, name,))
         return result
 

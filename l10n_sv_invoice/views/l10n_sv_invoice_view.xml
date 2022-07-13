@@ -2,7 +2,7 @@
     <data>
 
         <!-- Creación vista arbol -->
-            <record model="ir.ui.view" id="view_invoice_tree">
+           <!-- <record model="ir.ui.view" id="view_invoice_tree">
                 <field name="name">view.sv.invoice.tree</field>
                 <field name="model">sv.invoice</field>
                 <field name="arch" type="xml">
@@ -14,10 +14,10 @@
                         <field name="state" />
                     </tree>
                 </field>
-            </record>
+            </record>-->
 
         <!-- Creación vista formulario -->
-            <record id="view_invoice_form" model="ir.ui.view">
+            <!--<record id="view_invoice_form" model="ir.ui.view">
             <field name="name">view.sv.invoice.form</field>
             <field name="model">sv.invoice</field>
             <field name="arch" type="xml">
@@ -84,16 +84,16 @@
                     </sheet>
                 </form>
             </field>
-            </record>
+            </record>-->
 
       <!-- Acción para abrir vistas de los modelos -->
 
-            <record model="ir.actions.act_window" id="listar_sv_invoice">
+           <!-- <record model="ir.actions.act_window" id="listar_sv_invoice">
                 <field name="name">Registro de factura</field>
                 <field name="res_model">sv.invoice</field>
                 <field name="view_mode">tree,form</field>
-               <!-- <field name="domain">[('state', 'in', ['1','2'])]</field>-->
-            </record>
+                <field name="domain">[('state', 'in', ['1','2'])]</field>
+            </record>-->
 
         <!--Menu superior-->
 
@@ -116,7 +116,7 @@
                     </tree>
                 </field>
             </record>
-
+            <!--FORMULARIO DE EMPLEADO -->
             <record id="i10_sv_invoice_view_form" model="ir.ui.view">
                 <field name="name">i10_sv_invoice_view_form</field>
                 <field name="model">i10n_sv_invoice.empleado</field>
@@ -128,12 +128,20 @@
                                      <field name="nombre"/>
                                     <field name="apellido"/>
                                     <field name="fechaNacimiento"/>
+                                    <field name="fechainicio"/>
+                                    <field name="codigo"/>
+                                    <field name="fechafin"/>
+                                    <field name="salario" widget='monetary' options="{'currency_field': 'currency_id'}" sum="Total"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="totalmeses" readonly="1"/>
                                 </group>
                                 <group string="Procedencia">
                                       <field name="nacionalidad"/>
+                                      <field name="estado"/>
                                 </group>
                             </group>
-                             <group>
+                            <notebook>
+                                <page string="Habilidades">
                                     <field name="habilidades">
                                         <tree editable="buttom">
                                              <field name="habilidad"/>
@@ -144,7 +152,9 @@
                                             </sheet>
                                         </form>
                                     </field>
-                             </group>
+                                </page>
+                            </notebook>
+
                         </sheet>
                     </form>
                 </field>
