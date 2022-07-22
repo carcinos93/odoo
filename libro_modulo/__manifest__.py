@@ -7,7 +7,7 @@
     'author': 'Nelson Rodas',
     'website': 'www.google.com',
     'license': '',
-    'depends': ['base'],
+    'depends': ['base', 'presupuesto'],
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml'

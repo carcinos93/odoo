@@ -4,24 +4,26 @@ odoo.define('custom_item.action_button', function (require) {
 	var ListController = require('web.ListController');
 	var FormController = require('web.FormController');
     var FormView = require('web.FormView');
+    var ListView = require('web.ListView');
 	var rpc = require('web.rpc');
 	var session = require('web.session');
 	var _t = core._t;
 
-    FormController.include({
-        /**
-         * Main method used when saving the record hitting the "Save" button.
-         * We check if the stage_id field was altered and if we need to display a rainbowman
-         * message.
-         *
-         * @override
-         */
+    ListView.include({
+        init: function(group, opts){
+          this._super(group, opts);
+          this.$current = $("tbody");
+          console.log(this.$current);
+        }
+    });
+   /* FormController.include({
+
         renderButtons: function ($node) {
 			this._super.apply(this, arguments);
 			if (this.$buttons) {
 
 			    this.$buttons.find("#button_click").click(this.proxy('action_def'))
-				//this.$buttons.find('.oe_action_button').click(this.proxy('action_def'));
+				this.$buttons.find('.oe_action_button').click(this.proxy('action_def'));
 			}
 		},
 		action_def: function (ev) {
@@ -39,11 +41,11 @@ odoo.define('custom_item.action_button', function (require) {
 		        parent._setMode("edit");
 		    }
 
-		    //this._updateControlPanel();
-            //this._setMode('edit');
-		    //self.saveRecord();
+		   this._updateControlPanel();
+            this._setMode('edit');
+		    self.saveRecord();
 		}
-        });
+        });*
 
 	/*
 	 saveRecord: function () {

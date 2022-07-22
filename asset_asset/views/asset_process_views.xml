@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+        <record id="erp_asset_asset_form" model="ir.ui.view">
+        <field name="name">view.erp.asset.asset.form</field>
+        <field name="model">erp.asset.asset</field>
+        <field name="arch" type="xml">
+            <form string="Categoria de Activos">
+                <header>
+                </header>
+                <sheet>
+                <group>
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="code" required="1"/>
+                        <field name="category_id" required="1"/>
+                        <field name="note"/>
+                    </group>
+                    <group>
+                        <field name="date_purchase" required="1"/>
+                        <field name="marca"/>
+                        <field name="modelo"/>
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                    </group>
+                </group>
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name="purchase_value" required="1"/>
+                                    <field name="salvage_value" required="1"/>
+                                    <field name="residual_value"/>
+                                    <field name="depreciate_value"/>
+                                    <field name="depreciation_annual"/>
+                                    <field name="monthly_cost"/>
+                                </group>
+                                <group>
+                                   <field name="method" required="1"/>
+                                    <field name="factor_degressive" attrs="{'invisible': [('method','=','linear')]}"/>
+                                    <field name="method_time" required="1"/>
+                                    <field name="method_end" attrs="{'invisible': [('method_time','=','number')]}"/>
+                                    <field name="method_number"/>
+                                    <field name="method_period"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Detalle Depreciación">
+                            <field name="line_ids">
+                                <tree string="Detalle">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                    <field name="depreciated_value"/>
+                                    <field name="remaining_value"/>
+                                    <field name="depreciation_date"/>
+                                    <field name="move_check"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+        </record>
+
+        <record model="ir.ui.view" id="erp_asset_asset_tree">
+            <field name="name">view.erp.asset.asset.tree</field>
+            <field name="model">erp.asset.asset</field>
+            <field name="arch" type="xml">
+                <tree string="Categoria de Activos">
+                   <field name="name" required="1"/>
+                    <field name="code"/>
+                    <field name="category_id"/>
+                    <field name="date_purchase" required="1"/>
+                    <field name="marca"/>
+                    <field name="modelo"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_erp_asset_asset_tree_form">
+            <field name="name">Registro Activos Fijos</field>
+            <field name="res_model">erp.asset.asset</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

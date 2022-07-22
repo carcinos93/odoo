@@ -239,13 +239,21 @@
                     <sheet>
                         <group>
                             <field name="periodo" invisible="1"/>
-                            <field name="fuenteFinanciamiento" domain="[('esCopia', '=', False)]" class="text-wrap"/>
-                            <field name="detalleFuenteFinanciamiento"
-                                   domain="[('details_id.id', '=', fuenteFinanciamiento ),('lineId.tipo', 'in', ('1', '3'))]"
+                            <!-- Proyecto (fuente de financiamiento) si no es copia y estado sea aprobado -->
+                            <field name="fuenteFinanciamiento" domain="['&amp;','&amp;',('esCopia', '=', False), ('state', '=', '3'), ('activo', '=', True)]" class="text-wrap"/>
+                            <field name="detalleFuenteFinanciamiento" domain="[('details_id.id', '=', fuenteFinanciamiento ),('lineId.tipo', 'in', ('1', '3'))]"
                                    class="text-wrap"/>
-                            <field name="insumo" domain="[('tipo', 'in', ['1','3'] )]"/>
-                            <field name="proyecto_anio"
-                                   domain="[('program_details_id', '=', detalleFuenteFinanciamiento )]"/>
+                            <!-- Se filtran los insumos tipo sea actividad o ambos y Tiene movimiento igual a verdadero -->
+                            <field name="insumo" readonly="1" />
+                            <field name="insumo" invisible="1"  domain="[('tipo', 'in', ['1','3']) ]"/>
+                            <!--
+                                 En proyecto_anio readonly va primero y luego invisible
+                                 esto es para permitir guardar este campo con propiedad readonly,
+                                 el valor se asigna segun el año del sistema
+                                 domain="[('program_details_id', '=', detalleFuenteFinanciamiento )]"
+                            -->
+                            <field name="proyecto_anio" readonly="1"/>
+                            <field name="proyecto_anio" invisible="1" />
                             <field name="montoTotalFuenteFinanciamiento" widget="monetary"
                                    options="{'currency_field': 'currency_id'}"/>   <!-- presupuesto -->
                             <field name="monto1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
@@ -294,9 +302,10 @@
                                     <tree string="'Detalles'">
                                         <!-- se filtra insumo por tipo ACTIVIDAD o AMBOS -->
                                         <field name="fuenteFinanciamiento" class="text-wrap"/>
-                                        <field name="detalleFuenteFinanciamiento" class="text-wrap"/>
+                                        <field name="detalleFuenteFinanciamiento" domain="[('details_id.id', '=', fuenteFinanciamiento ),('lineId.tipo', 'in', ('1', '3'))]"
+                                               class="text-wrap"/>
                                         <field name="insumo" class="text-wrap"/>
-                                        <field name="proyecto_anio"/>
+                                        <field name="proyecto_anio" />
                                         <field name="disponible" widget="monetary"
                                                options="{'currency_field': 'currency_id'}"/>
                                         <field name="reservado" widget="monetary"
@@ -709,8 +718,8 @@
                 <form string="POA/POB form">
                     <sheet>
                         <header>
-                            <button name="reporte_insumos" string="Reporte por fuente de financiamiento"
-                                    class="oe_highlight" type="object"/>
+                            <button name="reporte_insumos" string="Reporte por fuente de financiamiento" class="oe_highlight" type="object"/>
+                            <button name="reporte" string="Reporte POA" class="oe_highlight" type="object"/>
                             <button confirm="¿Desea continuar?" groups="planificacion_cenpromype.director" class="oe_highlight" attrs="{'invisible': [('state', '!=', '2')]}"  string="Aprobación" name="aprobar" type="object"/>
                             <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '1' )]}" string="Siguiente etapa" name="siguiente_etapa"  type="object"/>
                             <field name="state" widget="statusbar"/>
@@ -917,7 +926,6 @@
                     <field name="vigente"/>
                     <field name="state"/>
                     <field name="esNuevo" invisible="1"/>
-                    <button name="reporte" string="Reporte" class="oe_highlight" type="object"/>
                     <button confirm="¿Desea continuar?"
                             attrs="{'invisible': ['&amp;',('vigente', '!=', True), ('esNuevo','=',False)]}"
                             name="modificar" string="Modificar POA" class="oe_highlight" type="object"/>

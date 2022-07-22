@@ -26,8 +26,6 @@
         # 'security/ir.model.access.csv',
         'views/purchase_type_views.xml',
         'views/purchase_order_view.xml',
-        'report/report_requisicion.xml',
-        'report/report_requisicion_view.xml',
         'data/data_group_view.xml',
     ],
 

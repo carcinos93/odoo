@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 
+
+    <menuitem id="menu_hr_recruitment_root" name="Requerimiento Personal"/>
+    <menuitem id="sub_menu_reqper" name="Requerir Personal" parent="menu_hr_recruitment_root"  action="elprimer_MReq_Personal_action" />
+    views -->
+
+
+
+
+    <record id="hr_attendance_MReq_Personal_view_tree" model="ir.ui.view">
+    <field name="name">Empleado</field>
+    <field name="model">hr_recruitment_extender.empleado</field>
+    <field name="arch" type="xml">
+        <tree string="hr_attendance.empleado_tree">
+             <field name="Cargo_1"/>
+             <field name="gerencia"/>
+             <field name="proyecto_a"/>
+             <field name="lugartrabajo"/>
+             <field name="natura_vacante"/>
+             <field name="mod_contra"/>
+             <field name="fec_contra_desde"/>
+             <field name="fec_contra_hasta"/>
+             <field name="total_meses"/>
+             <field name="monto_presu_total"/>
+             <field name="monto_presu_mes"/>
+             <field name="fecha_req_ingreso"/>
+
+             <field name="lin_presu_pro"/>
+             <field name="categoria_gasto"/>
+             <field name="lin_presu_pob"/>
+
+
+            <field name="justificacion"/>
+            <field name="beneficios"/>
+
+            <field name="observaciones"/>
+            <field name="jefe_solicitante"/>
+            <field name="jefe_inmediato"/>
+            <field name="req_estado2"/>
+            <field name="state"/>
+
+
+
+
+        </tree>
+    </field>
+    </record>
+
+
+
+    <record id="hr_attendance_MReq_Personal_view_form" model="ir.ui.view">
+    <field name="name">Empleado</field>
+    <field name="model">hr_recruitment_extender.empleado</field>
+    <field name="arch" type="xml">
+        <form string="elprimer_form">
+
+            
+            <header>
+                
+                <button name="enviado2"   type="object" states='1' string="Enviar a Jefe"   />
+                <button name="enviado3"  type="object" states='2' string="Enviar a Jefe Inmediato"/>
+                <button name="enviado4"  type="object" states='3' string="Enviar a Director"/>
+                             
+              
+
+                <field name="state"  widget="statusbar" /> 
+            </header>
+            
+
+            <sheet>
+                <h1 class="font-weight-bold"> REQUISICIÓN DE CONTRATACIÓN DE PERSONAL </h1>
+                <group string="DATOS GENERALES">
+                    <group>
+                         <field name="Cargo_1"/>
+                         <field name="gerencia"/>
+
+                     </group>
+                     <group>
+                          <field name="proyecto_a" string="Proyecto"/>
+                          <field name="lugartrabajo" string="Lugar de Trabajo"/>
+                     </group>
+                </group>
+
+
+                <group string="NATURALEZA DE LA VACANTE">
+
+                     
+                     <field name="natura_vacante"/>
+                     <!--
+                     
+                     <group>   
+                        <field name="reemplazo"/>
+                        <field name="Renuncia"/>
+                        <field name="Despido"/>
+                        <field name="FinContra"/>
+                        <field name="Restructu"/>
+                        <field name="Otros"/>
+                    </group>
+                     <group>
+                        <field name="ContraTempo"/>
+                        <field name="Incapacidad"/>
+                        <field name="IncaMater"/>
+                        <field name="Licencia"/>
+                        <field name="IncreLabo"/>
+                     </group>
+                     -->
+                     
+                </group>
+
+                <group>
+                      <group string="MODALIDA CONTRATO">
+                          <field name="mod_contra" string="Modalidad Contratación"/>
+                      </group>
+                      <group string="PERIODO SOLICITADO">
+                        <field name="fec_contra_desde" string="Fecha Contratación Desde" />
+                        <field name="fec_contra_hasta" string="Fecha Contratación Hasta" />
+                        <field name="total_meses"      string="Total Meses Contratación"/>
+                      </group>
+                </group>
+
+
+
+
+                <group string="MONTO PRESUPUESTO TOTAL">
+                          <field name="monto_presu_total" string="Monto Presupuestado Total"/>
+                </group>
+                <group string="MONTO PRESUPUESTO MENSUAL" >
+                         <field name="monto_presu_mes"    string="Monto Presupestado Mensual"/>
+                </group>
+                <group string="FECHA PARA CUBRIR VACANTE">
+                         <field name="fecha_req_ingreso"  string="Fecha Requerida Ingreso" />
+                </group>
+
+
+               <group>
+                    <field name="lin_presu_pro"    string="Linea Presupuestaria"/>
+                    <field name="categoria_gasto"  string="Categoría del Gasto"/>
+                    <field name="lin_presu_pob"    string="Linea Presupuestaria POB/POA"/>
+
+
+
+
+
+                    <field name="justificacion"     string="Justificación Contratación"/>
+                    <field name="beneficios"        string="Beneficios Adicionales"/>
+                    <field name="observaciones"     string="Observaciones"/>
+                    <field name="jefe_solicitante"  string="Jefe Solicitante"/>
+                    <field name="jefe_inmediato"    string="Jefe Inmediato a Solicitante"/>
+                    
+
+               </group>
+
+ 
+
+
+
+
+
+
+            </sheet>
+        </form>
+    </field>
+    </record>
+
+    <record id="elprimer_MReq_Personal_action"   model="ir.actions.act_window">
+        <field name="name">Empleado</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr_recruitment_extender.empleado</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_hr_recruitment_root" name="Requerimiento Personal"/>
+    <menuitem id="sub_menu_reqper" name="Requerir Personal" parent="menu_hr_recruitment_root"  action="elprimer_MReq_Personal_action" />
+
+
+
+    # ######################################################################
+    # ######################################################################
+
+
+
+ <!-- actions 
+
+
+
+
+    <record id="view_attendance_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.tree</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Employee attendances" edit="0" sample="1">
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="worked_hours" string="Work Hours" widget="float_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_attendance_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="groups_id" eval="[(4, ref('hr_attendance.group_hr_attendance_user'))]"/>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="edit">1</attribute>
+                <attribute name="editable">bottom</attribute>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hr_attendance_kanban" model="ir.ui.view">
+        <field name="name">hr.attendance.kanban</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="employee_id"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div>
+                                <img t-att-src="kanban_image('hr.employee', 'avatar_128', record.employee_id.raw_value)" t-att-title="record.employee_id.value" t-att-alt="record.employee_id.value" class="oe_kanban_avatar o_image_24_cover mr4"/>
+                                <span class="o_kanban_record_title">
+                                    <strong><t t-esc="record.employee_id.value"/></strong>
+                                </span>
+                            </div>
+                            <hr class="mt4 mb8"/>
+                            <div class="o_kanban_record_subtitle">
+                                <i class="fa fa-calendar" aria-label="Period" role="img" title="Period"></i>
+                                <t t-esc="record.check_in.value"/>
+                                - <t t-esc="record.check_out.value"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_form" model="ir.ui.view">
+        <field name="name">hr.attendance.form</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <form string="Employee attendances" edit="0">
+                <sheet>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="check_in"/>
+                        <field name="check_out"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.form.inherit</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="groups_id" eval="[(4, ref('hr_attendance.group_hr_attendance_user'))]"/>
+        <field name="arch" type="xml">
+            <form position="attributes">
+                <attribute name="edit">1</attribute>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_filter" model="ir.ui.view">
+        <field name="name">hr_attendance_view_filter</field>
+        <field name="model">hr.attendance</field>
+        <field name="arch" type="xml">
+            <search string="Hr Attendance Search">
+                <field name="employee_id"/>
+                <field name="department_id" operator="child_of"/>
+                <filter string="My Attendances" name="myattendances" domain="[('employee_id.user_id.id', '=', uid)]" />
+                <separator/>
+                <filter string="Check In" name="check_in_filter" date="check_in" default_period="last_month"/>
+                <filter string="No Check Out" name="nocheckout" domain="[('check_out', '=', False)]" />
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Check In" name="groupby_name" context="{'group_by': 'check_in'}"/>
+                    <filter string="Check Out" name="groupby_check_out" context="{'group_by': 'check_out'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+  
+
+    <record id="hr_attendance_action" model="ir.actions.act_window">
+        <field name="name">Attendances</field>
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{"search_default_today":1}</field>
+        <field name="search_view_id" ref="hr_attendance_view_filter" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No attendance records found
+            </p><p>
+                The attendance records of your employees will be displayed here.
+            </p>
+        </field>
+    </record>
+
+    <record id="hr_attendance_action_employee" model="ir.actions.act_window">
+        <field name="name">Attendances</field>
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No attendance records to display
+            </p><p>
+                The attendance records of your employees will be displayed here.
+            </p>
+        </field>
+    </record>
+
+    <record id="hr_attendance_action_overview" model="ir.actions.act_window">
+        <field name="name">Attendances</field>
+        <field name="res_model">hr.attendance</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No attendance records to display
+            </p><p>
+                Your attendance records will be displayed here.
+            </p>
+        </field>
+    </record>
+
+    <record id="hr_attendance_action_kiosk_mode" model="ir.actions.client">
+        <field name="name">Attendances</field>
+        <field name="tag">hr_attendance_kiosk_mode</field>
+        <field name="target">fullscreen</field>
+    </record>
+
+    <record id="hr_attendance_action_my_attendances" model="ir.actions.client">
+        <field name="name">Attendance</field>
+        <field name="tag">hr_attendance_my_attendances</field>
+        <field name="target">main</field>
+    </record>
+
+    <record id="hr_attendance_action_greeting_message" model="ir.actions.client">
+        <field name="name">Message</field>
+        <field name="tag">hr_attendance_greeting_message</field>
+    </record>
+
+    
+
+    <menuitem id="menu_hr_attendance_root" name="Attendances" sequence="205" groups="hr_attendance.group_hr_attendance,hr_attendance.group_hr_attendance_kiosk" web_icon="hr_attendance,static/description/icon.png"/>
+
+    <menuitem id="menu_hr_attendance_my_attendances" name="Check In / Check Out" parent="menu_hr_attendance_root" sequence="1" groups="hr_attendance.group_hr_attendance" action="hr_attendance_action_my_attendances"/>
+
+    <menuitem id="menu_hr_attendance_attendances_overview" name="Attendances" parent="menu_hr_attendance_root" sequence="1" groups="hr_attendance.group_hr_attendance" action="hr_attendance_action_overview"/>
+
+    <menuitem id="menu_hr_attendance_kiosk_no_user_mode" name="Kiosk Mode" parent="menu_hr_attendance_root" sequence="10" groups="hr_attendance.group_hr_attendance_kiosk" action="hr_attendance_action_kiosk_mode"/>
+
+    <menuitem id="rrhh_MReq_Personal_menu" name="Requerir Personal" parent="menu_hr_attendance_root" sequence="12"  groups="hr_attendance.group_hr_attendance"  action="elprimer_MReq_Personal_action"/>
+
+
+    <menuitem id="menu_hr_attendance_view_attendances" name="Attendances" parent="menu_hr_attendance_root" sequence="10" groups="hr_attendance.group_hr_attendance_user" action="hr_attendance_action"/>
+    -->
+
+</odoo>

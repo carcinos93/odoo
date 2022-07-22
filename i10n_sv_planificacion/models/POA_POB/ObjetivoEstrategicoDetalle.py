@@ -28,3 +28,11 @@ class ObjetivoEstrategicoDetalle(models.Model):
             name = '%s %s' % ( data.objetivo.codigo, data.objetivo.descripcion, )
             result.append((data.id, name,))
         return result
+
+    @api.model
+    def create(self, vals):
+        res = super(ObjetivoEstrategicoDetalle, self).create(vals)
+        if 'objetivo' in vals:
+            message = "Creación de objetivo estratégico %s %s" % (res.objetivo.codigo, res.objetivo.descripcion)
+            res.eje_ids.poa_ids.message_post(body=message)
+        return res

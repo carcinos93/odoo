@@ -39,7 +39,7 @@
                     <field name="periodo"/>
                     <field name="vigente"/>
                     <field name="state"/>
-                    <button name="reporte" string="Reporte" class="oe_highlight" type="object"/>
+
                     <button confirm="¿Desea continuar?" attrs="{'invisible': ['|',('vigente', '!=', True), ('state', '=', '2')]}"  name="modificar" string="Modificar PEI" class="oe_highlight" type="object"/>
                 </tree>
             </field>
@@ -319,6 +319,7 @@
                     <header>
                         <!--<button class="oe_highlight"  states="1" string="Formulación"/>
                         <button class="oe_highlight" states="2" string="Revisión y/o ajustes" />-->
+                        <button name="reporte" string="Reporte" class="oe_highlight" type="object"/>
                         <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '2')]}" string="Aprobación" name="aprobar" type="object" />
                         <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '1' )]}" string="Siguiente etapa" name="siguiente_etapa"  type="object"/>
                         <field name="state" widget="statusbar"/>

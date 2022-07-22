@@ -1,13 +1,8 @@
 from odoo import fields, models, api, exceptions
-
+import datetime
 
 class ActividadProductoResultadoDetalle(models.Model):
     _name = 'planificacion.actividad_producto_resultado_detalle'
-    # _inherit = 'base.auditoria'
-    #@api.onchange('insumo')
-    #def onchange_insumo(self):
-    #    for rec in self:
-    #        return { 'domain' : { 'fuenteFinanciamiento': [ ('program_details_ids.lineId', '=', rec.insumo.id )]}}
 
     def _periodo_default(self):
         periodo = self._context.get('periodo')
@@ -16,12 +11,19 @@ class ActividadProductoResultadoDetalle(models.Model):
     @api.onchange('detalleFuenteFinanciamiento')
     def onchange_detalleFuenteFinanciamiento(self):
         for rec in self:
-            return { 'domain' : { 'insumo': [ ('id', '=', rec.detalleFuenteFinanciamiento.lineId.id )]}}
-
-    #@api.onchange('fuenteFinanciamiento')
-    #def onchange_fuenteFinanciamiento(self):
-    #    for rec in self:
-    #        return {'domain': {'detalleFuenteFinanciamiento': [('details_id.id', '=', rec.fuenteFinanciamiento.id), ('lineId.tipo', 'in', ('1', '3'))]}}
+            if rec.detalleFuenteFinanciamiento:
+            # Se busca el presupuesto anual segun el año del sistema
+                presupuesto_anio = self.env['budget.program_year'].search([ ('year', '=', datetime.date.today().year ),
+                                                                            ('program_details_id', '=', rec.detalleFuenteFinanciamiento.id)])
+                presupuesto = None
+                if presupuesto_anio:
+                    for c in presupuesto_anio:
+                        presupuesto = c
+                # return {  'domain' : { 'insumo': [ ('id', '=', rec.detalleFuenteFinanciamiento.lineId.id )]}}
+                obj = { "value": { "insumo": rec.detalleFuenteFinanciamiento.lineId.id } }
+                if presupuesto:
+                    obj['value']['proyecto_anio'] = presupuesto.id
+                return obj
 
     @api.onchange('monto1', 'monto2','monto3', 'monto4')
     def onchange_montos(self):
@@ -30,17 +32,13 @@ class ActividadProductoResultadoDetalle(models.Model):
             return { "warning": { 'title': 'Error de validación', 'message': 'Total trimestre es mayor a monto total'},
                      'value': {'monto1': 0.00 ,'monto2': 0.00, 'monto3' : 0.00, 'monto4': 0.00 }}
 
-
     def _compute_default_currencyid(self):
         company = self.env['res.company'].search([])
         for c in company:
             return c.currency_id
 
-
     def _compute_default_monto(self):
         return 0.00
-
-
 
     @api.depends('monto1', 'monto2', 'monto3', 'monto4', 'reservado', 'comprometido')
     def _compute_total_asignado(self):
@@ -55,7 +53,7 @@ class ActividadProductoResultadoDetalle(models.Model):
             disponible = total - reservado - comprometido
             record.update({'montoAsignado': total, 'disponible': disponible})
 
-    fuenteFinanciamiento = fields.Many2one(comodel_name='budget.program', string='Fuente de financiamiento', required=False)
+    fuenteFinanciamiento = fields.Many2one(comodel_name='budget.program', string='Proyecto', required=False)
     detalleFuenteFinanciamiento = fields.Many2one(comodel_name='budget.program_detail', string='Presupuesto de proyecto', required=False)
     proyecto_anio = fields.Many2one('budget.program_year', string='Año')
     disponible = fields.Float(string='Monto disponible', required=False, compute=_compute_total_asignado, store=True)
@@ -86,6 +84,11 @@ class ActividadProductoResultadoDetalle(models.Model):
     @api.model
     def create(self, vals):
         rec = super(ActividadProductoResultadoDetalle, self).create(vals)
+        if 'fuenteFinanciamiento' in vals:
+            message = "Creación de insumo %s de %s" % (rec.insumo.name, rec.fuenteFinanciamiento.name)
+            producto = rec.actividad_resultado_ids.productoResultado_ids
+            objetivo = producto.resultadoEfectoImpacto_ids.objetivoEstrategicoDetalle_ids
+            objetivo.eje_ids.poa_ids.message_post(body=message)
         if rec.proyecto_anio:
             rec.proyecto_anio.write({'inicial': rec.montoAsignado})
         return rec

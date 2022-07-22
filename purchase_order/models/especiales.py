@@ -6,6 +6,8 @@ class especial1(models.Model):
 
     name = fields.Char('Nombre')
 
+    _order = 'name desc'
+
 class especiales2(models.Model):
     _name = 'planificacion.actividad_producto_resultado'
 

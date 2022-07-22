@@ -17,10 +17,32 @@
             </field>
         </record>
 
+            <record id="view_libros_presuuesto_tree" model="ir.ui.view">
+            <field name="name">libro.presupuesto</field>
+            <field name="model">libro_modulo.presupuesto</field>
+            <field name="arch" type="xml">
+                <tree string="Libro">
+                    <field name="presupuesto"/>
+                    <field name="presupuesto_detalle"/>
+                    <field name="presupuesto_anio"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+
         <!-- Acción para abrir vistas de los modelos -->
         <record model="ir.actions.act_window" id="libro_modulo_libro">
             <field name="name">Libro</field>
             <field name="res_model">libro_modulo.libro</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="libro_modulo_presupuesto">
+            <field name="name">Libro</field>
+            <field name="res_model">libro_modulo.presupuesto</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -66,12 +88,61 @@
                                 <field name="detalles">
                                       <tree string="'Detalles'" editable="button">
                                         <field name="producto"/>
+                                        <field name="categoria1"/>
                                         <field name="precio"/>
                                         <field name="cantidad"/>
                                         <field name="subtotal" sum="Total factura" readonly="1"/>
                                     </tree>
                                 </field>
                             </group>
+                        <group>
+                            <field name="html" widget="html" options="{'notEditable': True}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_import_file_view" model="ir.ui.view">
+            <field name="name">Importar fichero</field>
+            <field name="model">libro_modulo.upload_file</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="upload_file" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="import_file" type="object" string="Importar fichero"
+                                class="oe_right oe_highlight"/>
+                        <button special="cancel" string="Cancelar" class="oe_right"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="odoo_view_advanced_import_file_wizard">
+            <field name="name">Importar fichero</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">libro_modulo.upload_file</field>
+            <field name="view_id" ref="wizard_import_file_view"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="libro_presupuesto_view_form" model="ir.ui.view">
+            <field name="name">libro.presupuesto</field>
+            <field name="model">libro_modulo.presupuesto</field>
+            <field name="arch" type="xml">
+                <form string="libro_presupuesto_form">
+                    <sheet>
+                        <group>
+                            <field name="presupuesto" />
+                            <field name="presupuesto_detalle" domain="[('details_id', '=', presupuesto)]" />
+                            <field name="presupuesto_anio" domain="[('program_details_id', '=', presupuesto_detalle)]"/>
+                            <field name="campo" />
+                            <field name="monto" />
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -88,8 +159,9 @@
                   action="libro_modulo_libro"/>
 
 
-          <menuitem name="Factura" id="libro_modulo.menu_libro_factura" parent="libro_modulo.menu_1"
-                  action="libro_modulo_factura"/>
+        <menuitem name="Factura" id="libro_modulo.menu_libro_factura" parent="libro_modulo.menu_1"  action="libro_modulo_factura"/>
+        <menuitem name="Presupuesto" id="libro_modulo.menu_presupuesto" parent="libro_modulo.menu_1"  action="libro_modulo_presupuesto"/>
+        <menuitem name="Cargar archivo" id="libro_modulo.menu_cargar_archivo" parent="libro_modulo.menu_1"  action="odoo_view_advanced_import_file_wizard"/>
 
 
     </data>

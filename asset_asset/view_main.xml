@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <menuitem
+            id="erp_asset_asset_root"
+            name="Activos Fijos"
+
+            sequence="20"/>
+
+        <!--menu principal-->
+        <menuitem name="Control Activos" id="erp_control_asset" sequence="10" parent="erp_asset_asset_root"/>
+
+        <menuitem name="Registro de Activos" id="erp_control_asset_registros" sequence="10"
+                  parent="erp_control_asset" action="action_erp_asset_asset_tree_form"/>
+        <menuitem name="Traslados de Activos" id="erp_control_asset_traslados" sequence="20"
+                  parent="erp_control_asset" />
+
+         <menuitem name="Configuración" id="erp_control_asset_setting" sequence="20" parent="erp_asset_asset_root"/>
+
+        <menuitem name="Categorias de Activos" id="erp_control_asset_setting_category" sequence="10"
+                  parent="erp_control_asset_setting" action="action_erp_asset_category_tree_form"/>
+
+
+    </data>
+</odoo>

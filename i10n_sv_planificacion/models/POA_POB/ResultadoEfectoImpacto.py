@@ -32,3 +32,11 @@ class ResultadoEfectoImpacto(models.Model):
             name = '%s %s' % ( data.resultado.codigo, data.resultado.descripcion, )
             result.append((data.id, name,))
         return result
+
+    @api.model
+    def create(self, vals):
+        res = super(ResultadoEfectoImpacto, self).create(vals)
+        if 'resultado' in vals:
+            message = "Creación de resultado %s %s" % (res.resultado.codigo, res.resultado.descripcion)
+            res.objetivoEstrategicoDetalle_ids.eje_ids.poa_ids.message_post(body=message)
+        return res

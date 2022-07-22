@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <record id="erp_asset_category_form" model="ir.ui.view">
+        <field name="name">view.erp.asset.category.form</field>
+        <field name="model">erp.asset.category</field>
+        <field name="arch" type="xml">
+            <form string="Categoria de Activos">
+                <header>
+                </header>
+                <sheet>
+                <group>
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="note"/>
+                        <field name="journal_id"/>
+                        <field name="account_asset_id" domain="[('deprecated', '=', False),('permitir','=',True)]"/>
+                        <field name="account_depreciation_id" domain="[('deprecated', '=', False),('permitir','=',True)]"/>
+                        <field name="account_expense_id" domain="[('deprecated', '=', False),('permitir','=',True)]"/>
+                    </group>
+                    <group>
+                        <field name="method" required="1"/>
+                        <field name="factor_degressive" attrs="{'invisible': [('method','=','linear')]}"/>
+                        <field name="method_time" required="1"/>
+                        <field name="method_end" attrs="{'invisible': [('method_time','=','number')]}"/>
+                        <field name="method_number"/>
+                        <field name="method_period"/>
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+        </record>
+
+        <record model="ir.ui.view" id="erp_asset_category_tree">
+            <field name="name">view.erp.asset.category.tree</field>
+            <field name="model">erp.asset.category</field>
+            <field name="arch" type="xml">
+                <tree string="Categoria de Activos">
+                    <field name="name" required="1"/>
+                    <field name="method" required="1"/>
+                    <field name="method_time" required="1"/>
+                    <field name="method_number"/>
+                    <field name="method_period"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_erp_asset_category_tree_form">
+            <field name="name">Categoria Activos</field>
+            <field name="res_model">erp.asset.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

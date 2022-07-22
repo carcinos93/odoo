@@ -51,12 +51,16 @@
                 <tree string="Línea">
                     <field name="lineId" class="text-wrap"/>
                     <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    <field name="level1"/>
+                    <field name="level1" class="text-wrap"/>
                     <field name="description1" class="text-wrap"/>
-                    <field name="level2" required="1"/>
-                    <field name="description2" class="text-wrap" required="1"/>
-                    <field name="level3" required="1"/>
-                    <field name="description3" class="text-wrap" required="1"/>
+                    <field name="level2" class="text-wrap"/>
+                    <field name="description2" class="text-wrap"/>
+                    <field name="level3" class="text-wrap"/>
+                    <field name="description3" class="text-wrap"/>
+                    <field name="level4" class="text-wrap"/>
+                    <field name="description4" class="text-wrap"/>
+                    <field name="level5" class="text-wrap"/>
+                    <field name="description5" class="text-wrap"/>
                     <field name="reservado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="available" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="currency_id" invisible="1"/>
@@ -66,7 +70,7 @@
         <!-- vista formulario monto del proyecto por año -->
 
 
-        <record id="budget_program_detail_view_tree" model="ir.ui.view">
+       <!-- <record id="budget_program_detail_view_tree" model="ir.ui.view">
             <field name="name">budget.program_detail.type.tree</field>
             <field name="model">budget.program_detail</field>
             <field name="type">tree</field>
@@ -85,7 +89,7 @@
 
                 </tree>
             </field>
-        </record>
+        </record>-->
 
         <record id="budget_program_detail_view_search" model="ir.ui.view">
             <field name="name">budget.program_detail.type.search</field>
@@ -136,63 +140,62 @@
                             <field name="level1"/>
                             <field name="description1"/>
                         </group>
-                        <group attrs="{'invisible':[('numberLines','&lt;',2)]}">
+                        <group attrs="{'invisible':[('numberLines','&lt;','2')]}">
                             <field name="level2"/>
                             <field name="description2"/>
                         </group>
 
-                        <group attrs="{'invisible':[('numberLines','&lt;',3)]}">
+                        <group attrs="{'invisible':[('numberLines','&lt;','3')]}">
                             <field name="level3"/>
                             <field name="description3"/>
                         </group>
-                        <group attrs="{'invisible':[('numberLines','&lt;',4)]}">
+                        <group attrs="{'invisible':[('numberLines','&lt;','4')]}">
                             <field name="level4"/>
                             <field name="description4"/>
                         </group>
-                        <group attrs="{'invisible':[('numberLines','&lt;',5)]}">
+                        <group attrs="{'invisible':[('numberLines','&lt;','5')]}">
                             <field name="level5"/>
                             <field name="description5"/>
                         </group>
 
                         <group col="2" colspan="2">
-                            <field name="lineId"/>
+                            <field name="lineId" domain="[('is_mov', '=', True)]" />
                             <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            <field name="ajustado" attrs="{'readonly': [('id', '=', False )]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            <field name="ejecucion" readonly="1" widget="monetary"
+                            <field invisible="1" name="ajustado" attrs="{'readonly': [('id', '=', False )]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="saldo_inicial" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field invisible="1" name="ejecucion" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field invisible="1" name="reservado" readonly="1" widget="monetary"
                                    options="{'currency_field': 'currency_id'}"/>
-                            <field name="reservado" readonly="1" widget="monetary"
-                                   options="{'currency_field': 'currency_id'}"/>
-                            <field name="comprometido" readonly="1" widget="monetary"
+                            <field invisible="1" name="comprometido" readonly="1" widget="monetary"
                                    options="{'currency_field': 'currency_id'}"/>
                             <!--<field name="adjust_up" readonly="1" widget="monetary"
                                    options="{'currency_field': 'currency_id'}"/>
                             <field name="adjust_down" readonly="1" widget="monetary"
                                    options="{'currency_field': 'currency_id'}"/>-->
-                            <field name="available" readonly="1" widget="monetary"
-                                   options="{'currency_field': 'currency_id'}"/>
-                            <field name="available" invisible="1"/>
+                            <!--<field name="available" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                            <field name="available" invisible="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                         <label class="o_form_label" for="proyectos_anio">Monto del proyecto por año</label>
-                        <field name="proyectos_anio" context="{ 'presupuesto_id': id }">
+                        <field name="proyectos_anio" context="{ 'presupuesto_id': id, 'items': proyectos_anio }">
                             <tree string="Detalle" editable="button">
                                 <field name="year"/>
-                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="inicial" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="ajustado"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total monto"/>
+                                <field name="inicial" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total POA"/>
+                                <field name="ajustado" readonly="1"  widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total ajustado" />
                                 <!-- attrs="{'readonly': [('parent.id', '=', False )]}" -->
-                                <field name="ejecucion" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="reservado" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
-                                <field name="comprometido" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="ejecucion" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total ejecución"/>
+                                <field name="reservado" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}" sum="Total reservado"/>
+                                <field name="comprometido" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total comprometido"/>
                                 <!--<field name="adjust_up" widget="monetary" readonly="1"
                                        options="{'currency_field': 'currency_id'}"/>
                                 <field name="adjust_down" widget="monetary" readonly="1"
                                        options="{'currency_field': 'currency_id'}"/>-->
-                                <field name="available" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
+                                <field name="available" sum="Total disponible" widget="monetary" readonly="1" options="{'currency_field': 'currency_id'}"/>
                                 <field name="currency_id" invisible="1"/>
                             </tree>
                         </field>
 
-                        <group string="">
+                        <group string="" invisible="1">
                             <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                     </sheet>
@@ -281,8 +284,9 @@
                     <field name="dateTo"/>
                     <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="state"/>
-                    <button confirm="¿Desea continuar?" name="modificar" attrs="{'invisible': [('state', '!=', '3')]}"
-                            string="Modificar presupuesto" class="oe_highlight" type="object"/>
+                    <field name="activo" invisible="1"/>
+                    <button confirm="¿Desea continuar?" name="reestablecer" attrs="{'invisible': [('activo', '=', True )]}"  string="Reestablecer registro" class="oe_highlight" type="object"/>
+                    <button confirm="¿Desea continuar?" name="modificar" attrs="{'invisible': ['|',('state', '!=', '3'), ('activo','=', False)]}"  string="Modificar presupuesto" class="oe_highlight" type="object"/>
                     <field name="currency_id" invisible="1"/>
                 </tree>
             </field>
@@ -295,6 +299,7 @@
             <field name="arch" type="xml">
                 <form class="presupuesto" string="Presupuesto del Programa por Cooperante">
                     <header>
+                        <button class="oe_highlight"  string="Reporte de proyectos" name="reporte"  type="object"/>
                         <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '2')]}" string="Aprobación" name="aprobacion"  type="object"/>
                         <button confirm="¿Desea continuar?" class="oe_highlight" attrs="{'invisible': [('state', '!=', '1' )]}" string="Siguiente etapa" name="siguiente_etapa"  type="object"/>
                         <field name="state" widget="statusbar"/>
@@ -329,11 +334,14 @@
                         <notebook colspan="4">
                             <page string="Generalidades">
                                 <group class="text-nowrap">
+                                       <field name="paisesBeneficiario" widget="many2many_tags" domain="[('code', 'in', ('BZ','CR','DO','GT','HN','SV','PA','NI' ))]"/>
+                                       <field name="objetivoGeneral"/>
+                                       <field name="objetivoEspecifico"/>
+                                       <field name="ods"/>
+                                       <field name="justificacion"/>
                                        <field name="logicaIntervencion"/>
-                                       <field name="indicadoresObjetivamente"/>
-                                       <field name="fuenteVerificacion"/>
+                                        <field name="riesgos"/>
                                        <field name="hipotesis"/>
-                                       <field name="riesgos"/>
                                 </group>
 
                             </page>
@@ -350,21 +358,30 @@
                             <page string="Presupuesto del Programa">
                                 <field ref="budget_program_detail_view_form" name="program_details_ids" context="{ 'items': program_details_ids }">
                                     <tree string="Detalles">
-                                        <field name="lineId" class="text-wrap"/>
-                                        <field name="amount" widget="monetary"
-                                               options="{'currency_field': 'currency_id'}"/>
+                                        <!-- Se añade domain para el formulario de Buscar más aplique el filtro -->
+                                        <field name="lineId" domain="[('is_mov', '=', True)]"  class="text-wrap"/>
+                                        <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                         <field name="level1"/>
                                         <field name="description1" class="text-wrap"/>
-                                        <field name="level2" required="1"/>
-                                        <field name="description2" class="text-wrap" required="1"/>
-                                        <field name="reservado" widget="monetary"
-                                               options="{'currency_field': 'currency_id'}"/>
-                                        <field name="available" widget="monetary"
-                                               options="{'currency_field': 'currency_id'}"/>
+                                        <field name="level2" />
+                                        <field name="description2" class="text-wrap" />
+                                        <field name="level3" />
+                                        <field name="description3" class="text-wrap" />
+                                        <field name="level4" />
+                                        <field name="description4" class="text-wrap" />
+                                        <field name="level5" />
+                                        <field name="description5" class="text-wrap" />
+                                        <field name="monto_poa" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="ejecucion" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="reservado" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="comprometido" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="available" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                         <field name="currency_id" invisible="1"/>
                                     </tree>
+
                                 </field>
                                 <group string="Total" class="text-nowrap">
+                                    <field name="totalesHTML" widget="html" options="{'notEditable': True}"/>
                                     <field name="total_operativo" readonly="1" widget="monetary"
                                            options="{'currency_field': 'currency_id'}"/>
                                     <field name="total_actividad" readonly="1" widget="monetary"
@@ -385,7 +402,7 @@
 
                             </page>
                             <page string="Cuentas de banco">
-                                <field name="cuentasBaco">
+                                <field name="cuentasBanco">
                                     <tree string="'Detalles" editable="button">
                                         <field name="bank"/>
                                         <field name="bankAccount"/>
@@ -408,7 +425,15 @@
             <field name="res_model">budget.program</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{'group_by':'state', 'sort_by': 'state'}</field>
-            <field name="domain">[('esCopia', '=', False)]</field>
+            <field name="domain">[('esCopia', '=', False), ('activo', '=', True)]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="budget_program_inactive">
+            <field name="name">Registro de Programas</field>
+            <field name="res_model">budget.program</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'group_by':'state', 'sort_by': 'state'}</field>
+            <field name="domain">[('esCopia', '=', False), ('activo', '=', False)]</field>
         </record>
 
         <record id="budget_line_view_search" model="ir.ui.view">
@@ -487,6 +512,9 @@
         <menuitem name="Búsqueda de presupuesto de proyecto" id="presupuesto.menu_programa_detalle_programa"
                   parent="presupuesto.menu_2"
                   action="listar_program_detail"/>
+
+        <menuitem name="Registros eliminados" id="presupuesto.menu_programa_inactive" parent="presupuesto.menu_2"
+                  action="budget_program_inactive"/>
 
 
     </data>

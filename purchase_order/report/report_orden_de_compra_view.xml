@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="purchase_order_orden_de_compra_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="req">
+                    <t t-call="web.external_layout">
+
+                     <div class="row">
+                         <div class="col-2">
+
+                         </div>
+                          <div class="col-10 text-right">
+                              <h3>
+                                  CENTRO PARA LA PROMOCION DE LA MICRO Y PEQUEÑA EMPRESA EN CENTROAMERICA (CENPROMYPE)
+                              </h3>
+                          </div>
+                  </div>
+                          <div class="row">
+                         <div class="col-3">
+
+                         </div>
+                          <div class="col-9 text-right">
+                              <h6>
+                                  ORGANISMO REGIONAL, EXENTO DEL IMPUESTO DEL IVA E IMPUESTO SOBRE LA RENTA
+                              </h6>
+                          </div>
+                  </div>
+
+                        <br/>
+                              <div class="row">
+                         <div class="col-4">
+
+                         </div>
+                          <div class="col-4 text-center">
+                              NIT: 0614-031101-101-2
+                          </div>
+                         <div class="col-4 text-center">
+                             Carnet de exención IVA:CPM--16-001
+                         </div>
+
+                  </div>
+
+
+    <br/><br/>
+                    <div class="row">
+                        <div class="col-11 text-center">
+                           <h3>
+                               Orden de compra
+                           </h3>
+                        </div>
+                        <div class="col-1">
+
+                        </div>
+                    </div>
+
+                     <br/>
+                        <div class="row">
+                            <div class="col-6">
+                            Proveedor:
+                            </div>
+                            <div class="col-3">
+                            Fecha: <span t-field="req.create_date"/>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                Terminos de entrega: INMEDIATA
+                            </div>
+                        </div>
+<br/><br/>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h5>
+                                    SIRVASE POR ESTE MEDIO SUMINISTRARNOS LOS SIGUIENTES ARTICULOS Y/O SERVICIOS.
+                                </h5>
+                            </div>
+
+                        </div>
+                        <table class="table table-striped text-center mt-5 ">
+                                <tbody>
+                                <tr>
+                                    <th style="vertical-align:middle; width: 10%"> No</th>
+                                   <!-- <th>Insumo</th>-->
+                                    <th style=" vertical-align:middle; width: 60%">Descripción del bien y/o servicio.</th>
+                                    <th style=" vertical-align:middle">Cantidad</th>
+                                    <th style=" vertical-align:middle">Precio unitario</th>
+                                    <th style=" vertical-align:middle">Precio Total</th>
+
+                                </tr>
+
+                                    <tr>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total:</td>
+                                        <td></td>
+                                        </tr>
+                                </tbody>
+                        </table>
+
+                        <table>
+                            <tbody>
+
+
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+
+
+

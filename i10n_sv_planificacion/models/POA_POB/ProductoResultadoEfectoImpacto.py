@@ -46,3 +46,12 @@ class ProductoResultadoEfectoImpacto(models.Model):
             name = '%s %s' % ( data.codigoProducto, data.descripcionProducto, )
             result.append((data.id, name,))
         return result
+
+    @api.model
+    def create(self, vals):
+        res = super(ProductoResultadoEfectoImpacto, self).create(vals)
+        if 'codigoProducto' in vals:
+            message = "Creación de producto %s %s" % (res.codigoProducto, res.descripcionProducto)
+            objetivo = res.resultadoEfectoImpacto_ids.objetivoEstrategicoDetalle_ids
+            objetivo.eje_ids.poa_ids.message_post(body=message)
+        return res

@@ -37,3 +37,16 @@ class Resultado(models.Model):
             name = '%s %s' % (data.codigo, data.descripcion,)
             result.append((data.id, name,))
         return result
+
+    @api.model
+    def create(self, vals):
+        res = super(Resultado, self).create(vals)
+        if 'descripcion' in vals:
+            message = "Creación de resultado %s %s" % (vals['codigo'], vals['descripcion'])
+            if res.objetivoEstrategico_ids:
+                ejes_estrategicos_ids = res.objetivoEstrategico_ids.ejes_estrategicos_ids
+                if ejes_estrategicos_ids:
+                    periodo_ids = ejes_estrategicos_ids.periodo_ids
+                    if periodo_ids:
+                        periodo_ids.message_post(body=message)
+        return res

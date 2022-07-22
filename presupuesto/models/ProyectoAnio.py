@@ -8,7 +8,6 @@ def compute_years():
     for n in limite:
         y = datetime.now().year + n
         data.append( (y, str(y) ))
-    print(data)
     return data
 
 
@@ -23,8 +22,12 @@ class ProyectoAnio(models.Model):
     #        self.inicial = actividadProducto.montoAsignado
     #    else:
     #        self.inicial = 0
+    @api.depends('amount', 'inicial', 'ajustado')
+    def _compute_disponible(self):
+        for record in self:
+            disponible = record.amount - record.inicial + record.ajustado
+            record.update({ 'available':  disponible })
 
-    @api.model
     def _compute_default_currencyid(self):
         company = self.env['res.company'].search([])
         for c in company:
@@ -41,7 +44,7 @@ class ProyectoAnio(models.Model):
     reservado = fields.Float(string='Reservado')
     adjust_up = fields.Float(string='Aumento')
     adjust_down = fields.Float(string='Disminucion')
-    available = fields.Float(string='Disponible')
+    available = fields.Float(string='Disponible', compute=_compute_disponible, store=True)
     currency_id = fields.Many2one('res.currency', 'Currency', required=False, readonly=True, default=_compute_default_currencyid)
     program_details_id = fields.Many2one(comodel_name='budget.program_detail', string='Presupuesto de Proyectos por Cooperante')
 
@@ -52,6 +55,24 @@ class ProyectoAnio(models.Model):
             return msj
 
     def validarMonto(self):
+        items = self._context.get('items')
+        if items:
+            total = 0.00
+            filtrados = list(filter(lambda x: x[0] != 2, items))  # Se filtran para no tomar en cuenta los registros con estado "virtual" borrado
+            for item in filtrados:
+                if item[0] in (0, 1):  # Registro nuevo o esta modificado, pero no guardado en la bd
+                    detalle = item[2]  # si no esta guardado los valores se almacenan esta la posicion 2
+                    total += detalle.get('amount')
+                elif item[0] == 4:  # Registro que guardado en bd
+                    detalle = self.env['budget.program_year'].browse(item[1]).exists()
+                    total += detalle.amount
+            # print((total, self.program_details_id.amount))
+            if total > self.program_details_id.amount:
+                return {"warning": {"title": "Error", "message": "El total de insumo no debe de ser mayor al monto inicial"},
+                        "value": {"amount": None}}
+        return None
+
+    def validarMonto_(self):
         montoDisponible = self.program_details_id.available
         gastoTotal = self.amount
         if gastoTotal > 0.00:

@@ -14,9 +14,26 @@
         <field name="name">Autorizar procesos</field>
         <field name="category_id" ref="purchase_requisicion_autorizacion_category_group"/>
     </record>
+
     <record id="purchase_requisicion_group_administrador" model="res.groups">
         <field name="name">Administrador procesos</field>
         <field name="category_id" ref="purchase_requisicion_autorizacion_category_group"/>
     </record>
+
+    <record id="purchase_requisicion_group_gestor" model="res.groups">
+        <field name="name">Gestor procesos</field>
+        <field name="category_id" ref="purchase_requisicion_autorizacion_category_group"/>
+    </record>
+
+    <record id="purchase_requisicion_group_formalizacion" model="res.groups">
+        <field name="name">Formalizacion procesos</field>
+        <field name="category_id" ref="purchase_requisicion_autorizacion_category_group"/>
+    </record>
+
+    <record id="purchase_requisicion_group_contralor" model="res.groups">
+        <field name="name">Contralor procesos</field>
+        <field name="category_id" ref="purchase_requisicion_autorizacion_category_group"/>
+    </record>
+
 </data>
 </odoo>

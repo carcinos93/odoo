@@ -93,7 +93,6 @@ class Periodo(models.Model):
                 }
             }
 
-
     def name_get(self):
         result = []
         for data in self:

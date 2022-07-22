@@ -15,15 +15,43 @@ class ProgramaDetalle(models.Model):
                 total += item.amount
             record.total_amount = total
 
+    @api.depends("proyectos_anio", "proyectos_anio.amount", "proyectos_anio.inicial", "proyectos_anio.ajustado",
+                 "proyectos_anio.ejecucion", "proyectos_anio.reservado",  "proyectos_anio.comprometido")
+    def _compute_total(self):
+        for record in self:
+            ejecucion_total = reservado_total = comprometido_total = poa_total = total_disponible = 0.0
+            for item in record.proyectos_anio:
+                ejecucion_total += item.ejecucion
+                reservado_total += item.reservado
+                comprometido_total += item.comprometido
+                total_disponible += item.available
+                poa_total += item.inicial
+            record.update({ 'ejecucion': ejecucion_total, 'reservado': reservado_total,
+                            'available': total_disponible,'comprometido': comprometido_total,
+                            'monto_poa': poa_total })
+
     @api.onchange('amount')
     def _amount_change(self):
         for record in self:
+            items = self._context.get('items')
+            if items:
+                total = record.amount # inicializamos el total con el formulario actual
+                filtrados = list(filter(lambda x: x[0] != 2, items))  # Se filtran para no tomar en cuenta los registros con estado "virtual" borrado
+                for item in filtrados:
+                    if item[0] in (0, 1):  # Registro nuevo o esta modificado, pero no guardado en la bd
+                        detalle = item[2]  # si no esta guardado los valores se almacenan esta la posicion 2
+                        total += detalle.get('amount')
+                    elif item[0] == 4:  # Registro que guardado en bd
+                        detalle = self.env['budget.program_detail'].browse(item[1]).exists()
+                        total += detalle.amount
+                if total > record.details_id.amount:
+                    return { "warning": { "title": "Error", "message": "El total presupuesto de programa es superior al presupuesto general" }, "value": { "amount": None } }
             return {'value': {'available': record.amount}}
 
-    @api.onchange('ajustado')
-    def _ajustado_change(self):
-        for record in self:
-            return {'value': { 'available': record.ajustado }}
+    #@api.onchange('ajustado')
+    #def _ajustado_change(self):
+    #    for record in self:
+    #        return {'value': { 'available': record.ajustado }}
 
     @api.model
     def _compute_default_currencyid(self):
@@ -51,78 +79,44 @@ class ProgramaDetalle(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', required=False,
                                   default=_compute_default_currencyid)
 
-    amount = fields.Float(string='Monto inicial')
-
+    amount = fields.Float(string='Monto inicial', default=None)
+    saldo_inicial = fields.Float(string='Saldo inicial')
+    monto_poa = fields.Float(string='Monto poa', required=False, compute=_compute_total, store=True)
     ajustado = fields.Float(string='Ajustado')
-    ejecucion = fields.Float(string='Ejecución real')
-    comprometido = fields.Float(string='Comprometido')
-    reservado = fields.Float(string='Reservado')
+    ejecucion = fields.Float(string='Ejecución real', compute=_compute_total, store=True)
+    comprometido = fields.Float(string='Comprometido',  compute=_compute_total, store=True)
+    reservado = fields.Float(string='Reservado', compute=_compute_total, store=True)
     adjust_up = fields.Float(string='Aumento')
     adjust_down = fields.Float(string='Disminucion')
-    available = fields.Float(string='Disponible')
+    available = fields.Float(string='Disponible', compute=_compute_total, store=True)
     total_amount = fields.Float(string='Total de insumo', store=True, compute=_compute_program_anio)
     # Modelo padre
     details_id = fields.Many2one('budget.program', string='Programa', ondelete='cascade')
-    numberLines = fields.Integer(related='details_id.numberLines', string="")
+    numberLines = fields.Selection(related='details_id.numberLines', string="")
     proyectos_anio = fields.One2many(comodel_name='budget.program_year', inverse_name='program_details_id',
                                      string='Monto del proyecto por año', copy=True)
 
     def name_get(self):
         result = []
         for data in self:
-            if data.numberLines:
-                formato = "%s %s"
-                sw = {
-                    1: formato % (data.level1, data.description1),
-                    2: formato % (data.level2, data.description2),
-                    3: formato % (data.level3, data.description3),
-                    4: formato % (data.level4, data.description4),
-                    5: formato % (data.level5, data.description5)
-                }
-                name = sw.get(data.numberLines, formato % (data.level1, data.description1))
-            else:
+            if data.level5:
+                name = '%s %s' % (data.level5, data.description5)
+            elif data.level4:
+                name = '%s %s' % (data.level4, data.description4)
+            elif data.level3:
+                name = '%s %s' % (data.level3, data.description3)
+            elif data.level2:
+                name = '%s %s' % (data.level2, data.description2)
+            elif data.level1:
                 name = '%s %s' % (data.level1, data.description1)
             result.append((data.id, name,))
         return result
 
     @api.constrains('amount')
     def amount_change(self):
-        if self.amount <= 0:
-            raise exceptions.ValidationError('Monto no puede ser menor o igual a cero')
-
-    @api.model
-    def create(self, vals):
-        vals['available'] = vals['amount']
-        if 'amount' in vals:
-            suma = 0
-            programaDetalle = self.env['budget.program_detail'].search(
-                [('details_id.id', '=', str(vals['details_id']))])
-            for detalle in programaDetalle:
-                suma += detalle.amount
-            program = self.env['budget.program'].search([('id', '=', str(vals['details_id']))])
-            total = suma
-            amount_program = program.amount
-            if total + vals['amount'] > amount_program:
-                raise exceptions.ValidationError(
-                    'La suma total no puede superar al presupuesto %.2f' % amount_program)
-        rec = super(ProgramaDetalle, self).create(vals)
-        return rec
-
-    def write(self, vals):
-        if 'amount' in vals:
-            suma = 0
-            programaDetalle = self.env['budget.program_detail'].search(
-                [('details_id.id', '=', str(self.details_id.id))])
-            for detalle in programaDetalle:
-                if self.id != detalle.id:
-                    suma += detalle.amount
-            program = self.env['budget.program'].search([('id', '=', str(self.details_id.id))])
-            total = suma
-            amount_program = program.amount
-            if total + vals['amount'] > amount_program:
-                raise exceptions.ValidationError('La suma total no puede superar al presupuesto %.2f' % amount_program)
-        rec = super(ProgramaDetalle, self).write(vals)
-        return rec
+        for record in self:
+            if record.amount <= 0:
+                raise exceptions.ValidationError('Monto no puede ser menor o igual a cero')
 
     def default_get(self, fields):
         rec = super(ProgramaDetalle, self).default_get(fields)

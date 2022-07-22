@@ -61,4 +61,12 @@ class ActividadProductoResultado(models.Model):
             result.append((data.id, name,))
         return result
 
+    @api.model
+    def create(self, vals):
+        res = super(ActividadProductoResultado, self).create(vals)
+        if 'nombreActividad' in vals:
+            message = "Creación de actividad %s %s" % (res.codigoActividad, res.nombreActividad)
+            objetivo = res.productoResultado_ids.resultadoEfectoImpacto_ids.objetivoEstrategicoDetalle_ids
+            objetivo.eje_ids.poa_ids.message_post(body=message)
+        return res
 
